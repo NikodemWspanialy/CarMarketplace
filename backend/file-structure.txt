@@ -1,0 +1,143 @@
+CarMarketplace.sln
+│
+├── src
+│   │
+│   ├── CarMarketplace.API
+│   │   ├── Controllers
+│   │   │   ├── AuthController.cs
+│   │   │   ├── CarsController.cs
+│   │   │   └── UsersController.cs
+│   │   │
+│   │   ├── Contracts
+│   │   │   ├── Auth
+│   │   │   │   ├── LoginRequest.cs
+│   │   │   │   ├── RegisterRequest.cs
+│   │   │   │   └── AuthResponse.cs
+│   │   │   │
+│   │   │   ├── Cars
+│   │   │   │   ├── CreateCarRequest.cs
+│   │   │   │   ├── UpdateCarRequest.cs
+│   │   │   │   └── CarResponse.cs
+│   │   │   │
+│   │   │   └── Common
+│   │   │       └── ErrorResponse.cs
+│   │   │
+│   │   ├── Middleware
+│   │   │   └── GlobalExceptionMiddleware.cs
+│   │   │
+│   │   ├── Extensions
+│   │   │   ├── DependencyInjection.cs
+│   │   │   ├── AuthenticationExtensions.cs
+│   │   │   ├── SwaggerExtensions.cs
+│   │   │   └── MiddlewareExtensions.cs
+│   │   │
+│   │   ├── Program.cs
+│   │   └── appsettings.json
+│   │
+│   ├── CarMarketplace.Application
+│   │   ├── Auth
+│   │   │   ├── Commands
+│   │   │   │   ├── LoginUser
+│   │   │   │   │   ├── LoginUserCommand.cs
+│   │   │   │   │   ├── LoginUserCommandHandler.cs
+│   │   │   │   │   └── LoginUserCommandValidator.cs
+│   │   │   │   │
+│   │   │   │   └── RegisterUser
+│   │   │   │       ├── RegisterUserCommand.cs
+│   │   │   │       ├── RegisterUserCommandHandler.cs
+│   │   │   │       └── RegisterUserCommandValidator.cs
+│   │   │   │
+│   │   │   └── Factories
+│   │   │       └── IUserFactory.cs
+│   │   │
+│   │   ├── Cars
+│   │   │   ├── Commands
+│   │   │   │   ├── CreateCar
+│   │   │   │   │   ├── CreateCarCommand.cs
+│   │   │   │   │   ├── CreateCarCommandHandler.cs
+│   │   │   │   │   └── CreateCarCommandValidator.cs
+│   │   │   │   │
+│   │   │   │   ├── UpdateCar
+│   │   │   │   └── BuyCar
+│   │   │   │
+│   │   │   └── Queries
+│   │   │       ├── GetCars
+│   │   │       │   ├── GetCarsQuery.cs
+│   │   │       │   └── GetCarsQueryHandler.cs
+│   │   │       │
+│   │   │       └── GetCarDetails
+│   │   │
+│   │   ├── Users
+│   │   │   └── Queries
+│   │   │       └── GetMyProfile
+│   │   │
+│   │   ├── Common
+│   │   │   ├── Behaviors
+│   │   │   │   ├── ValidationBehavior.cs
+│   │   │   │   └── LoggingBehavior.cs
+│   │   │   │
+│   │   │   ├── Exceptions
+│   │   │   │   ├── NotFoundException.cs
+│   │   │   │   ├── ForbiddenException.cs
+│   │   │   │   └── UnauthorizedException.cs
+│   │   │   │
+│   │   │   ├── Interfaces
+│   │   │   │   ├── Repositories
+│   │   │   │   │   ├── IUserRepository.cs
+│   │   │   │   │   ├── ICarRepository.cs
+│   │   │   │   │   └── IPurchaseRepository.cs
+│   │   │   │   │
+│   │   │   │   ├── Auth
+│   │   │   │   │   ├── IJwtTokenFactory.cs
+│   │   │   │   │   └── IPasswordHasher.cs
+│   │   │   │   │
+│   │   │   │   └── IDateTimeProvider.cs
+│   │   │   │
+│   │   │   └── Mappings
+│   │   │       └── MappingProfile.cs
+│   │   │
+│   │   └── DependencyInjection.cs
+│   │
+│   ├── CarMarketplace.Domain
+│   │   ├── Entities
+│   │   │   ├── User.cs
+│   │   │   ├── Car.cs
+│   │   │   └── Purchase.cs
+│   │   │
+│   │   ├── ValueObjects
+│   │   │   ├── Email.cs
+│   │   │   └── Money.cs
+│   │   │
+│   │   ├── Enums
+│   │   │   ├── CarStatus.cs
+│   │   │   └── UserRole.cs
+│   │   │
+│   │   ├── Exceptions
+│   │   │   └── DomainException.cs
+│   │   │
+│   │   └── Common
+│   │       └── BaseEntity.cs
+│   │
+│   └── CarMarketplace.Infrastructure
+│       ├── Persistence
+│       │   ├── CarMarketplaceDbContext.cs
+│       │   ├── Configurations
+│       │   │   ├── UserConfiguration.cs
+│       │   │   ├── CarConfiguration.cs
+│       │   │   └── PurchaseConfiguration.cs
+│       │   │
+│       │   └── Migrations
+│       │
+│       ├── Repositories
+│       │   ├── UserRepository.cs
+│       │   ├── CarRepository.cs
+│       │   └── PurchaseRepository.cs
+│       │
+│       ├── Auth
+│       │   ├── JwtTokenFactory.cs
+│       │   └── PasswordHasher.cs
+│       │
+│       ├── Services
+│       │   └── DateTimeProvider.cs
+│       │
+│       └── DependencyInjection.cs

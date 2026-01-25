@@ -1,0 +1,6 @@
+﻿services:
+  carmarketplace.api:
+    image: carmarketplace.api
+    build:
+      context: .
+      dockerfile: src/CarMarketplace.API/Dockerfile

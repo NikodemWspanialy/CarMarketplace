@@ -1,0 +1,5 @@
+@CarMarketplace_API_HostAddress = http://localhost:5064
+
+### Echo Test Endpoint
+GET {{CarMarketplace_API_HostAddress}}/api/test/echo?text=Hello
+Accept: application/json
