@@ -2,7 +2,8 @@ using CarMarketplace.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using CarMarketplace.Infrastructure.Persistence;
+
+namespace CarMarketplace.Infrastructure.Persistence;
 
 public class CarMarketplaceDbContextFactory : IDesignTimeDbContextFactory<CarMarketplaceDbContext>
 {
