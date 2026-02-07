@@ -1,3 +1,4 @@
+using CarMarketplace.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -9,14 +10,14 @@ public class CarMarketplaceDbContextFactory : IDesignTimeDbContextFactory<CarMar
     {
         var projectPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "CarMarketplace.API");
 
-        IConfigurationRoot configuration = new ConfigurationBuilder()
+        var configuration = new ConfigurationBuilder()
             .SetBasePath(projectPath)
             .AddJsonFile("appsettings.json")
             .Build();
 
         var optionsBuilder = new DbContextOptionsBuilder<CarMarketplaceDbContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection")
-                               ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                               ?? throw new NullConnectionString();
 
         optionsBuilder.UseNpgsql(connectionString);
 
