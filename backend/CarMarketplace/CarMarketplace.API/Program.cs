@@ -1,3 +1,5 @@
+using CarMarketplace.Infrastructure.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -5,6 +7,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 
 // Lib DI
+
+builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 // End Lib DI
 
