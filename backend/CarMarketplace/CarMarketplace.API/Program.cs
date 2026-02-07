@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 // Lib DI
 
-builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddInfrastructure(builder.Configuration);
 
 // End Lib DI
 

@@ -1,19 +1,18 @@
 using CarMarketplace.Infrastructure.Exceptions;
 using CarMarketplace.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarMarketplace.Infrastructure.Extensions;
 
 public static class DependencyInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services, string? connectionString)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        if (connectionString == null)
+        services.AddDbContext<CarMarketplaceDbContext>(opt =>
         {
-            throw new NullConnectionString();
-        }
-
-        services.AddDbContext<CarMarketplaceDbContext>(opt => { opt.UseNpgsql(connectionString); });
+            opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection") ?? throw new NullConnectionString());
+        });
     }
 }
