@@ -3,18 +3,37 @@ using CarMarketplace.Domain.Users.Exceptions;
 
 namespace CarMarketplace.Domain.Users;
 
-public class User(Guid id, string email, string passwordHash, UserRole role, DateTime createdAt)
-    : IAggregateRoot
+public class User : IAggregateRoot
 {
-    public Guid Id { get; private set; } = id;
-    
-    public string Email { get; private set; } = email;
-    
-    public string PasswordHash { get; private set; } = passwordHash;
-    
-    public UserRole Role { get; private set; } = role;
-    
-    public DateTime CreatedAt { get; private set; } = createdAt;
+    public Guid Id { get; private set; }
+
+    public string Email { get; private set; }
+
+    public string PasswordHash { get; private set; }
+
+    public string FirstName { get; private set; }
+
+    public string LastName { get; private set; }
+
+    public UserRole Role { get; private set; }
+
+    public DateTime CreatedAt { get; private set; }
+
+    public User(
+        string email,
+        string passwordHash,
+        string firstName,
+        string lastName,
+        DateTime createdAt)
+    {
+        Email = email;
+        PasswordHash = passwordHash;
+        FirstName = firstName;
+        LastName = lastName;
+        CreatedAt = createdAt;
+        Role = UserRole.User;
+        Id = Guid.NewGuid();
+    }
 
     public void ChangePassword(string newPasswordHash, string oldPasswordHash)
     {

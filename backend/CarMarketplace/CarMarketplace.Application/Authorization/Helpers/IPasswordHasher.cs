@@ -1,4 +1,4 @@
-namespace CarMarketplace.Application.Users.Helpers;
+namespace CarMarketplace.Application.Authorization.Helpers;
 
 public interface IPasswordHasher
 {

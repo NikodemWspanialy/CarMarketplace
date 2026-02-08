@@ -1,4 +1,4 @@
-using CarMarketplace.Application.Users.Helpers;
+using CarMarketplace.Application.Authorization.Helpers;
 using CarMarketplace.Application.Users.Repositories;
 using CarMarketplace.Infrastructure.Exceptions;
 using CarMarketplace.Infrastructure.Persistence;
@@ -16,13 +16,18 @@ public static class DependencyInjection
     {
         services.AddDbContext<CarMarketplaceDbContext>(opt =>
         {
-            opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection") ?? throw new NullConnectionString());
+            opt.UseNpgsql(
+                configuration.GetConnectionString("DefaultConnection") ?? throw new NullConnectionString());
         });
-        
+
+        // Options
+        services.AddOptions<JwtOptions>(configuration.GetSection("Jwt").ToString());
+
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
-        
-        // Others
+
+        // Security
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+        services.AddScoped<IJwtProvider, BeaverJwtProvider>();
     }
 }
