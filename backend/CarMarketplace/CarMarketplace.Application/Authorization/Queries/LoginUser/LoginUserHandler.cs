@@ -20,7 +20,7 @@ internal class LoginUserHandler(
             throw new InvalidCredentials();
         }
 
-        if (!passwordHasher.VerifyHashedPassword(user.PasswordHash, request.Email))
+        if (!passwordHasher.VerifyHashedPassword(request.Password, user.PasswordHash))
         {
             throw new InvalidCredentials();
         }

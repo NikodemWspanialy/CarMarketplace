@@ -22,7 +22,7 @@ public static class DependencyInjection
         });
 
         // Options
-        services.AddOptions<JwtOptions>(configuration.GetSection("Jwt").ToString());
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
