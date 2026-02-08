@@ -1,4 +1,4 @@
-using System.Windows.Input;
+using CarMarketplace.Application.Common.Abstractions;
 using CarMarketplace.Application.Common.Interfaces;
 using MediatR;
 
