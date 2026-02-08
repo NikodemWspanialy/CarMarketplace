@@ -1,6 +1,6 @@
 using CarMarketplace.Application.Authorization.DTOs;
-using MediatR;
+using CarMarketplace.Application.Common.Abstractions;
 
 namespace CarMarketplace.Application.Authorization.Queries.LoginUser;
 
-public record LoginUserQuery(string Email, string Password) : IRequest<AuthResponse>;
+public record LoginUserQuery(string Email, string Password) : ICommand<AuthResponse>;

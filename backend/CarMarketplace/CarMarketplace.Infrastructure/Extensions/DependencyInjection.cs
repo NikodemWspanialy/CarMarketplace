@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Authorization.Helpers;
+using CarMarketplace.Application.Common.Interfaces;
 using CarMarketplace.Application.Users.Repositories;
 using CarMarketplace.Infrastructure.Exceptions;
 using CarMarketplace.Infrastructure.Persistence;
@@ -25,6 +26,9 @@ public static class DependencyInjection
 
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
+
+        // Unit of work
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // Security
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
