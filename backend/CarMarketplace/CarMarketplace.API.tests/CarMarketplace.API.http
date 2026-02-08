@@ -3,3 +3,15 @@
 ### Echo Test Endpoint
 GET {{CarMarketplace_API_HostAddress}}/api/test/echo?text=Hello
 Accept: application/json
+
+### EchoAuthorized Test Endpoint
+GET {{CarMarketplace_API_HostAddress}}/api/test/echo-authorized?text=Hello
+Accept: application/json
+
+### Register Endpoint
+GET {{CarMarketplace_API_HostAddress}}/api/auth/register
+Accept: application/json
+
+### Login Endpoint
+GET {{CarMarketplace_API_HostAddress}}/api/auth/register
+Accept: application/json

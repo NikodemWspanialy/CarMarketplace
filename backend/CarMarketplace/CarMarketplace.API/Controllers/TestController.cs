@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarMarketplace.API.Controllers;
@@ -11,5 +12,13 @@ public class TestController : ControllerBase
     public IActionResult Echo([FromQuery] string text)
     {
         return Ok(new { text });
-    }   
+    }
+    
+    // GET api/test/echo?text=HelloAuthorization
+    [Authorize]
+    [HttpGet("echo-authorized")]
+    public IActionResult EchoAuthorized([FromQuery] string text)
+    {
+        return Ok(new { text });
+    } 
 }
