@@ -3,6 +3,7 @@ using System;
 using CarMarketplace.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarMarketplace.Infrastructure.Migrations
 {
     [DbContext(typeof(CarMarketplaceDbContext))]
-    partial class CarMarketplaceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260209225531_addCarAggregate")]
+    partial class addCarAggregate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
