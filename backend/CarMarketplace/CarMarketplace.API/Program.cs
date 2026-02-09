@@ -1,4 +1,5 @@
 using System.Text;
+using CarMarketplace.API.Middleware;
 using CarMarketplace.Application.Extensions;
 using CarMarketplace.Infrastructure.Extensions;
 using CarMarketplace.Infrastructure.Security;
@@ -64,6 +65,10 @@ builder.Services.AddAuthorization();
 // End Authentication
 
 var app = builder.Build();
+
+// Middlewares
+
+app.UseGlobalExceptionHandlingMiddleware();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
