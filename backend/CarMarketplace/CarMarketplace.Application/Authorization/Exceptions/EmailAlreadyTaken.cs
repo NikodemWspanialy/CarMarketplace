@@ -1,3 +1,5 @@
+using CarMarketplace.Domain.Exceptions;
+
 namespace CarMarketplace.Application.Authorization.Exceptions;
 
-public class EmailAlreadyTaken(string email) : Exception($"Email '{email}' is already taken'");
+public class EmailAlreadyTaken(string email) : DomainException($"Email '{email}' is already taken'");
