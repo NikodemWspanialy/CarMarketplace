@@ -46,4 +46,27 @@ public class Car : IAggregateRoot
         Description = description;
         CreatedAt = DateTime.UtcNow;
     }
+
+    public void Update(
+        string brand,
+        string model,
+        int year,
+        decimal price,
+        int mileage,
+        FuelType fuelType,
+        string? description)
+    {
+        Brand = brand;
+        Model = model;
+        Year = year;
+        Price = price;
+        Mileage = mileage;
+        FuelType = fuelType;
+        Description = description;
+    }
+
+    public void Delete()
+    {
+        IsDeleted = true;
+    }
 }
