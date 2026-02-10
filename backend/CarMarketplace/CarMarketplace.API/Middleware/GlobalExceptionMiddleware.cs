@@ -5,7 +5,7 @@ using CarMarketplace.Domain.Exceptions;
 namespace CarMarketplace.API.Middleware;
 
 public class GlobalExceptionMiddleware(
-    ILogger logger,
+    //ILogger logger,
     RequestDelegate next)
 {
     public async Task Invoke(HttpContext context)
@@ -16,7 +16,7 @@ public class GlobalExceptionMiddleware(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, ex.Message); // TODO add new middleware with logging for every call
+            // logger.LogError(ex, ex.Message); // TODO add new middleware with logging for every call
             await HandleExceptionAsync(context, ex);
         }
     }
