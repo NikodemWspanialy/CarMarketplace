@@ -1,4 +1,5 @@
 using CarMarketplace.Domain.Abstractions;
+using CarMarketplace.Domain.Common;
 
 namespace CarMarketplace.Domain.Cars;
 
@@ -12,13 +13,17 @@ public class Car : IAggregateRoot
 
     public int Year { get; private set; }
 
-    public decimal Price { get; private set; }
+    public Money Price { get; private set; }
+
+    public List<CarPriceHistory> PriceHistory { get; private set; }
 
     public int Mileage { get; private set; }
 
     public FuelType FuelType { get; private set; }
 
     public string? Description { get; private set; }
+
+    public List<CarPhoto> Photos { get; private set; }
 
     public DateTime CreatedAt { get; private set; }
 
@@ -31,27 +36,32 @@ public class Car : IAggregateRoot
         string brand,
         string model,
         int year,
-        decimal price,
+        Money price,
         int mileage,
         FuelType fuelType,
-        string? description)
+        string? description,
+        List<CarPhoto> photos)
     {
         Id = id;
         Brand = brand;
         Model = model;
         Year = year;
         Price = price;
+        CreatedAt = DateTime.UtcNow;
+        PriceHistory =
+        [
+            new CarPriceHistory(id, price, CreatedAt)
+        ];
         Mileage = mileage;
         FuelType = fuelType;
         Description = description;
-        CreatedAt = DateTime.UtcNow;
+        Photos = photos;
     }
 
-    public void Update(
+    public void UpdateDetails(
         string brand,
         string model,
         int year,
-        decimal price,
         int mileage,
         FuelType fuelType,
         string? description)
@@ -59,14 +69,22 @@ public class Car : IAggregateRoot
         Brand = brand;
         Model = model;
         Year = year;
-        Price = price;
         Mileage = mileage;
         FuelType = fuelType;
         Description = description;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdatePrice(Money newPrice)
+    {
+        Price = newPrice;
+        UpdatedAt = DateTime.UtcNow;
+        PriceHistory.Add(new CarPriceHistory(Id, newPrice, UpdatedAt.Value));
     }
 
     public void Delete()
     {
         IsDeleted = true;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

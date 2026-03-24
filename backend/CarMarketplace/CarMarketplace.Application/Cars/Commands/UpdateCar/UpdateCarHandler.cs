@@ -16,7 +16,7 @@ public class UpdateCarHandler(
             // throw domain exception
             throw new NullReferenceException("Car not found");
         }
-        car.Update(
+        car.UpdateDetails(
             request.Brand,
             request.Model,
             request.Year,
