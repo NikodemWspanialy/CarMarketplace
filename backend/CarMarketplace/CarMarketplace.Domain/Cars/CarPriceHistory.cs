@@ -2,7 +2,7 @@ using CarMarketplace.Domain.Common;
 
 namespace CarMarketplace.Domain.Cars;
 
-public class CarPriceHistory(Guid carId, Money price, DateTime changeAt)
+public class CarPriceHistory(Guid carId, Money price, DateTime changedAt)
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
 
@@ -10,5 +10,5 @@ public class CarPriceHistory(Guid carId, Money price, DateTime changeAt)
 
     public Money Price { get; private set; } = price;
 
-    public DateTime ChangeAt { get; private set; } = changeAt;
+    public DateTime ChangedAt { get; private set; } = changedAt;
 }

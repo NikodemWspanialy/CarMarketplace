@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarMarketplace.Infrastructure.Persistence.Configurations;
 
-public class CarConfiguration : IEntityTypeConfiguration<Car>
+internal class CarConfiguration : IEntityTypeConfiguration<Car>
 {
     public void Configure(EntityTypeBuilder<Car> builder)
     {
@@ -41,6 +41,26 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
 
         // Soft delete
         builder.Property(x => x.IsDeleted).IsRequired();
+
+        // Price
+        builder.OwnsOne(x => x.Price, money =>
+        {
+            money.Property(p => p.Amount)
+                .HasColumnName("price_amount")
+                .HasPrecision(18, 2)
+                .IsRequired();
+
+            money.Property(p => p.Currency)
+                .HasColumnName("price_currency")
+                .HasMaxLength(3)
+                .IsRequired();
+        });
+
+        // Price history
+        builder.HasMany(typeof(CarPriceHistory))
+            .WithOne()
+            .HasForeignKey("CarId")
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Global filter
         builder.HasQueryFilter(x => !x.IsDeleted);
