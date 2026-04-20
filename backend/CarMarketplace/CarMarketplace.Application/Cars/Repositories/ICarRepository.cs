@@ -6,6 +6,8 @@ public interface ICarRepository
 {
     Task<Car> AddAsync(Car car, CancellationToken token = default);
 
+    Task<Car?> GetByIdReadOnlyAsync(Guid id, CancellationToken token = default);
+
     Task<Car?> GetByIdAsync(Guid id, CancellationToken token = default);
 
     Task UpdateAsync(Car car, CancellationToken token = default);

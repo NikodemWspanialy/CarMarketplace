@@ -14,6 +14,9 @@ public class CarRepository(CarMarketplaceDbContext dbContext) : ICarRepository
         return car;
     }
 
+    public async Task<Car?> GetByIdReadOnlyAsync(Guid id, CancellationToken token = default) =>
+        await dbContext.Cars.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, token);
+
     public async Task<Car?> GetByIdAsync(Guid id, CancellationToken token = default) =>
         await dbContext.Cars.FirstOrDefaultAsync(x => x.Id == id, token);
 
