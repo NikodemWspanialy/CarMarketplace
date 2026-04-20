@@ -16,6 +16,7 @@ fileMatchPattern: "**/Controllers/**"
 - Pass `token` to `mediator.Send()` — it propagates through the entire pipeline (handlers, validators, repositories, EF Core queries)
 
 ## Response Patterns
+- Endpoints NEVER return Domain entities — always use `{EntityName}Response` DTOs defined in Application layer
 - Always leave an empty line before `return` statements for readability
 
 ```csharp

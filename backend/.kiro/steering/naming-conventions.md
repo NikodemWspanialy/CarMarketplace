@@ -5,12 +5,12 @@ inclusion: always
 # Project Naming Conventions
 
 ## Commands
-- Pattern: `Create{EntityName}Command`, `Update{EntityName}Command`, `Delete{EntityName}Command`
-- Examples: `CreateCarCommand`, `UpdateUserCommand`
+- Pattern: `Create{EntityName}Request`, `Update{EntityName}Request`, `Delete{EntityName}Request`
+- Examples: `CreateCarRequest`, `UpdateUserRequest`
 
 ## Queries
-- Pattern: `Get{EntityName}Query`, `Get{EntityNamePlural}Query`
-- Examples: `GetCarQuery`, `GetCarsQuery`
+- Pattern: `Get{EntityName}Request`, `Get{EntityNamePlural}Request`
+- Examples: `GetCarRequest`, `GetCarsRequest`
 
 ## Handlers
 - Pattern: `{Operation}{EntityName}Handler`
@@ -30,4 +30,3 @@ inclusion: always
 
 ## DTOs
 - Pattern: `{EntityName}Response`, `{EntityName}ListResponse`
-- Request records: `Create{EntityName}Request`, `Update{EntityName}Request`

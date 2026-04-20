@@ -21,6 +21,7 @@ inclusion: always
   - Example: `Domain/Cars/Car.cs`, `Domain/Users/User.cs`
 
 ### Application
+- NEVER return Domain entities from handlers — always map to a `{EntityName}Response` DTO defined in Application layer
 - Commands and Queries (CQRS) — `ICommand<T>` → write operations, `IQuery<T>` → read operations
 - Exceptions inherit from `DomainException`
 - Pipeline Behaviors: `LoggerBehavior`, `UnitOfWorkBehavior`
