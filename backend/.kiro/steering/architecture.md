@@ -34,6 +34,10 @@ inclusion: always
   - `Factories/` — entity factories
   - `Repositories/` — repository interfaces
   - Not all subdirectories are required — create only what's needed
+- Shared code in `Application/Common/`:
+  - `Abstractions/` — `ICommand`, `IQuery` interfaces
+  - `Behaviors/` — `LoggerBehavior`, `UnitOfWorkBehavior`
+  - `Interfaces/` — `IUnitOfWork`
 
 ### Infrastructure
 - Fluent API configurations in `Persistence/Configurations/`
@@ -47,37 +51,4 @@ inclusion: always
 - Controllers in `Controllers/` folder
 - `GlobalExceptionMiddleware` catches `DomainException` and `InfrastructureException`
 
-## Naming Conventions
-
-### Commands
-- Pattern: `Create{EntityName}Command`, `Update{EntityName}Command`, `Delete{EntityName}Command`
-- Examples:
-  - `CreateCarCommand`
-  - `UpdateUserCommand`
-
-### Queries
-- Pattern: `Get{EntityName}Query`, `Get{EntityNamePlural}Query`
-- Examples:
-  - `GetCarQuery`
-  - `GetCarsQuery`
-
-### Handlers
-- Pattern: `{Operation}{EntityName}Handler`
-- Examples:
-  - `CreateCarHandler`
-  - `GetCarsHandler`
-
-### Repositories
-- Interface: `I{EntityName}Repository` → Implementation: `{EntityName}Repository`
-- Examples:
-  - `ICarRepository` → `CarRepository`
-
-### EF Configurations
-- Pattern: `{EntityName}Configuration`
-- Examples:
-  - `CarConfiguration`
-  - `UserConfiguration`
-
-### Exceptions
-- Domain: inherits from `DomainException`
-- Infrastructure: inherits from `InfrastructureException`
+See `naming-conventions.md` for all naming patterns (commands, queries, handlers, repositories, etc.).

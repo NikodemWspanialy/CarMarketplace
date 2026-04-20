@@ -100,7 +100,7 @@ public class InvalidPriceException : DomainException
 }
 ```
 
-## Domain Events
+## Domain Events (PLANNED — not yet implemented)
 - Aggregates can raise Domain Events for side effects outside their boundary
 - Side effects that cross aggregate boundaries MUST use Domain Events
 - Events are raised within domain methods, dispatched after persistence
