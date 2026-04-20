@@ -1,28 +1,17 @@
+using CarMarketplace.Application.Cars.Factories;
 using CarMarketplace.Application.Cars.Repositories;
-using CarMarketplace.Domain.Cars;
 using MediatR;
 
 namespace CarMarketplace.Application.Cars.Commands.CreateCar;
 
-public class CreateCarHandler(
-    //validator,
-    //factory
+internal class CreateCarHandler(
+    ICarFactory carFactory,
     ICarRepository carRepository)
     : IRequestHandler<CreateCarRequest, Guid>
 {
     public async Task<Guid> Handle(CreateCarRequest request, CancellationToken token)
     {
-        // TODO Refactor, add validation - abstract and domain
-        var car = new Car(
-            Guid.NewGuid(),
-            request.Brand,
-            request.Model,
-            request.Year,
-            request.Price,
-            request.Mileage,
-            request.FuelType,
-            request.Description
-        );
+        var car = carFactory.Create(request);
 
         await carRepository.AddAsync(car, token);
         

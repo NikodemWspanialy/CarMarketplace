@@ -1,5 +1,6 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.Application.Authorization.Validators;
+using CarMarketplace.Application.Cars.Factories;
 using CarMarketplace.Application.Common.Behaviors;
 using CarMarketplace.Application.Users.Factories;
 using FluentValidation;
@@ -25,5 +26,6 @@ public static class DependencyInjection
 
         // Factories
         services.AddScoped<IUserFactory, UserFactory>();
+        services.AddScoped<ICarFactory, CarFactory>();
     }
 }

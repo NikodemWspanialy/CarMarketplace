@@ -7,7 +7,8 @@ public record CreateCarRequest(
     string Brand,
     string Model,
     int Year,
-    decimal Price,
+    decimal PriceAmount,
+    string PriceCurrency,
     int Mileage,
     FuelType FuelType,
     string? Description) 
