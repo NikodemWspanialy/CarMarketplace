@@ -11,52 +11,56 @@ fileMatchPattern: "**/Controllers/**,**/API/**"
 - DI via primary constructor: `public class XController(IMediator mediator)`
 - Controller contains NO logic — only `mediator.Send(request)`
 
+## CancellationToken
+- Every controller action MUST accept `CancellationToken token` as the last parameter
+- Pass `token` to `mediator.Send()` — it propagates through the entire pipeline (handlers, validators, repositories, EF Core queries)
+
 ## Response Patterns
 - Always leave an empty line before `return` statements for readability
 
 ```csharp
 // POST — create
 [HttpPost("create")]
-public async Task<IActionResult> Create([FromBody] CreateXRequest command)
+public async Task<IActionResult> Create([FromBody] CreateXRequest command, CancellationToken token)
 {
-    var id = await mediator.Send(command);
+    var id = await mediator.Send(command, token);
 
     return CreatedAtAction(nameof(GetById), new { id }, null);
 }
 
 // PUT — update (returns updated resource)
 [HttpPut("update/{id:guid}")]
-public async Task<IActionResult> Update(Guid id, [FromBody] UpdateXRequest command)
+public async Task<IActionResult> Update(Guid id, [FromBody] UpdateXRequest command, CancellationToken token)
 {
     if (id != command.Id) return BadRequest("Id mismatch");
-    var result = await mediator.Send(command);
+    var result = await mediator.Send(command, token);
 
     return Ok(result);
 }
 
 // DELETE — soft delete
 [HttpDelete("delete/{id:guid}")]
-public async Task<IActionResult> Delete(Guid id)
+public async Task<IActionResult> Delete(Guid id, CancellationToken token)
 {
-    await mediator.Send(new DeleteXRequest(id));
+    await mediator.Send(new DeleteXRequest(id), token);
 
     return NoContent();
 }
 
 // GET — single
 [HttpGet("get-details/{id:guid}")]
-public async Task<IActionResult> GetById(Guid id)
+public async Task<IActionResult> GetById(Guid id, CancellationToken token)
 {
-    var result = await mediator.Send(new GetXRequest(id));
+    var result = await mediator.Send(new GetXRequest(id), token);
 
     return Ok(result);
 }
 
 // GET — paged list
 [HttpGet("get-details-list")]
-public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken token = default)
 {
-    var result = await mediator.Send(new GetXsRequest(pageNumber, pageSize));
+    var result = await mediator.Send(new GetXsRequest(pageNumber, pageSize), token);
 
     return Ok(result);
 }

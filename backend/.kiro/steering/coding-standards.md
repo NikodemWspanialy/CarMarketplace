@@ -4,16 +4,10 @@ inclusion: always
 
 # Coding Standards
 
-## Language & Runtime
-- C# 13 / .NET 10
-- Use latest language features (primary constructors, collection expressions, etc.)
-- PostgreSQL with EF Core
+## General Rules
+- Use latest C# language features (primary constructors, collection expressions, etc.)
 - Always use `async/await` — never `.Result()` or `.Wait()`
 - Dependency Injection everywhere — no manual instantiation of services
-- Layer separation: API / Application / Domain / Infrastructure
-
-## Nullable
-- `<Nullable>enable</Nullable>` is on
 - Always distinguish `string` vs `string?` — be explicit about nullability
 
 ## Naming Conventions

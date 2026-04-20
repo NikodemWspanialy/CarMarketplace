@@ -5,7 +5,7 @@ inclusion: always
 # CarMarketplace Project Architecture
 
 ## Architectural Style
-- Clean Architecture + DDD + CQRS (MediatR)
+- Clean Architecture + DDD + CQRS
 - Modular Monolith — single deployment, logical modules
 
 ## Layers (from inside out)
@@ -13,7 +13,7 @@ inclusion: always
 ### Domain (no external dependencies)
 - Entities for example: `Car` (Aggregate Root), `CarPhoto`, `CarPriceHistory`, `User`
 - Aggregate Roots implement `IAggregateRoot` interface
-- Value Objects mapped via `OwnsOne` in EF Core (for example: `Money`)
+- Value Objects (for example: `Money`)
 - Enums for example: `FuelType`, `UserRole`
 - Domain exceptions inherit from `DomainException`
 - Soft delete via `IsDeleted` flag
@@ -21,9 +21,7 @@ inclusion: always
   - Example: `Domain/Cars/Car.cs`, `Domain/Users/User.cs`
 
 ### Application
-- Commands and Queries (CQRS) via MediatR
-- `ICommand<T>` → write operations, `IQuery<T>` → read operations
-- Validation: FluentValidation
+- Commands and Queries (CQRS) — `ICommand<T>` → write operations, `IQuery<T>` → read operations
 - Exceptions inherit from `DomainException`
 - Pipeline Behaviors: `LoggerBehavior`, `UnitOfWorkBehavior`
 - File structure: `Application/{EntityNamePlural}/`
@@ -38,20 +36,16 @@ inclusion: always
   - Not all subdirectories are required — create only what's needed
 
 ### Infrastructure
-- EF Core + PostgreSQL
 - Fluent API configurations in `Persistence/Configurations/`
 - `OwnsOne` for Value Objects
 - A configuration class must be defined for every entity that has a DbSet in DbContext
 - Repositories implement interfaces from Application
 - Infrastructure exceptions inherit from `InfrastructureException`
-- JWT (BeaverJwtProvider), BCrypt (BCryptPasswordHasher)
 - UnitOfWork as pipeline behavior
 
 ### API
-- ASP.NET Core Web API
 - Controllers in `Controllers/` folder
 - `GlobalExceptionMiddleware` catches `DomainException` and `InfrastructureException`
-- Swagger with JWT Bearer auth
 
 ## Naming Conventions
 
