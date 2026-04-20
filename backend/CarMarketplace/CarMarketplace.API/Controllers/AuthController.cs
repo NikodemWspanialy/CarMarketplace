@@ -10,17 +10,17 @@ namespace CarMarketplace.API.Controllers;
 public class AuthController(IMediator mediator) : ControllerBase
 {
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterUserRequest request)
+    public async Task<IActionResult> Register(RegisterUserRequest request, CancellationToken token = default)
     {
-        var id = await mediator.Send(request);
+        var id = await mediator.Send(request, token);
 
         return Ok(id);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginUserQuery query)
+    public async Task<IActionResult> Login(LoginUserQuery query, CancellationToken token = default)
     {
-        var result = await mediator.Send(query);
+        var result = await mediator.Send(query, token);
 
         return Ok(result);
     }

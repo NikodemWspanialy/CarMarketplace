@@ -13,38 +13,43 @@ namespace CarMarketplace.API.Controllers;
 public class CarController(IMediator mediator) : ControllerBase
 {
     [HttpPost("create")]
-    public async Task<IActionResult> Create([FromBody] CreateCarRequest command)
+    public async Task<IActionResult> Create([FromBody] CreateCarRequest command, CancellationToken token = default)
     {
-        var id = await mediator.Send(command);
+        var id = await mediator.Send(command, token);
+
         return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
     [HttpPut("update-details/{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarRequest command)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarRequest command, CancellationToken token = default)
     {
         if (id != command.Id) return BadRequest("Id mismatch");
-        await mediator.Send(command);
-        return NoContent();
+        var result = await mediator.Send(command, token);
+
+        return Ok(result);
     }
 
     [HttpDelete("delete/{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken token = default)
     {
-        await mediator.Send(new DeleteCarRequest(id));
+        await mediator.Send(new DeleteCarRequest(id), token);
+
         return NoContent();
     }
 
     [HttpGet("get-details/{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken token = default)
     {
-        var car = await mediator.Send(new GetCarRequest(id));
+        var car = await mediator.Send(new GetCarRequest(id), token);
+
         return Ok(car);
     }
 
     [HttpGet("get-details-list")]
-    public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken token = default)
     {
-        var result = await mediator.Send(new GetCarsRequest(pageNumber, pageSize));
+        var result = await mediator.Send(new GetCarsRequest(pageNumber, pageSize), token);
+
         return Ok(result);
     }
 }
