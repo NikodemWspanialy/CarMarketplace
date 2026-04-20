@@ -51,8 +51,8 @@ inclusion: always
 
 ## Access Modifiers
 - Restrict access as much as possible
-- `internal` for implementation details (EF configurations, etc.)
-- `public` only where necessary
+- `internal` for implementation details (EF configurations, handlers, etc.)
+- `public` only where necessary (requests, DTOs, interfaces, controllers)
 - `sealed` on handlers is not required
 
 ## Constructors

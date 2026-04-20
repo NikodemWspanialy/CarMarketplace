@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CarMarketplace.Application.Cars.Commands.UpdateCar;
 
-public class UpdateCarHandler(
+internal class UpdateCarHandler(
     ICarRepository carRepository) : IRequestHandler<UpdateCarRequest, CarResponse>
 {
     public async Task<CarResponse> Handle(UpdateCarRequest request, CancellationToken token)

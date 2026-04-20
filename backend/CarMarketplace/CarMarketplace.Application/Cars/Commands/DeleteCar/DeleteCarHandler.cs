@@ -1,26 +1,22 @@
+using CarMarketplace.Application.Cars.Exceptions;
 using CarMarketplace.Application.Cars.Repositories;
 using MediatR;
 
 namespace CarMarketplace.Application.Cars.Commands.DeleteCar;
 
-public class DeleteCarHandler(
+internal class DeleteCarHandler(
     ICarRepository carRepository)
-    : IRequestHandler<DeleteCarRequest, bool>
+    : IRequestHandler<DeleteCarRequest, Unit>
 {
-    public async Task<bool> Handle(DeleteCarRequest request, CancellationToken token)
+    public async Task<Unit> Handle(DeleteCarRequest request, CancellationToken token)
     {
-        var car = await carRepository.GetByIdAsync(request.Id, token);
-
-        if (car is null)
-        {
-            //throw domain exception
-            return false;
-        }
+        var car = await carRepository.GetByIdAsync(request.Id, token)
+            ?? throw new CarNotFoundException(request.Id);
 
         car.Delete();
 
         await carRepository.UpdateAsync(car, token);
 
-        return true;
+        return Unit.Value;
     }
 }
