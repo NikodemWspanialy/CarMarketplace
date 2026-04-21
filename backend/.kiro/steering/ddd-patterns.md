@@ -41,7 +41,7 @@ fileMatchPattern: "**/Domain/**,**/Application/**/Commands/**,**/Application/**/
 public static Car Create(string brand, string model, int year, Money price, int mileage, FuelType fuelType, string? description)
 {
     // validate invariants
-    if (price.Amount <= 0) throw new InvalidPriceException();
+    if (price.Amount <= 0) throw new InvalidCarPrice();
 
     return new Car(Guid.NewGuid(), brand, model, year, price, mileage, fuelType, description);
 }
@@ -69,7 +69,7 @@ These are NOT the same thing. Domain invariants protect business consistency. In
 public void UpdatePrice(Money newPrice)
 {
     // invariant check
-    if (newPrice.Amount <= 0) throw new InvalidPriceException();
+    if (newPrice.Amount <= 0) throw new InvalidCarPrice();
 
     // state change
     Price = newPrice;
@@ -89,14 +89,14 @@ public void UpdatePrice(Money newPrice)
 ## Domain Exceptions
 - Every domain rule violation should have its own custom exception
 - Custom exceptions inherit from `DomainException` (base class)
-- Prefer specific exceptions: `InvalidPriceException`, `MaxPhotosExceededException`, `CarAlreadyDeletedException`
+- Prefer specific exceptions: `InvalidCarPrice`, `MaxPhotosExceeded`, `CarAlreadyDeleted`
 - Do NOT use generic `DomainException` directly — always create a specific subclass
-- Exception names should describe the violated rule
+- Exception names should describe the violated rule — do NOT include the word "Exception" in the name
 
 ```csharp
-public class InvalidPriceException : DomainException
+public class InvalidCarPrice : DomainException
 {
-    public InvalidPriceException() : base("Price must be greater than zero.") { }
+    public InvalidCarPrice() : base("Price must be greater than zero.") { }
 }
 ```
 

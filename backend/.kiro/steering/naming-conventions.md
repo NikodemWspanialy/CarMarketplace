@@ -25,7 +25,8 @@ inclusion: always
 - Examples: `CarConfiguration`, `UserConfiguration`
 
 ## Exceptions
-- Domain: inherits from `DomainException` — specific name per rule: `InvalidPriceException`
+- Do NOT include the word "Exception" in exception class names
+- Domain: inherits from `DomainException` — specific name per rule: `InvalidCarPrice`, `CarAlreadyDeleted`
 - Infrastructure: inherits from `InfrastructureException`
 
 ## DTOs

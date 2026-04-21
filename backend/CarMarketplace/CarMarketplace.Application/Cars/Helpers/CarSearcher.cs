@@ -12,5 +12,5 @@ internal interface ICarSearcher
 internal class CarSearcher(ICarRepository carRepository) : ICarSearcher
 {
     public async Task<Car> FindByIdAsync(Guid id, CancellationToken token = default) =>
-        await carRepository.GetByIdAsync(id, token) ?? throw new CarNotFoundException(id);
+        await carRepository.GetByIdAsync(id, token) ?? throw new CarNotFound(id);
 }

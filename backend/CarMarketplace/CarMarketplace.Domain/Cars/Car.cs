@@ -1,4 +1,5 @@
 using CarMarketplace.Domain.Abstractions;
+using CarMarketplace.Domain.Cars.Exceptions;
 using CarMarketplace.Domain.Common;
 
 namespace CarMarketplace.Domain.Cars;
@@ -77,6 +78,12 @@ public class Car : IAggregateRoot
 
     public void UpdatePrice(Money newPrice)
     {
+        if (newPrice.Amount < 0)
+            throw new InvalidCarPrice();
+
+        if (Price.Amount == newPrice.Amount && Price.Currency == newPrice.Currency)
+            throw new SamePriceAsCurrent();
+
         Price = newPrice;
         UpdatedAt = DateTime.UtcNow;
         PriceHistory.Add(new CarPriceHistory(Id, newPrice, UpdatedAt.Value));
@@ -84,6 +91,9 @@ public class Car : IAggregateRoot
 
     public void Delete()
     {
+        if (IsDeleted)
+            throw new CarAlreadyDeleted();
+
         IsDeleted = true;
         UpdatedAt = DateTime.UtcNow;
     }
