@@ -27,5 +27,8 @@ public static class DependencyInjection
         // Factories
         services.AddScoped<IUserFactory, UserFactory>();
         services.AddScoped<ICarFactory, CarFactory>();
+
+        // Helpers
+        services.AddScoped<IMoneyFactory, MoneyFactory>();
     }
 }

@@ -1,6 +1,7 @@
 using CarMarketplace.Application.Cars.Commands.CreateCar;
 using CarMarketplace.Application.Cars.Commands.DeleteCar;
 using CarMarketplace.Application.Cars.Commands.UpdateCar;
+using CarMarketplace.Application.Cars.Commands.UpdateCarPrice;
 using CarMarketplace.Application.Cars.Queries.GetCar;
 using CarMarketplace.Application.Cars.Queries.GetCars;
 using MediatR;
@@ -35,6 +36,15 @@ public class CarController(IMediator mediator) : ControllerBase
         await mediator.Send(new DeleteCarRequest(id), token);
 
         return NoContent();
+    }
+
+    [HttpPut("update-price/{id:guid}")]
+    public async Task<IActionResult> UpdatePrice(Guid id, [FromBody] UpdateCarPriceRequest command, CancellationToken token = default)
+    {
+        if (id != command.Id) return BadRequest("Id mismatch");
+        var result = await mediator.Send(command, token);
+
+        return Ok(result);
     }
 
     [HttpGet("get-details/{id:guid}")]
