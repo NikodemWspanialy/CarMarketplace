@@ -30,7 +30,7 @@ public class Car : IAggregateRoot
 
     public DateTime? UpdatedAt { get; private set; }
 
-    public bool IsDeleted { get; private set; } = false;
+    public bool IsDeleted { get; private set; }
 
     public Car(
         Guid id,
