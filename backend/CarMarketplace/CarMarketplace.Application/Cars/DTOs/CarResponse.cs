@@ -4,6 +4,7 @@ namespace CarMarketplace.Application.Cars.DTOs;
 
 public record CarResponse(
     Guid Id,
+    Guid SellerId,
     string Brand,
     string Model,
     int Year,
@@ -17,6 +18,7 @@ public record CarResponse(
 {
     public static CarResponse FromEntity(Car car) =>
         new(car.Id,
+            car.SellerId,
             car.Brand,
             car.Model,
             car.Year,

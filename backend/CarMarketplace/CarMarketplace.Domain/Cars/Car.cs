@@ -8,6 +8,8 @@ public class Car : IAggregateRoot
 {
     public Guid Id { get; }
 
+    public Guid SellerId { get; private set; }
+
     public string Brand { get; private set; }
 
     public string Model { get; private set; }
@@ -34,6 +36,7 @@ public class Car : IAggregateRoot
 
     public Car(
         Guid id,
+        Guid sellerId,
         string brand,
         string model,
         int year,
@@ -44,6 +47,7 @@ public class Car : IAggregateRoot
         List<CarPhoto> photos)
     {
         Id = id;
+        SellerId = sellerId;
         Brand = brand;
         Model = model;
         Year = year;

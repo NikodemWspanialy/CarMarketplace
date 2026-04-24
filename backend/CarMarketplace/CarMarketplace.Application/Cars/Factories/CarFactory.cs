@@ -6,14 +6,15 @@ namespace CarMarketplace.Application.Cars.Factories;
 
 internal interface ICarFactory
 {
-    Car Create(CreateCarRequest request, List<CarPhoto>? photos = null);
+    Car Create(CreateCarRequest request, Guid sellerId, List<CarPhoto>? photos = null);
 }
 
 internal class CarFactory : ICarFactory
 {
-    public Car Create(CreateCarRequest request, List<CarPhoto>? photos = null) =>
+    public Car Create(CreateCarRequest request, Guid sellerId, List<CarPhoto>? photos = null) =>
         new Car(
             id: Guid.NewGuid(),
+            sellerId: sellerId,
             brand: request.Brand,
             model: request.Model,
             year: request.Year,

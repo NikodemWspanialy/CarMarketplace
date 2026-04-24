@@ -5,6 +5,7 @@ using CarMarketplace.Application.Cars.Commands.UpdateCarPrice;
 using CarMarketplace.Application.Cars.Queries.GetCar;
 using CarMarketplace.Application.Cars.Queries.GetCars;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarMarketplace.API.Controllers;
@@ -13,6 +14,7 @@ namespace CarMarketplace.API.Controllers;
 [Route("api/car")]
 public class CarController(IMediator mediator) : ControllerBase
 {
+    [Authorize]
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateCarRequest command, CancellationToken token = default)
     {
@@ -21,6 +23,7 @@ public class CarController(IMediator mediator) : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
+    [Authorize]
     [HttpPut("update-details/{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCarRequest command, CancellationToken token = default)
     {
@@ -30,6 +33,7 @@ public class CarController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpDelete("delete/{id:guid}")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken token = default)
     {
@@ -38,6 +42,7 @@ public class CarController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
+    [Authorize]
     [HttpPut("update-price/{id:guid}")]
     public async Task<IActionResult> UpdatePrice(Guid id, [FromBody] UpdateCarPriceRequest command, CancellationToken token = default)
     {

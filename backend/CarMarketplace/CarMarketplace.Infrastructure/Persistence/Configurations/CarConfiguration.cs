@@ -14,6 +14,9 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
         // Id
         builder.Property(x => x.Id).ValueGeneratedNever();
 
+        // SellerId
+        builder.Property(x => x.SellerId).IsRequired();
+
         // Brand
         builder.Property(x => x.Brand).IsRequired().HasMaxLength(100);
 
@@ -22,9 +25,6 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
 
         // Year
         builder.Property(x => x.Year).IsRequired();
-
-        // Price
-        builder.Property(x => x.Price).IsRequired().HasPrecision(18, 2);
 
         // Mileage
         builder.Property(x => x.Mileage).IsRequired();
@@ -66,9 +66,9 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
         builder.HasQueryFilter(x => !x.IsDeleted);
 
         // Indexes
+        builder.HasIndex(x => x.SellerId);
         builder.HasIndex(x => x.Brand);
         builder.HasIndex(x => x.Model);
-        builder.HasIndex(x => x.Price);
         builder.HasIndex(x => x.CreatedAt);
     }
 }
