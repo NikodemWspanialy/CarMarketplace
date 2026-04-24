@@ -38,14 +38,18 @@ public class User : IAggregateRoot
     public void ChangePassword(string newPasswordHash, string oldPasswordHash)
     {
         if (newPasswordHash == oldPasswordHash)
-        {
             throw new SamePasswordAsPrevious();
-        }
 
         if (string.IsNullOrEmpty(newPasswordHash))
-        {
             throw new InvalidPassword();
-        }
+
+        PasswordHash = newPasswordHash;
+    }
+
+    public void UpdateProfile(string firstName, string lastName)
+    {
+        FirstName = firstName;
+        LastName = lastName;
     }
 
     public void PromoteToAdmin()

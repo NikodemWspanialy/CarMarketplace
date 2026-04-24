@@ -13,8 +13,13 @@ public class UserRepository(CarMarketplaceDbContext dbContext) : IUserRepository
     public async Task<User?> GetUserByEmailAsync(string email, CancellationToken token = default) =>
         await dbContext.Users.FirstOrDefaultAsync(u => u.Email == email, token);
 
-    public async Task AddUserAsync(User user, CancellationToken token = default)
-    {
+    public async Task AddUserAsync(User user, CancellationToken token = default) =>
         await dbContext.Users.AddAsync(user, cancellationToken: token);
+
+    public Task UpdateUserAsync(User user, CancellationToken token = default)
+    {
+        dbContext.Users.Update(user);
+
+        return Task.CompletedTask;
     }
 }

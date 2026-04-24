@@ -1,3 +1,5 @@
+using CarMarketplace.Application.Users.Commands.ChangePassword;
+using CarMarketplace.Application.Users.Commands.UpdateUserProfile;
 using CarMarketplace.Application.Users.Queries.GetUserById;
 using CarMarketplace.Application.Users.Queries.GetUserProfile;
 using MediatR;
@@ -25,6 +27,24 @@ public class UserController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(new GetUserByIdRequest(id), token);
 
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPut("update-profile")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileRequest command, CancellationToken token = default)
+    {
+        var result = await mediator.Send(command, token);
+
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPut("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest command, CancellationToken token = default)
+    {
+        await mediator.Send(command, token);
+
+        return NoContent();
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
