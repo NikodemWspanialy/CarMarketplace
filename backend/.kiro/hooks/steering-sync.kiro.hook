@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Steering Sync",
+  "description": "After completing code changes, checks if any steering files need to be updated to reflect new patterns, conventions, or architectural decisions.",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Review the code changes made in this conversation. Using the steering-sync skill guidelines, check if any steering files in .kiro/steering/ need to be updated. Only suggest updates if new conventions, patterns, or architectural decisions were introduced. If nothing needs updating, say so briefly and move on."
+  }
+}
