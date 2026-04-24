@@ -31,3 +31,16 @@ inclusion: always
 
 ## DTOs
 - Pattern: `{EntityName}Response`, `{EntityName}ListResponse`
+
+## Factories
+- Interface + implementation: `I{EntityName}Factory` → `{EntityName}Factory`
+- Value object factories: `IMoneyFactory` → `MoneyFactory`
+- Located in `Application/{EntityNamePlural}/Factories/`
+
+## Searchers
+- Pattern: `I{EntityName}Searcher` → `{EntityName}Searcher`
+- Located in `Application/{EntityNamePlural}/Helpers/`
+
+## Guards
+- Pattern: `I{EntityName}SellerGuard` → `{EntityName}SellerGuard`
+- Located in `Application/{EntityNamePlural}/Helpers/`

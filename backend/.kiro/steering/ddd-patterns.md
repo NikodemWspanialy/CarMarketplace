@@ -51,7 +51,8 @@ public static Car Create(string brand, string model, int year, Money price, int 
 
 ### Domain invariants (Domain layer)
 - Business rules that MUST always be true
-- Enforced in entity constructors and domain methods
+- Enforced directly in aggregate constructors and domain methods — never in external services, validators, or handlers
+- Each domain method is responsible for validating its own preconditions before changing state
 - Throw custom domain exceptions on violation
 - Examples: price must be > 0, max 10 photos per car
 

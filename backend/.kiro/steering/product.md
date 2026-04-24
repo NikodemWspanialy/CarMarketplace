@@ -16,6 +16,7 @@ The system enables:
 ## Core Capabilities
 - User accounts with role-based access (Seller, Buyer, Admin)
 - Creating and managing car offers with details (e.g. price, description, specifications)
+- Car offers are owned by the seller who created them — only the owner or admin can modify/delete
 - Attaching photos to offers
 - Browsing and filtering available cars
 - Managing offer lifecycle (active, sold, archived)
