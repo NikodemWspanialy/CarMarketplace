@@ -32,5 +32,6 @@ public static class DependencyInjection
         // Helpers
         services.AddScoped<IMoneyFactory, MoneyFactory>();
         services.AddScoped<ICarSearcher, CarSearcher>();
+        services.AddScoped<ICarSellerGuard, CarSellerGuard>();
     }
 }

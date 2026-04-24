@@ -69,7 +69,7 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 
 ## Authentication
 - JWT Bearer token in `Authorization: Bearer <token>` header
-- `[Authorize]` on controllers/actions requiring auth
+- `[Authorize]` on write actions (create, update, delete) — GET endpoints are public
 - Swagger configured with JWT security definition
 
 ## Error Handling
@@ -81,5 +81,5 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 
 ## Endpoints
 - Auth: `POST /api/auth/register`, `POST /api/auth/login`
-- Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `DELETE /api/car/delete/{id}`
+- Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `PUT /api/car/update-price/{id}`, `DELETE /api/car/delete/{id}`
 - Cars query: `GET /api/car/get-details/{id}`, `GET /api/car/get-details-list`

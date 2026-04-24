@@ -7,11 +7,13 @@ namespace CarMarketplace.Application.Cars.Commands.UpdateCar;
 
 internal class UpdateCarHandler(
     ICarSearcher carSearcher,
+    ICarSellerGuard carSellerGuard,
     ICarRepository carRepository) : IRequestHandler<UpdateCarRequest, CarResponse>
 {
     public async Task<CarResponse> Handle(UpdateCarRequest request, CancellationToken token)
     {
         var car = await carSearcher.FindByIdAsync(request.Id, token);
+        carSellerGuard.EnsureCanMutate(car.SellerId);
 
         car.UpdateDetails(
             request.Brand,

@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using CarMarketplace.Application.Common.Interfaces;
+using CarMarketplace.Domain.Users;
 using Microsoft.AspNetCore.Http;
 
 namespace CarMarketplace.Infrastructure.Security;
@@ -12,5 +13,13 @@ internal class CurrentUserProvider(IHttpContextAccessor httpContextAccessor) : I
             ?? throw new UnauthorizedAccessException("User is not authenticated.");
 
         return Guid.Parse(claim.Value);
+    }
+
+    public UserRole GetUserRole()
+    {
+        var claim = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role)
+            ?? throw new UnauthorizedAccessException("User is not authenticated.");
+
+        return UserRoleMapper.Map(claim.Value);
     }
 }

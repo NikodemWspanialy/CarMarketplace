@@ -8,6 +8,7 @@ namespace CarMarketplace.Application.Cars.Commands.UpdateCarPrice;
 
 internal class UpdateCarPriceHandler(
     ICarSearcher carSearcher,
+    ICarSellerGuard carSellerGuard,
     ICarRepository carRepository,
     IMoneyFactory moneyFactory)
     : IRequestHandler<UpdateCarPriceRequest, CarResponse>
@@ -15,6 +16,7 @@ internal class UpdateCarPriceHandler(
     public async Task<CarResponse> Handle(UpdateCarPriceRequest request, CancellationToken token)
     {
         var car = await carSearcher.FindByIdAsync(request.Id, token);
+        carSellerGuard.EnsureCanMutate(car.SellerId);
 
         var newPrice = moneyFactory.Create(request.PriceAmount, request.PriceCurrency, car.Price);
         car.UpdatePrice(newPrice);

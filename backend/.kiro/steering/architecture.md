@@ -30,15 +30,15 @@ inclusion: always
   - `Queries/` — read operations
   - `DTOs/` — data transfer objects
   - `Exceptions/` — application-level exceptions
-  - `Helpers/` — utility interfaces and classes
+  - `Helpers/` — searchers, seller guards, utility interfaces
   - `Validators/` — FluentValidation validators
-  - `Factories/` — entity factories
+  - `Factories/` — entity and value object factories
   - `Repositories/` — repository interfaces
   - Not all subdirectories are required — create only what's needed
 - Shared code in `Application/Common/`:
   - `Abstractions/` — `ICommand`, `IQuery` interfaces
   - `Behaviors/` — `LoggerBehavior`, `UnitOfWorkBehavior`
-  - `Interfaces/` — `IUnitOfWork`
+  - `Interfaces/` — `IUnitOfWork`, `ICurrentUserProvider`
 
 ### Infrastructure
 - Fluent API configurations in `Persistence/Configurations/`
@@ -47,6 +47,7 @@ inclusion: always
 - Repositories implement interfaces from Application
 - Infrastructure exceptions inherit from `InfrastructureException`
 - UnitOfWork as pipeline behavior
+- Security: `CurrentUserProvider`, `UserRoleMapper`, password hasher, JWT provider in `Security/`
 
 ### API
 - Controllers in `Controllers/` folder
