@@ -30,7 +30,8 @@ inclusion: always
   - `Queries/` — read operations
   - `DTOs/` — data transfer objects
   - `Exceptions/` — application-level exceptions
-  - `Helpers/` — searchers, seller guards, utility interfaces
+  - `Helpers/` — seller guards, utility interfaces
+  - `Searchers/` — entity searchers (find by id or throw)
   - `Validators/` — FluentValidation validators
   - `Factories/` — entity and value object factories
   - `Repositories/` — repository interfaces

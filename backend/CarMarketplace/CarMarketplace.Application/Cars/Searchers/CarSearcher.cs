@@ -2,7 +2,7 @@ using CarMarketplace.Application.Cars.Exceptions;
 using CarMarketplace.Application.Cars.Repositories;
 using CarMarketplace.Domain.Cars;
 
-namespace CarMarketplace.Application.Cars.Helpers;
+namespace CarMarketplace.Application.Cars.Searchers;
 
 internal interface ICarSearcher
 {

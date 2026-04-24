@@ -1,5 +1,5 @@
 using CarMarketplace.Application.Cars.DTOs;
-using CarMarketplace.Application.Cars.Helpers;
+using CarMarketplace.Application.Cars.Searchers;
 using MediatR;
 
 namespace CarMarketplace.Application.Cars.Queries.GetCar;

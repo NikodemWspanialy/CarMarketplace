@@ -84,3 +84,4 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Auth: `POST /api/auth/register`, `POST /api/auth/login`
 - Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `PUT /api/car/update-price/{id}`, `DELETE /api/car/delete/{id}`
 - Cars query: `GET /api/car/get-details/{id}`, `GET /api/car/get-details-list`
+- Users: `GET /api/user/profile`, `GET /api/user/{id}`

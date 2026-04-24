@@ -1,3 +1,6 @@
+using CarMarketplace.Application.Users.Queries.GetUserById;
+using CarMarketplace.Application.Users.Queries.GetUserProfile;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,9 +8,25 @@ namespace CarMarketplace.API.Controllers;
 
 [ApiController]
 [Route("api/user")]
-[Authorize]
-public class UserController : ControllerBase
+public class UserController(IMediator mediator) : ControllerBase
 {
+    [Authorize]
+    [HttpGet("profile")]
+    public async Task<IActionResult> GetProfile(CancellationToken token = default)
+    {
+        var result = await mediator.Send(new GetUserProfileRequest(), token);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id, CancellationToken token = default)
+    {
+        var result = await mediator.Send(new GetUserByIdRequest(id), token);
+
+        return Ok(result);
+    }
+
     [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("who-am-i")]
     public IActionResult WhoAmI()

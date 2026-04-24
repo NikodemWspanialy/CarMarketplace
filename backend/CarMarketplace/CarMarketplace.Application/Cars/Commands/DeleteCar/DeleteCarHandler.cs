@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Cars.Helpers;
+using CarMarketplace.Application.Cars.Searchers;
 using CarMarketplace.Application.Cars.Repositories;
 using MediatR;
 

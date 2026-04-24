@@ -1,6 +1,7 @@
 using CarMarketplace.Application.Cars.DTOs;
 using CarMarketplace.Application.Cars.Factories;
 using CarMarketplace.Application.Cars.Helpers;
+using CarMarketplace.Application.Cars.Searchers;
 using CarMarketplace.Application.Cars.Repositories;
 using MediatR;
 

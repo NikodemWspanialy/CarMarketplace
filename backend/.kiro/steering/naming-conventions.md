@@ -39,7 +39,7 @@ inclusion: always
 
 ## Searchers
 - Pattern: `I{EntityName}Searcher` → `{EntityName}Searcher`
-- Located in `Application/{EntityNamePlural}/Helpers/`
+- Located in `Application/{EntityNamePlural}/Searchers/`
 
 ## Guards
 - Pattern: `I{EntityName}SellerGuard` → `{EntityName}SellerGuard`
