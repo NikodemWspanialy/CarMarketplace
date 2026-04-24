@@ -40,6 +40,7 @@ inclusion: always
   - `Abstractions/` — `ICommand`, `IQuery` interfaces
   - `Behaviors/` — `LoggerBehavior`, `UnitOfWorkBehavior`
   - `Interfaces/` — `IUnitOfWork`, `ICurrentUserProvider`
+- Admin operations in `Application/Admin/` — commands restricted to admin role
 
 ### Infrastructure
 - Fluent API configurations in `Persistence/Configurations/`

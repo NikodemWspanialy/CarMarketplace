@@ -73,6 +73,10 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - `[Authorize]` on write actions (create, update, delete) — GET endpoints are public
 - Swagger configured with JWT security definition
 
+## Authorization Policies
+- Policy-based authorization for role-restricted controllers
+- `AdminOnly` policy — requires `Admin` role, applied at controller level with `[Authorize(Policy = "AdminOnly")]`
+
 ## Error Handling
 - `GlobalExceptionMiddleware` catches all exceptions
 - `DomainException` → 400 Bad Request
@@ -85,3 +89,4 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `PUT /api/car/update-price/{id}`, `DELETE /api/car/delete/{id}`
 - Cars query: `GET /api/car/get-details/{id}`, `GET /api/car/get-details-list`
 - Users: `GET /api/user/profile`, `GET /api/user/{id}`, `PUT /api/user/update-profile`, `PUT /api/user/change-password`
+- Admin: `PUT /api/admin/upgrade-to-admin/{id}`, `PUT /api/admin/downgrade-to-user/{id}`, `PUT /api/admin/update-user-profile/{id}`, `PUT /api/admin/change-user-password/{id}`

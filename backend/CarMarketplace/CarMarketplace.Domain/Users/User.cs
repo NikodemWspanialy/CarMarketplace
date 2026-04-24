@@ -54,6 +54,17 @@ public class User : IAggregateRoot
 
     public void PromoteToAdmin()
     {
-        throw new NotImplementedException();
+        if (Role == UserRole.Admin)
+            throw new UserAlreadyAdmin();
+
+        Role = UserRole.Admin;
+    }
+
+    public void DemoteToUser()
+    {
+        if (Role == UserRole.User)
+            throw new UserAlreadyRegular();
+
+        Role = UserRole.User;
     }
 }
