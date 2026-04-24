@@ -8,6 +8,7 @@ namespace CarMarketplace.API.Controllers;
 [Authorize]
 public class UserController : ControllerBase
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("who-am-i")]
     public IActionResult WhoAmI()
     {

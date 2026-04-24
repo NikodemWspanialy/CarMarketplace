@@ -5,6 +5,7 @@ namespace CarMarketplace.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class TestController : ControllerBase
 {
     // GET api/test/echo?text=Hello

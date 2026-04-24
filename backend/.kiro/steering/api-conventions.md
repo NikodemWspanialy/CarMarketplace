@@ -10,6 +10,7 @@ fileMatchPattern: "**/Controllers/**"
 - Route: `[Route("api/resource")]`
 - DI via primary constructor: `public class XController(IMediator mediator)`
 - Controller contains NO logic — only `mediator.Send(request)`
+- Debug/internal controllers or endpoints: hide from Swagger with `[ApiExplorerSettings(IgnoreApi = true)]`
 
 ## CancellationToken
 - Every controller action MUST accept `CancellationToken token` as the last parameter
