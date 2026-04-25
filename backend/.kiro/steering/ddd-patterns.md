@@ -86,6 +86,7 @@ public void UpdatePrice(Money newPrice)
 - Collections: private backing field with public `IReadOnlyCollection` or `List` exposed read-only
 - State transitions through explicit methods (e.g. `Delete()`, `UpdatePrice()`, `Activate()`)
 - No direct property assignment from outside the entity
+- Every entity and value object must have a `private` parameterless constructor for EF Core materialization
 
 ## Domain Exceptions
 - Every domain rule violation should have its own custom exception

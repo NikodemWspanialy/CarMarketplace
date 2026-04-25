@@ -8,6 +8,9 @@ public record Money
 
     public string Currency { get; private set; }
 
+    // EF Core
+    private Money() { }
+
     public Money(decimal amount, string currency)
     {
         if (string.IsNullOrEmpty(currency))

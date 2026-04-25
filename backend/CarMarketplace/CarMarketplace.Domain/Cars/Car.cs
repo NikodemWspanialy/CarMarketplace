@@ -6,7 +6,7 @@ namespace CarMarketplace.Domain.Cars;
 
 public class Car : IAggregateRoot
 {
-    public Guid Id { get; }
+    public Guid Id { get; private set; }
 
     public Guid SellerId { get; private set; }
 
@@ -33,6 +33,9 @@ public class Car : IAggregateRoot
     public DateTime? UpdatedAt { get; private set; }
 
     public bool IsDeleted { get; private set; }
+
+    // EF Core
+    private Car() { }
 
     public Car(
         Guid id,

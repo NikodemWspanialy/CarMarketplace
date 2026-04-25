@@ -1,26 +1,32 @@
 namespace CarMarketplace.Domain.Cars;
 
-public class CarPhoto(Guid carId, string url, bool isPrimary = false, int order = 0)
+public class CarPhoto
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    public Guid Id { get; private set; }
 
-    public Guid CarId { get; private set; } = carId;
+    public Guid CarId { get; private set; }
 
-    public string Url { get; private set; } = url;
+    public string Url { get; private set; }
 
-    public bool IsPrimary { get; private set; } = isPrimary;
+    public bool IsPrimary { get; private set; }
 
-    public int Order { get; private set; } = order;
+    public int Order { get; private set; }
 
-    public bool IsDeleted { get; set; } = false;
+    public bool IsDeleted { get; private set; }
 
-    public void SetAsPrimary()
+    // EF Core
+    private CarPhoto() { }
+
+    public CarPhoto(Guid carId, string url, bool isPrimary = false, int order = 0)
     {
-        IsPrimary = true;
+        Id = Guid.NewGuid();
+        CarId = carId;
+        Url = url;
+        IsPrimary = isPrimary;
+        Order = order;
     }
 
-    public void Delete()
-    {
-        IsDeleted = true;
-    }
+    public void SetAsPrimary() => IsPrimary = true;
+
+    public void Delete() => IsDeleted = true;
 }
