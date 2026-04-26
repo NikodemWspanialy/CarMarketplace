@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using CarMarketplace.API.Middleware;
 using CarMarketplace.Application.Extensions;
@@ -57,7 +58,8 @@ builder.Services
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtOptions!.Issuer,
                 ValidAudience = jwtOptions.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+                RoleClaimType = ClaimTypes.Role
             };
     });
 
