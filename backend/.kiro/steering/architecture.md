@@ -45,7 +45,9 @@ inclusion: always
 ### Infrastructure
 - Fluent API configurations in `Persistence/Configurations/`
 - `OwnsOne` for Value Objects
-- A configuration class must be defined for every entity that has a DbSet in DbContext
+- Only Aggregate Roots get a `DbSet` in DbContext — child entities are accessed through the root's navigation properties
+- A configuration class must be defined for every entity persisted to its own table (regardless of DbSet)
+- Child entity relationships defined via `HasMany` with strongly-typed navigation in the Aggregate Root's configuration
 - Repositories implement interfaces from Application
 - Infrastructure exceptions inherit from `InfrastructureException`
 - UnitOfWork as pipeline behavior
