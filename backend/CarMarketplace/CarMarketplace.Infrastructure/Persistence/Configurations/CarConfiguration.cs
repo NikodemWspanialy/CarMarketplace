@@ -56,10 +56,16 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
                 .IsRequired();
         });
 
-        // Price history
-        builder.HasMany(typeof(CarPriceHistory))
+        // Photos
+        builder.HasMany(x => x.Photos)
             .WithOne()
-            .HasForeignKey("CarId")
+            .HasForeignKey(x => x.CarId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Price history
+        builder.HasMany(x => x.PriceHistory)
+            .WithOne()
+            .HasForeignKey(x => x.CarId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Global filter

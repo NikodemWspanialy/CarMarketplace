@@ -112,17 +112,12 @@ namespace CarMarketplace.Infrastructure.Migrations
                     b.Property<Guid>("CarId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CarId1")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("ChangedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("CarId1");
 
                     b.HasIndex("ChangedAt");
 
@@ -132,7 +127,6 @@ namespace CarMarketplace.Infrastructure.Migrations
             modelBuilder.Entity("CarMarketplace.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -140,26 +134,33 @@ namespace CarMarketplace.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
 
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("CarMarketplace.Domain.Cars.Car", b =>
@@ -204,14 +205,10 @@ namespace CarMarketplace.Infrastructure.Migrations
             modelBuilder.Entity("CarMarketplace.Domain.Cars.CarPriceHistory", b =>
                 {
                     b.HasOne("CarMarketplace.Domain.Cars.Car", null)
-                        .WithMany()
+                        .WithMany("PriceHistory")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CarMarketplace.Domain.Cars.Car", null)
-                        .WithMany("PriceHistory")
-                        .HasForeignKey("CarId1");
 
                     b.OwnsOne("CarMarketplace.Domain.Common.Money", "Price", b1 =>
                         {

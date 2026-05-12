@@ -10,10 +10,6 @@ public class CarMarketplaceDbContext(DbContextOptions<CarMarketplaceDbContext> o
 
     public DbSet<Car> Cars { get; set; }
 
-    public DbSet<CarPhoto> CarPhotos { get; set; }
-
-    public DbSet<CarPriceHistory> CarPriceHistories { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CarMarketplaceDbContext).Assembly);
