@@ -18,11 +18,13 @@ public class CarRepository(CarMarketplaceDbContext dbContext) : ICarRepository
         await dbContext.Cars
             .AsNoTracking()
             .Include(c => c.Photos)
+            .Include(c => c.PriceHistory)
             .FirstOrDefaultAsync(x => x.Id == id, token);
 
     public async Task<Car?> GetByIdAsync(Guid id, CancellationToken token = default) =>
         await dbContext.Cars
             .Include(c => c.Photos)
+            .Include(c => c.PriceHistory)
             .FirstOrDefaultAsync(x => x.Id == id, token);
 
     public Task UpdateAsync(Car car, CancellationToken token = default)
@@ -35,7 +37,10 @@ public class CarRepository(CarMarketplaceDbContext dbContext) : ICarRepository
     public async Task<(IReadOnlyList<Car> Cars, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize,
         CancellationToken token = default)
     {
-        var query = dbContext.Cars.AsNoTracking();
+        var query = dbContext.Cars
+            .AsNoTracking()
+            .Include(c => c.Photos)
+            .Include(c => c.PriceHistory);
         var totalCount = await query.CountAsync(token);
 
         var cars = await query

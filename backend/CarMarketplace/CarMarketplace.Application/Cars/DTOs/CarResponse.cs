@@ -22,5 +22,5 @@ public record CarResponse(
             car.Price.Currency,
             car.Mileage,
             car.FuelType,
-            car.Photos.FirstOrDefault(p => p is { IsPrimary: true, IsDeleted: false })?.Url);
+            car.Photos?.FirstOrDefault(p => p is { IsPrimary: true, IsDeleted: false })?.Url);
 }
