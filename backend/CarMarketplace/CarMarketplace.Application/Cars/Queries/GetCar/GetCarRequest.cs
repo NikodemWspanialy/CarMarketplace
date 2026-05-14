@@ -3,4 +3,4 @@ using CarMarketplace.Application.Common.Abstractions;
 
 namespace CarMarketplace.Application.Cars.Queries.GetCar;
 
-public record GetCarRequest(Guid Id) : IQuery<CarResponse>;
+public record GetCarRequest(Guid Id) : IQuery<CarDetailsResponse>;

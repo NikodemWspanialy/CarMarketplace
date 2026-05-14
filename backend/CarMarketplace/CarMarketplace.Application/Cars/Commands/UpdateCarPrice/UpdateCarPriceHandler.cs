@@ -12,9 +12,9 @@ internal class UpdateCarPriceHandler(
     ICarSellerGuard carSellerGuard,
     ICarRepository carRepository,
     IMoneyFactory moneyFactory)
-    : IRequestHandler<UpdateCarPriceRequest, CarResponse>
+    : IRequestHandler<UpdateCarPriceRequest, CarDetailsResponse>
 {
-    public async Task<CarResponse> Handle(UpdateCarPriceRequest request, CancellationToken token)
+    public async Task<CarDetailsResponse> Handle(UpdateCarPriceRequest request, CancellationToken token)
     {
         var car = await carSearcher.FindByIdAsync(request.Id, token);
         carSellerGuard.EnsureCanMutate(car.SellerId);
@@ -24,6 +24,6 @@ internal class UpdateCarPriceHandler(
 
         await carRepository.UpdateAsync(car, token);
 
-        return CarResponse.FromEntity(car);
+        return CarDetailsResponse.FromEntity(car);
     }
 }

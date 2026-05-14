@@ -30,7 +30,9 @@ inclusion: always
 - Infrastructure: inherits from `InfrastructureException`
 
 ## DTOs
-- Pattern: `{EntityName}Response`, `{EntityName}ListResponse`
+- `{EntityName}Response` — lightweight DTO for list items (minimal fields)
+- `{EntityName}DetailsResponse` — full DTO for single entity (all fields)
+- `{EntityName}ListResponse` — collection wrapper with pagination metadata
 
 ## Factories
 - Interface + implementation: `I{EntityName}Factory` → `{EntityName}Factory`

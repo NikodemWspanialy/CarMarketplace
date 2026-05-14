@@ -6,12 +6,12 @@ namespace CarMarketplace.Application.Cars.Queries.GetCar;
 
 internal class GetCarHandler(
     ICarSearcher carSearcher) 
-    : IRequestHandler<GetCarRequest, CarResponse>
+    : IRequestHandler<GetCarRequest, CarDetailsResponse>
 {
-    public async Task<CarResponse> Handle(GetCarRequest request, CancellationToken token)
+    public async Task<CarDetailsResponse> Handle(GetCarRequest request, CancellationToken token)
     {
         var car = await carSearcher.FindByIdAsync(request.Id, token);
 
-        return CarResponse.FromEntity(car);
+        return CarDetailsResponse.FromEntity(car);
     }
 }

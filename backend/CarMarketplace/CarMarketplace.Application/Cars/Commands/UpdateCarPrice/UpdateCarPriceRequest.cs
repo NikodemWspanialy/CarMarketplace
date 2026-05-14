@@ -6,4 +6,4 @@ namespace CarMarketplace.Application.Cars.Commands.UpdateCarPrice;
 public record UpdateCarPriceRequest(
     Guid Id,
     decimal PriceAmount,
-    string? PriceCurrency = null) : ICommand<CarResponse>;
+    string? PriceCurrency = null) : ICommand<CarDetailsResponse>;

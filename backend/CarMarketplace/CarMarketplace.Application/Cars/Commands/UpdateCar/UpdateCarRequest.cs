@@ -12,4 +12,4 @@ public record UpdateCarRequest(
     int Mileage,
     FuelType FuelType,
     string? Description
-) : ICommand<CarResponse>;
+) : ICommand<CarDetailsResponse>;

@@ -9,9 +9,9 @@ namespace CarMarketplace.Application.Cars.Commands.UpdateCar;
 internal class UpdateCarHandler(
     ICarSearcher carSearcher,
     ICarSellerGuard carSellerGuard,
-    ICarRepository carRepository) : IRequestHandler<UpdateCarRequest, CarResponse>
+    ICarRepository carRepository) : IRequestHandler<UpdateCarRequest, CarDetailsResponse>
 {
-    public async Task<CarResponse> Handle(UpdateCarRequest request, CancellationToken token)
+    public async Task<CarDetailsResponse> Handle(UpdateCarRequest request, CancellationToken token)
     {
         var car = await carSearcher.FindByIdAsync(request.Id, token);
         carSellerGuard.EnsureCanMutate(car.SellerId);
@@ -26,6 +26,6 @@ internal class UpdateCarHandler(
 
         await carRepository.UpdateAsync(car, token);
 
-        return CarResponse.FromEntity(car);
+        return CarDetailsResponse.FromEntity(car);
     }
 }
