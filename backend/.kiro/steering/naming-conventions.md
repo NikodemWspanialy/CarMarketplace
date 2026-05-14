@@ -6,7 +6,9 @@ inclusion: always
 
 ## Commands
 - Pattern: `Create{EntityName}Request`, `Update{EntityName}Request`, `Delete{EntityName}Request`
-- Examples: `CreateCarRequest`, `UpdateUserRequest`
+- The command record doubles as the API body DTO — no separate body DTOs needed
+- Controller injects route params via `body with { ParamName = value }`
+- Examples: `CreateCarRequest`, `UpdateUserRequest`, `AddCarPhotoRequest`
 
 ## Queries
 - Pattern: `Get{EntityName}Request`, `Get{EntityNamePlural}Request`
@@ -35,7 +37,8 @@ inclusion: always
 - `{EntityName}ListResponse` — collection wrapper with pagination metadata
 
 ## Factories
-- Interface + implementation: `I{EntityName}Factory` → `{EntityName}Factory`
+- Interface + implementation in a single file: `I{EntityName}Factory` → `{EntityName}Factory`
+- `Create` method accepts the command request directly (e.g., `Create(CreateCarRequest request)`)
 - Value object factories: `IMoneyFactory` → `MoneyFactory`
 - Located in `Application/{EntityNamePlural}/Factories/`
 

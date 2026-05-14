@@ -15,10 +15,15 @@ public class CarRepository(CarMarketplaceDbContext dbContext) : ICarRepository
     }
 
     public async Task<Car?> GetByIdReadOnlyAsync(Guid id, CancellationToken token = default) =>
-        await dbContext.Cars.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, token);
+        await dbContext.Cars
+            .AsNoTracking()
+            .Include(c => c.Photos)
+            .FirstOrDefaultAsync(x => x.Id == id, token);
 
     public async Task<Car?> GetByIdAsync(Guid id, CancellationToken token = default) =>
-        await dbContext.Cars.FirstOrDefaultAsync(x => x.Id == id, token);
+        await dbContext.Cars
+            .Include(c => c.Photos)
+            .FirstOrDefaultAsync(x => x.Id == id, token);
 
     public Task UpdateAsync(Car car, CancellationToken token = default)
     {

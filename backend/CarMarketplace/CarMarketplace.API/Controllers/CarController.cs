@@ -1,3 +1,4 @@
+using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
 using CarMarketplace.Application.Cars.Commands.CreateCar;
 using CarMarketplace.Application.Cars.Commands.DeleteCar;
 using CarMarketplace.Application.Cars.Commands.UpdateCar;
@@ -66,5 +67,14 @@ public class CarController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(new GetCarsRequest(pageNumber, pageSize), token);
 
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("{carId:guid}/photos")]
+    public async Task<IActionResult> AddPhoto(Guid carId, [FromBody] AddCarPhotoRequest body, CancellationToken token = default)
+    {
+        var result = await mediator.Send(body with { CarId = carId }, token);
+
+        return StatusCode(StatusCodes.Status201Created, result);
     }
 }

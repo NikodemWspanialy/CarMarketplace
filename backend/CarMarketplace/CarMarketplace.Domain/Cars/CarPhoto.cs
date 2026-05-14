@@ -28,5 +28,7 @@ public class CarPhoto
 
     public void SetAsPrimary() => IsPrimary = true;
 
+    public void UnsetPrimary() => IsPrimary = false;
+
     public void Delete() => IsDeleted = true;
 }

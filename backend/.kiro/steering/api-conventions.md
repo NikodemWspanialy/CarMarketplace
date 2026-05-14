@@ -30,6 +30,15 @@ public async Task<IActionResult> Create([FromBody] CreateXRequest command, Cance
     return CreatedAtAction(nameof(GetById), new { id }, null);
 }
 
+// POST — create (child entity without own GET endpoint)
+[HttpPost("{parentId:guid}/children")]
+public async Task<IActionResult> AddChild(Guid parentId, [FromBody] AddChildRequest body, CancellationToken token)
+{
+    var result = await mediator.Send(body with { ParentId = parentId }, token);
+
+    return StatusCode(StatusCodes.Status201Created, result);
+}
+
 // PUT — update (returns updated resource)
 [HttpPut("update/{id:guid}")]
 public async Task<IActionResult> Update(Guid id, [FromBody] UpdateXRequest command, CancellationToken token)
@@ -88,5 +97,6 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Auth: `POST /api/auth/register`, `POST /api/auth/login`
 - Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `PUT /api/car/update-price/{id}`, `DELETE /api/car/delete/{id}`
 - Cars query: `GET /api/car/get-details/{id}`, `GET /api/car/get-details-list`
+- Car photos: `POST /api/car/{carId}/photos`
 - Users: `GET /api/user/profile`, `GET /api/user/{id}`, `PUT /api/user/update-profile`, `PUT /api/user/change-password`
 - Admin: `PUT /api/admin/upgrade-to-admin/{id}`, `PUT /api/admin/downgrade-to-user/{id}`, `PUT /api/admin/update-user-profile/{id}`, `PUT /api/admin/change-user-password/{id}`

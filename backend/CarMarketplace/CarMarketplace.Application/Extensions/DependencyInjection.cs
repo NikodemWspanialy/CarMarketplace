@@ -30,6 +30,7 @@ public static class DependencyInjection
         // Factories
         services.AddScoped<IUserFactory, UserFactory>();
         services.AddScoped<ICarFactory, CarFactory>();
+        services.AddScoped<ICarPhotoFactory, CarPhotoFactory>();
 
         // Helpers
         services.AddScoped<IMoneyFactory, MoneyFactory>();
