@@ -122,4 +122,25 @@ public class Car : IAggregateRoot
         Photos.Add(photo);
         UpdatedAt = DateTime.UtcNow;
     }
+
+    public void AddPhotos(List<CarPhoto> photos)
+    {
+        if (IsDeleted)
+            throw new CarAlreadyDeleted();
+
+        var nonDeletedCount = Photos.Count(p => !p.IsDeleted);
+
+        if (nonDeletedCount + photos.Count > 20)
+            throw new CarPhotoLimitReached();
+
+        var hasPrimaryInBatch = photos.Any(p => p.IsPrimary);
+        if (hasPrimaryInBatch)
+            foreach (var existing in Photos.Where(p => p is { IsDeleted: false, IsPrimary: true }))
+                existing.UnsetPrimary();
+
+        foreach (var photo in photos)
+            Photos.Add(photo);
+
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
