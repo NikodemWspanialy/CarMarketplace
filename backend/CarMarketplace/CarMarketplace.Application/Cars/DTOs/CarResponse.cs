@@ -10,7 +10,8 @@ public record CarResponse(
     decimal PriceAmount,
     string PriceCurrency,
     int Mileage,
-    FuelType FuelType)
+    FuelType FuelType,
+    string? PhotoUrl)
 {
     public static CarResponse FromEntity(Car car) =>
         new(car.Id,
@@ -20,5 +21,6 @@ public record CarResponse(
             car.Price.Amount,
             car.Price.Currency,
             car.Mileage,
-            car.FuelType);
+            car.FuelType,
+            car.Photos.FirstOrDefault(p => p is { IsPrimary: true, IsDeleted: false })?.Url);
 }

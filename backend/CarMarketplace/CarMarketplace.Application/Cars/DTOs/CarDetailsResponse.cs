@@ -13,6 +13,7 @@ public record CarDetailsResponse(
     int Mileage,
     FuelType FuelType,
     string? Description,
+    IReadOnlyList<CarPhotoResponse> Photos,
     DateTime CreatedAt,
     DateTime? UpdatedAt)
 {
@@ -27,6 +28,11 @@ public record CarDetailsResponse(
             car.Mileage,
             car.FuelType,
             car.Description,
+            car.Photos
+                .Where(p => !p.IsDeleted)
+                .OrderBy(p => p.Order)
+                .Select(CarPhotoResponse.FromEntity)
+                .ToList(),
             car.CreatedAt,
             car.UpdatedAt);
 }
