@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "name": "Aggregate Steering Sync",
+  "description": "When domain or application layer files for an aggregate are edited, automatically updates the corresponding aggregate steering file in .kiro/steering/aggregates/ to reflect new actions, business rules, or constraints.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/Domain/**/*.cs",
+      "**/Application/Cars/**/*.cs",
+      "**/Application/Users/**/*.cs"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A domain or application file was just edited. Check which aggregate it belongs to (Car or User based on the file path). Read the corresponding aggregate steering file in .kiro/steering/aggregates/ and the edited domain entity. If the steering file is outdated (missing new actions, changed business rules, or new constraints), update it minimally. If nothing changed that affects the steering, do nothing."
+  },
+  "workspaceFolderName": "backend",
+  "shortName": "sync-aggregate-steering"
+}

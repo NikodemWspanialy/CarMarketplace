@@ -13,6 +13,7 @@ inclusion: always
 ### Domain (no external dependencies)
 - Entities for example: `Car` (Aggregate Root), `CarPhoto`, `CarPriceHistory`, `User`
 - Aggregate Roots implement `IAggregateRoot` interface
+- Each aggregate has a steering file in `.kiro/steering/aggregates/{name}.md` documenting actions, business rules, and authorization
 - Value Objects (for example: `Money`)
 - Enums for example: `FuelType`, `UserRole`
 - Domain exceptions inherit from `DomainException`
