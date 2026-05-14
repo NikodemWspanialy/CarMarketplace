@@ -30,5 +30,7 @@ public class CarPhoto
 
     public void UnsetPrimary() => IsPrimary = false;
 
+    public void UpdateOrder(int newOrder) => Order = newOrder;
+
     public void Delete() => IsDeleted = true;
 }

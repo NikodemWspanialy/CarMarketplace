@@ -3,8 +3,10 @@ using CarMarketplace.Application.Cars.Commands.AddCarPhotos;
 using CarMarketplace.Application.Cars.Commands.CreateCar;
 using CarMarketplace.Application.Cars.Commands.DeleteCar;
 using CarMarketplace.Application.Cars.Commands.DeleteCarPhoto;
+using CarMarketplace.Application.Cars.Commands.SetPrimaryCarPhoto;
 using CarMarketplace.Application.Cars.Commands.UpdateCar;
 using CarMarketplace.Application.Cars.Commands.UpdateCarPrice;
+using CarMarketplace.Application.Cars.Commands.UpdatePhotosOrder;
 using CarMarketplace.Application.Cars.Queries.GetCar;
 using CarMarketplace.Application.Cars.Queries.GetCars;
 using MediatR;
@@ -94,6 +96,24 @@ public class CarController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> DeletePhoto(Guid carId, Guid photoId, CancellationToken token = default)
     {
         await mediator.Send(new DeleteCarPhotoRequest(carId, photoId), token);
+
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpPut("{carId:guid}/photos/{photoId:guid}/set-primary")]
+    public async Task<IActionResult> SetPrimaryPhoto(Guid carId, Guid photoId, CancellationToken token = default)
+    {
+        var result = await mediator.Send(new SetPrimaryCarPhotoRequest(carId, photoId), token);
+
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPut("{carId:guid}/photos/update-order")]
+    public async Task<IActionResult> UpdatePhotosOrder(Guid carId, [FromBody] UpdatePhotosOrderRequest body, CancellationToken token = default)
+    {
+        await mediator.Send(body with { CarId = carId }, token);
 
         return NoContent();
     }

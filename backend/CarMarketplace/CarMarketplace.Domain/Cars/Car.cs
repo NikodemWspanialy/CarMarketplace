@@ -152,4 +152,34 @@ public class Car : IAggregateRoot
         photo.Delete();
         UpdatedAt = DateTime.UtcNow;
     }
+
+    public CarPhoto SetPrimaryPhoto(Guid photoId)
+    {
+        var photo = Photos.FirstOrDefault(p => p.Id == photoId && !p.IsDeleted)
+            ?? throw new CarPhotoNotFound(photoId);
+
+        if (photo.IsPrimary)
+            return photo;
+
+        foreach (var p in Photos.Where(p => p is { IsDeleted: false, IsPrimary: true }))
+            p.UnsetPrimary();
+
+        photo.SetAsPrimary();
+        UpdatedAt = DateTime.UtcNow;
+
+        return photo;
+    }
+
+    public void UpdatePhotosOrder(List<(Guid PhotoId, int NewOrder)> updates)
+    {
+        foreach (var (photoId, newOrder) in updates)
+        {
+            var photo = Photos.FirstOrDefault(p => p.Id == photoId && !p.IsDeleted)
+                ?? throw new CarPhotoNotFound(photoId);
+
+            photo.UpdateOrder(newOrder);
+        }
+
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
