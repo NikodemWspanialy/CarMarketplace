@@ -143,4 +143,13 @@ public class Car : IAggregateRoot
 
         UpdatedAt = DateTime.UtcNow;
     }
+
+    public void DeletePhoto(Guid photoId)
+    {
+        var photo = Photos.FirstOrDefault(p => p.Id == photoId && !p.IsDeleted)
+            ?? throw new CarPhotoNotFound(photoId);
+
+        photo.Delete();
+        UpdatedAt = DateTime.UtcNow;
+    }
 }
