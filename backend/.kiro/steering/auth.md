@@ -18,6 +18,7 @@ inclusion: always
 ## Token Lifecycle
 - Generated on login (`POST /api/auth/login`)
 - Refreshed while still valid (`POST /api/auth/refresh-token`) — returns new token with extended expiration
+- Logout (`POST /api/auth/logout`) — placeholder, returns 204; actual token removal handled by client
 - No refresh token in database — simple rotation (token must be valid to refresh)
 - Expiration configured in `appsettings.json` → `Jwt:ExpirationMinutes`
 

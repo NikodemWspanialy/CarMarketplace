@@ -35,4 +35,13 @@ public class AuthController(IMediator mediator) : ControllerBase
 
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        // Placeholder
+        // Stateless JWT — actual token removal handled by client
+        return NoContent();
+    }
 }
