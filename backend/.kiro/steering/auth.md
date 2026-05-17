@@ -45,5 +45,12 @@ inclusion: always
 - Hash stored in `User.PasswordHash`
 - Verified on login and password change
 
+## Password Reset
+- `PasswordResetToken` — standalone entity (not an aggregate, has own DbSet)
+- Token: random string, unique index, expires after configured time (e.g. 1h)
+- Flow: `POST /api/auth/forgot-password` → generates token → `POST /api/auth/reset-password` → validates token, changes password, marks token as used
+- `PasswordResetToken.IsValid` = not used AND not expired
+- `IPasswordResetTokenRepository` — Add, GetByToken, Update
+
 ## Error Mapping
 - `UnauthorizedAccessException` → 401 Unauthorized (via `GlobalExceptionMiddleware`)

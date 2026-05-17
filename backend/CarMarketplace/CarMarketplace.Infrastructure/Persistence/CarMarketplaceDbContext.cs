@@ -10,6 +10,8 @@ public class CarMarketplaceDbContext(DbContextOptions<CarMarketplaceDbContext> o
 
     public DbSet<Car> Cars { get; set; }
 
+    public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CarMarketplaceDbContext).Assembly);
