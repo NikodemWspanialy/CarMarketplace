@@ -1,6 +1,8 @@
+using CarMarketplace.Application.Authorization.Commands.RefreshToken;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.Application.Authorization.Queries.LoginUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarMarketplace.API.Controllers;
@@ -21,6 +23,15 @@ public class AuthController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Login(LoginUserQuery query, CancellationToken token = default)
     {
         var result = await mediator.Send(query, token);
+
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> Refresh(CancellationToken token = default)
+    {
+        var result = await mediator.Send(new RefreshTokenRequest(), token);
 
         return Ok(result);
     }
