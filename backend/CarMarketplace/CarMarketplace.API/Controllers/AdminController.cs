@@ -1,5 +1,6 @@
 using CarMarketplace.Application.Admin.Commands.AdminChangeUserPassword;
 using CarMarketplace.Application.Admin.Commands.AdminUpdateUserProfile;
+using CarMarketplace.Application.Admin.Commands.DeleteUser;
 using CarMarketplace.Application.Admin.Commands.DowngradeToUser;
 using CarMarketplace.Application.Admin.Commands.UpgradeToAdmin;
 using CarMarketplace.Application.Admin.Queries.GetUsers;
@@ -61,6 +62,14 @@ public class AdminController(IMediator mediator) : ControllerBase
     {
         if (id != command.UserId) return BadRequest("Id mismatch");
         await mediator.Send(command, token);
+
+        return NoContent();
+    }
+
+    [HttpDelete("delete-user/{id:guid}")]
+    public async Task<IActionResult> DeleteUser(Guid id, CancellationToken token = default)
+    {
+        await mediator.Send(new DeleteUserRequest(id), token);
 
         return NoContent();
     }

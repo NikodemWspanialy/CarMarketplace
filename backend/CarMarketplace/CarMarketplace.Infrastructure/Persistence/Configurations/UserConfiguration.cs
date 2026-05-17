@@ -40,6 +40,12 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         // CreatedAt
         builder.Property(x => x.CreatedAt).IsRequired();
 
+        // Soft delete
+        builder.Property(x => x.IsDeleted).IsRequired();
+
+        // Global filter
+        builder.HasQueryFilter(x => !x.IsDeleted);
+
         // Indexes
         builder.HasIndex(x => x.Email).IsUnique();
     }

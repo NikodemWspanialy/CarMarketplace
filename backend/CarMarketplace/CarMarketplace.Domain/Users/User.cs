@@ -19,6 +19,8 @@ public class User : IAggregateRoot
 
     public DateTime CreatedAt { get; private set; }
 
+    public bool IsDeleted { get; private set; }
+
     public User(
         string email,
         string passwordHash,
@@ -66,5 +68,13 @@ public class User : IAggregateRoot
             throw new UserAlreadyRegular();
 
         Role = UserRole.User;
+    }
+
+    public void Delete()
+    {
+        if (IsDeleted)
+            throw new UserAlreadyDeleted();
+
+        IsDeleted = true;
     }
 }
