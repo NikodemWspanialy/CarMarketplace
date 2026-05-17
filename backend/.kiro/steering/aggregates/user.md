@@ -28,6 +28,7 @@ None
 
 ## Actions
 - `ChangePassword` — update password hash (validates not same as previous, not empty)
+- `ChangeEmail` — update email (validates not same as current)
 - `UpdateProfile` — change firstName, lastName
 - `PromoteToAdmin` — elevate role to Admin
 - `DemoteToUser` — lower role to User

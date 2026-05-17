@@ -99,5 +99,5 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `PUT /api/car/update-price/{id}`, `DELETE /api/car/delete/{id}`
 - Cars query: `GET /api/car/get-details/{id}`, `GET /api/car/get-details-list`
 - Car photos: `POST /api/car/{carId}/photos`, `POST /api/car/{carId}/photos/batch`, `DELETE /api/car/{carId}/photos/{photoId}`, `PUT /api/car/{carId}/photos/{photoId}/set-primary`, `PUT /api/car/{carId}/photos/update-order`
-- Users: `GET /api/user/profile`, `PUT /api/user/update-profile`, `PUT /api/user/change-password`, `DELETE /api/user/delete-account`
+- Users: `GET /api/user/profile`, `PUT /api/user/update-profile`, `PUT /api/user/change-password`, `PUT /api/user/change-email`, `DELETE /api/user/delete-account`
 - Admin: `GET /api/admin/user/{id}`, `GET /api/admin/users`, `PUT /api/admin/upgrade-to-admin/{id}`, `PUT /api/admin/downgrade-to-user/{id}`, `PUT /api/admin/update-user-profile/{id}`, `PUT /api/admin/change-user-password/{id}`, `DELETE /api/admin/delete-user/{id}`

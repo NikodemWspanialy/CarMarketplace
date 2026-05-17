@@ -54,6 +54,14 @@ public class User : IAggregateRoot
         LastName = lastName;
     }
 
+    public void ChangeEmail(string newEmail)
+    {
+        if (Email == newEmail)
+            throw new SameEmailAsCurrent();
+
+        Email = newEmail;
+    }
+
     public void PromoteToAdmin()
     {
         if (Role == UserRole.Admin)

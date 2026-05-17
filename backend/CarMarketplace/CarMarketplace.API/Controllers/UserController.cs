@@ -1,3 +1,4 @@
+using CarMarketplace.Application.Users.Commands.ChangeEmail;
 using CarMarketplace.Application.Users.Commands.ChangePassword;
 using CarMarketplace.Application.Users.Commands.DeleteAccount;
 using CarMarketplace.Application.Users.Commands.UpdateUserProfile;
@@ -31,6 +32,14 @@ public class UserController(IMediator mediator) : ControllerBase
 
     [HttpPut("change-password")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest command, CancellationToken token = default)
+    {
+        await mediator.Send(command, token);
+
+        return NoContent();
+    }
+
+    [HttpPut("change-email")]
+    public async Task<IActionResult> ChangeEmail([FromBody] ChangeEmailRequest command, CancellationToken token = default)
     {
         await mediator.Send(command, token);
 
