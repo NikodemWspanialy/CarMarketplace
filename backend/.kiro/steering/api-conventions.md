@@ -79,7 +79,8 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 
 ## Authentication
 - JWT Bearer token in `Authorization: Bearer <token>` header
-- `[Authorize]` on write actions (create, update, delete) — GET endpoints are public
+- Controllers where all endpoints require auth: `[Authorize]` at class level (e.g., UserController, AdminController)
+- Mixed controllers (public + auth): `[Authorize]` per endpoint (e.g., CarController)
 - Swagger configured with JWT security definition
 
 ## Authorization Policies
@@ -98,5 +99,5 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `PUT /api/car/update-price/{id}`, `DELETE /api/car/delete/{id}`
 - Cars query: `GET /api/car/get-details/{id}`, `GET /api/car/get-details-list`
 - Car photos: `POST /api/car/{carId}/photos`, `POST /api/car/{carId}/photos/batch`, `DELETE /api/car/{carId}/photos/{photoId}`, `PUT /api/car/{carId}/photos/{photoId}/set-primary`, `PUT /api/car/{carId}/photos/update-order`
-- Users: `GET /api/user/profile`, `GET /api/user/{id}`, `PUT /api/user/update-profile`, `PUT /api/user/change-password`
-- Admin: `PUT /api/admin/upgrade-to-admin/{id}`, `PUT /api/admin/downgrade-to-user/{id}`, `PUT /api/admin/update-user-profile/{id}`, `PUT /api/admin/change-user-password/{id}`
+- Users: `GET /api/user/profile`, `PUT /api/user/update-profile`, `PUT /api/user/change-password`
+- Admin: `GET /api/admin/user/{id}`, `PUT /api/admin/upgrade-to-admin/{id}`, `PUT /api/admin/downgrade-to-user/{id}`, `PUT /api/admin/update-user-profile/{id}`, `PUT /api/admin/change-user-password/{id}`
