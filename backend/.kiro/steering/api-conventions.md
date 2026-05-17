@@ -95,7 +95,7 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Response format: `ErrorResponse(message, statusCode, details)`
 
 ## Endpoints
-- Auth: `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/forgot-password`, `POST /api/auth/refresh-token`, `POST /api/auth/logout`
+- Auth: `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`, `POST /api/auth/refresh-token`, `POST /api/auth/logout`
 - Cars: `POST /api/car/create`, `PUT /api/car/update-details/{id}`, `PUT /api/car/update-price/{id}`, `DELETE /api/car/delete/{id}`
 - Cars query: `GET /api/car/get-details/{id}`, `GET /api/car/get-details-list`
 - Car photos: `POST /api/car/{carId}/photos`, `POST /api/car/{carId}/photos/batch`, `DELETE /api/car/{carId}/photos/{photoId}`, `PUT /api/car/{carId}/photos/{photoId}/set-primary`, `PUT /api/car/{carId}/photos/update-order`

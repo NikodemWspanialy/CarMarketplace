@@ -1,6 +1,7 @@
 using CarMarketplace.Application.Authorization.Commands.ForgotPassword;
 using CarMarketplace.Application.Authorization.Commands.RefreshToken;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Application.Authorization.Commands.ResetPassword;
 using CarMarketplace.Application.Authorization.Queries.LoginUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,14 @@ public class AuthController(IMediator mediator) : ControllerBase
         await mediator.Send(command, token);
 
         return Ok();
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest command, CancellationToken token = default)
+    {
+        await mediator.Send(command, token);
+
+        return NoContent();
     }
 
     [Authorize]
