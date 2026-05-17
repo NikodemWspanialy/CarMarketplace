@@ -3,6 +3,7 @@ using CarMarketplace.Application.Admin.Commands.AdminUpdateUserProfile;
 using CarMarketplace.Application.Admin.Commands.BanUser;
 using CarMarketplace.Application.Admin.Commands.DeleteUser;
 using CarMarketplace.Application.Admin.Commands.DowngradeToUser;
+using CarMarketplace.Application.Admin.Commands.UnbanUser;
 using CarMarketplace.Application.Admin.Commands.UpgradeToAdmin;
 using CarMarketplace.Application.Admin.Queries.GetUsers;
 using CarMarketplace.Application.Users.Queries.GetUserById;
@@ -77,6 +78,15 @@ public class AdminController(IMediator mediator) : ControllerBase
 
     [HttpPut("ban-user/{id:guid}")]
     public async Task<IActionResult> BanUser(Guid id, [FromBody] BanUserRequest body, CancellationToken token = default)
+    {
+        if (id != body.UserId) return BadRequest("Id mismatch");
+        await mediator.Send(body, token);
+
+        return NoContent();
+    }
+
+    [HttpPut("unban-user/{id:guid}")]
+    public async Task<IActionResult> UnbanUser(Guid id, [FromBody] UnbanUserRequest body, CancellationToken token = default)
     {
         if (id != body.UserId) return BadRequest("Id mismatch");
         await mediator.Send(body, token);
