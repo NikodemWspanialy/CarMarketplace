@@ -19,12 +19,15 @@ Represents a platform user account with authentication and role management.
 - `Role` (UserRole enum)
 - `CreatedAt` (DateTime)
 - `IsDeleted` (bool)
+- `ActiveBan` (ActiveBan? value object)
+- `BanHistory` (List\<BanRecord\>)
+- `IsBanned` (computed, not persisted)
 
 ## Child Entities
-None
+- `BanRecord` — ban history entry (Id, UserId, BannedByAdminId, Reason, BannedAt, ExpiresAt?, UnbannedAt?, UnbannedByAdminId?, UnbanReason?)
 
 ## Value Objects
-None
+- `ActiveBan` (Reason, BannedAt, ExpiresAt?) — current ban state, null if not banned
 
 ## Actions
 - `ChangePassword` — update password hash (validates not same as previous, not empty)
@@ -33,6 +36,8 @@ None
 - `PromoteToAdmin` — elevate role to Admin
 - `DemoteToUser` — lower role to User
 - `Delete` — soft-delete the user (sets IsDeleted = true)
+- `Ban(reason, expiresAt?)` — set ActiveBan + add BanRecord
+- `Unban(reason?)` — clear ActiveBan, mark BanRecord as unbanned
 
 ## Business Rules
 - New users default to `UserRole.User`
@@ -41,6 +46,10 @@ None
 - Cannot change password to the same hash
 - Cannot promote if already Admin
 - Cannot demote if already User
+- Cannot ban if already banned (non-expired)
+- Cannot unban if not banned
+- Ban with null ExpiresAt is permanent
+- `IsBanned` = ActiveBan is not null and not expired
 - Email must be unique (enforced at DB level via unique index)
 
 ## Authorization

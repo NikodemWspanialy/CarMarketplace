@@ -43,6 +43,29 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         // Soft delete
         builder.Property(x => x.IsDeleted).IsRequired();
 
+        // Active ban (owned value object)
+        builder.OwnsOne(x => x.ActiveBan, ban =>
+        {
+            ban.Property(b => b.Reason)
+                .HasColumnName("ban_reason")
+                .HasMaxLength(500);
+
+            ban.Property(b => b.BannedAt)
+                .HasColumnName("ban_banned_at");
+
+            ban.Property(b => b.ExpiresAt)
+                .HasColumnName("ban_expires_at");
+        });
+
+        // Ban history
+        builder.HasMany(x => x.BanHistory)
+            .WithOne()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Ignore computed property
+        builder.Ignore(x => x.IsBanned);
+
         // Global filter
         builder.HasQueryFilter(x => !x.IsDeleted);
 
