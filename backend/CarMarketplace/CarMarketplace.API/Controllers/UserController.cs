@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Users.Commands.ChangePassword;
+using CarMarketplace.Application.Users.Commands.DeleteAccount;
 using CarMarketplace.Application.Users.Commands.UpdateUserProfile;
 using CarMarketplace.Application.Users.Queries.GetUserProfile;
 using MediatR;
@@ -32,6 +33,14 @@ public class UserController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest command, CancellationToken token = default)
     {
         await mediator.Send(command, token);
+
+        return NoContent();
+    }
+
+    [HttpDelete("delete-account")]
+    public async Task<IActionResult> DeleteAccount(CancellationToken token = default)
+    {
+        await mediator.Send(new DeleteAccountRequest(), token);
 
         return NoContent();
     }

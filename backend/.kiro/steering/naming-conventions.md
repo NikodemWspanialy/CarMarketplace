@@ -49,3 +49,8 @@ inclusion: always
 ## Guards
 - Pattern: `I{EntityName}SellerGuard` → `{EntityName}SellerGuard`
 - Located in `Application/{EntityNamePlural}/Helpers/`
+
+## Shared Services
+- Pattern: `I{EntityName}Service` → `{EntityName}Service`
+- One service per aggregate for common operations shared between user and admin handlers
+- Located in `Application/{EntityNamePlural}/Helpers/`
