@@ -8,7 +8,9 @@ namespace CarMarketplace.Infrastructure.Repositories;
 public class UserRepository(CarMarketplaceDbContext dbContext) : IUserRepository
 {
     public async Task<User?> GetUserByIdAsync(Guid userId, CancellationToken token = default) =>
-        await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId, token);
+        await dbContext.Users
+            .Include(u => u.BanHistory)
+            .FirstOrDefaultAsync(u => u.Id == userId, token);
 
     public async Task<User?> GetUserByEmailAsync(string email, CancellationToken token = default) =>
         await dbContext.Users.FirstOrDefaultAsync(u => u.Email == email, token);
