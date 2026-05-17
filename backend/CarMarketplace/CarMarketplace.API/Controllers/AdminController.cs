@@ -5,6 +5,7 @@ using CarMarketplace.Application.Admin.Commands.DeleteUser;
 using CarMarketplace.Application.Admin.Commands.DowngradeToUser;
 using CarMarketplace.Application.Admin.Commands.UnbanUser;
 using CarMarketplace.Application.Admin.Commands.UpgradeToAdmin;
+using CarMarketplace.Application.Admin.Queries.GetBanHistory;
 using CarMarketplace.Application.Admin.Queries.GetUsers;
 using CarMarketplace.Application.Users.Queries.GetUserById;
 using MediatR;
@@ -92,5 +93,13 @@ public class AdminController(IMediator mediator) : ControllerBase
         await mediator.Send(body, token);
 
         return NoContent();
+    }
+
+    [HttpGet("user/{id:guid}/ban-history")]
+    public async Task<IActionResult> GetBanHistory(Guid id, CancellationToken token = default)
+    {
+        var result = await mediator.Send(new GetBanHistoryRequest(id), token);
+
+        return Ok(result);
     }
 }
