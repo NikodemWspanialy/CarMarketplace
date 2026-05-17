@@ -1,3 +1,4 @@
+using CarMarketplace.Application.Authorization.Commands.ForgotPassword;
 using CarMarketplace.Application.Authorization.Commands.RefreshToken;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.Application.Authorization.Queries.LoginUser;
@@ -25,6 +26,14 @@ public class AuthController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(query, token);
 
         return Ok(result);
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest command, CancellationToken token = default)
+    {
+        await mediator.Send(command, token);
+
+        return Ok();
     }
 
     [Authorize]

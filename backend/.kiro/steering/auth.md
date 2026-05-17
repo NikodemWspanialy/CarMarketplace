@@ -47,10 +47,13 @@ inclusion: always
 
 ## Password Reset
 - `PasswordResetToken` — standalone entity (not an aggregate, has own DbSet)
-- Token: random string, unique index, expires after configured time (e.g. 1h)
-- Flow: `POST /api/auth/forgot-password` → generates token → `POST /api/auth/reset-password` → validates token, changes password, marks token as used
+- Token: random string (48 bytes base64), unique index, expires after 1h
+- Flow: `POST /api/auth/forgot-password` → generates token via `IPasswordResetTokenGenerator` → sends via `IEmailSender` → `POST /api/auth/reset-password` → validates token, changes password, marks token as used
+- `IPasswordResetTokenGenerator` — generates and persists token (Application/Authorization/Helpers/)
+- `IEmailSender` — interface in Application, `ConsoleEmailSender` implementation in Infrastructure (logs to console, replace with real email service later)
 - `PasswordResetToken.IsValid` = not used AND not expired
 - `IPasswordResetTokenRepository` — Add, GetByToken, Update
+- Always returns 200 on forgot-password (never reveals if email exists)
 
 ## Error Mapping
 - `UnauthorizedAccessException` → 401 Unauthorized (via `GlobalExceptionMiddleware`)

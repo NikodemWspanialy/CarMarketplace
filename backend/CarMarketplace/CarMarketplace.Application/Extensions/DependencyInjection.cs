@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Application.Authorization.Helpers;
 using CarMarketplace.Application.Authorization.Validators;
 using CarMarketplace.Application.Cars.Factories;
 using CarMarketplace.Application.Cars.Helpers;
@@ -39,5 +40,6 @@ public static class DependencyInjection
         services.AddScoped<ICarSellerGuard, CarSellerGuard>();
         services.AddScoped<IUserSearcher, UserSearcher>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPasswordResetTokenGenerator, PasswordResetTokenGenerator>();
     }
 }

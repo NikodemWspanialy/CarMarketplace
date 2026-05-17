@@ -38,5 +38,6 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
         services.AddScoped<IJwtProvider, BeaverJwtProvider>();
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+        services.AddScoped<IEmailSender, ConsoleEmailSender>();
     }
 }
