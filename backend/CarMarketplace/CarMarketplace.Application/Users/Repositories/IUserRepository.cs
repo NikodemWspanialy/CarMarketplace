@@ -11,4 +11,6 @@ public interface IUserRepository
     Task AddUserAsync(User user, CancellationToken token = default);
 
     Task UpdateUserAsync(User user, CancellationToken token = default);
+
+    Task<(IReadOnlyList<User> Users, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, CancellationToken token = default);
 }

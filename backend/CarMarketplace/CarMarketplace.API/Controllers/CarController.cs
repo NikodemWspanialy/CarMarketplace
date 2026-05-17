@@ -65,7 +65,7 @@ public class CarController(IMediator mediator) : ControllerBase
         return Ok(car);
     }
 
-    [HttpGet("get-details-list")]
+    [HttpGet("get-cars-list")]
     public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken token = default)
     {
         var result = await mediator.Send(new GetCarsRequest(pageNumber, pageSize), token);

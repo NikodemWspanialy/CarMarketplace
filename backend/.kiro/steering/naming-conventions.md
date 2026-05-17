@@ -34,7 +34,7 @@ inclusion: always
 ## DTOs
 - `{EntityName}Response` — lightweight DTO for list items (minimal fields)
 - `{EntityName}DetailsResponse` — full DTO for single entity (all fields)
-- `{EntityName}ListResponse` — collection wrapper with pagination metadata
+- `ListResponse<T>` — generic paged collection wrapper (Items, TotalCount, PageNumber, PageSize) in `Application/Common/DTOs/`
 
 ## Factories
 - Interface + implementation in a single file: `I{EntityName}Factory` → `{EntityName}Factory`

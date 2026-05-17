@@ -2,6 +2,7 @@ using CarMarketplace.Application.Admin.Commands.AdminChangeUserPassword;
 using CarMarketplace.Application.Admin.Commands.AdminUpdateUserProfile;
 using CarMarketplace.Application.Admin.Commands.DowngradeToUser;
 using CarMarketplace.Application.Admin.Commands.UpgradeToAdmin;
+using CarMarketplace.Application.Admin.Queries.GetUsers;
 using CarMarketplace.Application.Users.Queries.GetUserById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,14 @@ public class AdminController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> GetUserById(Guid id, CancellationToken token = default)
     {
         var result = await mediator.Send(new GetUserByIdRequest(id), token);
+
+        return Ok(result);
+    }
+
+    [HttpGet("users")]
+    public async Task<IActionResult> GetUsers([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken token = default)
+    {
+        var result = await mediator.Send(new GetUsersRequest(pageNumber, pageSize), token);
 
         return Ok(result);
     }

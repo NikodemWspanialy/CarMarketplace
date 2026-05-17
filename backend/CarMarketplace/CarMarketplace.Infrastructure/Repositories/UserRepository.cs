@@ -22,4 +22,18 @@ public class UserRepository(CarMarketplaceDbContext dbContext) : IUserRepository
 
         return Task.CompletedTask;
     }
+
+    public async Task<(IReadOnlyList<User> Users, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, CancellationToken token = default)
+    {
+        var query = dbContext.Users.AsNoTracking();
+        var totalCount = await query.CountAsync(token);
+
+        var users = await query
+            .OrderBy(u => u.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(token);
+
+        return (users, totalCount);
+    }
 }
