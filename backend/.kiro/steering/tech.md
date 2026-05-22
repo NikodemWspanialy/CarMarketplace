@@ -33,8 +33,18 @@ inclusion: always
 - Docker Compose for local development
 - PostgreSQL container (port 5432)
 
+## Testing
+- xUnit 2.9.3 — test framework
+- Microsoft.AspNetCore.Mvc.Testing — `WebApplicationFactory` for in-process API hosting
+- Testcontainers.PostgreSql — real PostgreSQL in Docker per test run
+- Respawn — fast database reset between tests (no drop/recreate)
+- FluentAssertions — readable assertions
+- Bogus — test data generation
+
 ## Project References
 - Domain — pure C#, zero NuGet dependencies
 - Application → Domain
 - Infrastructure → Application, Domain
 - API → Application, Infrastructure
+- API.tests → API, Infrastructure
+- IntegrationTests → API, Infrastructure
