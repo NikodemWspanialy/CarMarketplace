@@ -58,4 +58,17 @@ inclusion: always
 - Controllers in `Controllers/` folder
 - `GlobalExceptionMiddleware` catches `DomainException` and `InfrastructureException`
 
+### Integration Tests (`CarMarketplace.IntegrationTests`)
+- Real PostgreSQL via Testcontainers — no in-memory fakes
+- `WebApplicationFactory<Program>` hosts full API pipeline in-process
+- Respawn resets DB between tests (DELETE, not DROP — fast)
+- Base classes in `Common/IntegrationTestBases/`:
+  - `IntegrationTestBase` — Respawn, `Client`, `TestData` (DbContext), `SendAsync<T>()`, `Authenticate()`
+  - `IntegrationTestBaseWithUserLogin` — registers + authenticates as User
+  - `IntegrationTestBaseWithAdminLogin` — registers + promotes + authenticates as Admin
+- `JwtTokenGenerator` — standalone token generation for tests (independent of `IJwtProvider`)
+- Test files grouped by feature: `{Feature}/{Feature}Tests.cs`
+- Conventions: Arrange/Act/Assert, primary constructors, `Client` for HTTP, `SendAsync` for MediatR dispatch, `TestData` for DB assertions
+- Requires Docker running locally
+
 See `naming-conventions.md` for all naming patterns (commands, queries, handlers, repositories, etc.).

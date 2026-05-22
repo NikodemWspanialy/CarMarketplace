@@ -15,6 +15,15 @@ public abstract class IntegrationTestBase(CarMarketplaceApiFactory factory) : IC
 
     protected HttpClient Client { get; } = factory.CreateClient();
 
+    protected CarMarketplaceDbContext TestData
+    {
+        get
+        {
+            var scope = factory.Services.CreateScope();
+            return scope.ServiceProvider.GetRequiredService<CarMarketplaceDbContext>();
+        }
+    }
+
     protected async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
     {
         using var scope = factory.Services.CreateScope();
@@ -22,27 +31,11 @@ public abstract class IntegrationTestBase(CarMarketplaceApiFactory factory) : IC
         return await mediator.Send(request);
     }
 
-    protected async Task SendAsync(IRequest request)
-    {
-        using var scope = factory.Services.CreateScope();
-        var mediator = scope.ServiceProvider.GetRequiredService<ISender>();
-        await mediator.Send(request);
-    }
-
-    protected CarMarketplaceDbContext CreateDbContext()
-    {
-        var scope = factory.Services.CreateScope();
-        return scope.ServiceProvider.GetRequiredService<CarMarketplaceDbContext>();
-    }
-
     protected void Authenticate(Guid userId, string email, UserRole role = UserRole.User)
     {
         var token = JwtTokenGenerator.Generate(userId, email, role.ToString());
         Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
-
-    protected void AuthenticateAsAdmin(Guid userId, string email) =>
-        Authenticate(userId, email, UserRole.Admin);
 
     public async Task InitializeAsync()
     {
