@@ -1,10 +1,9 @@
-using System.Net;
-using System.Net.Http.Json;
+using CarMarketplace.Application.Admin.Commands.AdminUpdateUserProfile;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
-using CarMarketplace.Application.Users.DTOs;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
+using FluentValidation;
 using Xunit;
 
 namespace CarMarketplace.IntegrationTests.Admin;
@@ -15,16 +14,73 @@ public class AdminUpdateUserProfileTests(CarMarketplaceApiFactory factory) : Int
     public async Task AdminUpdateProfile_WithValidData_ReturnsUpdatedUser()
     {
         // Arrange
-        var userId = await SendAsync(new RegisterUserRequest("victim@example.com", "Password123!", "Old", "Name"));
-        var body = new { UserId = userId, FirstName = "New", LastName = "Name" };
+        var email = Faker.Internet.Email();
+        var userId = await SendAsync(new RegisterUserRequest(email, Faker.Internet.Password(), Faker.Name.FirstName(), Faker.Name.LastName()));
+        var newFirstName = Faker.Name.FirstName();
+        var newLastName = Faker.Name.LastName();
 
         // Act
-        var response = await Client.PutAsJsonAsync($"/api/admin/update-user-profile/{userId}", body);
+        var result = await SendAsync(new AdminUpdateUserProfileRequest(userId, newFirstName, newLastName));
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var result = await response.Content.ReadFromJsonAsync<UserResponse>();
         result.Should().NotBeNull();
-        result!.FirstName.Should().Be("New");
+        result.FirstName.Should().Be(newFirstName);
+        result.LastName.Should().Be(newLastName);
+    }
+
+    [Fact]
+    public async Task AdminUpdateProfile_WithEmptyFirstName_ThrowsValidationException()
+    {
+        // Arrange
+        var email = Faker.Internet.Email();
+        var userId = await SendAsync(new RegisterUserRequest(email, Faker.Internet.Password(), Faker.Name.FirstName(), Faker.Name.LastName()));
+
+        // Act
+        var act = () => SendAsync(new AdminUpdateUserProfileRequest(userId, "", Faker.Name.LastName()));
+
+        // Assert
+        await act.Should().ThrowAsync<ValidationException>();
+    }
+
+    [Fact]
+    public async Task AdminUpdateProfile_WithNullFirstName_ThrowsValidationException()
+    {
+        // Arrange
+        var email = Faker.Internet.Email();
+        var userId = await SendAsync(new RegisterUserRequest(email, Faker.Internet.Password(), Faker.Name.FirstName(), Faker.Name.LastName()));
+
+        // Act
+        var act = () => SendAsync(new AdminUpdateUserProfileRequest(userId, null!, Faker.Name.LastName()));
+
+        // Assert
+        await act.Should().ThrowAsync<ValidationException>();
+    }
+
+    [Fact]
+    public async Task AdminUpdateProfile_WithEmptyLastName_ThrowsValidationException()
+    {
+        // Arrange
+        var email = Faker.Internet.Email();
+        var userId = await SendAsync(new RegisterUserRequest(email, Faker.Internet.Password(), Faker.Name.FirstName(), Faker.Name.LastName()));
+
+        // Act
+        var act = () => SendAsync(new AdminUpdateUserProfileRequest(userId, Faker.Name.FirstName(), ""));
+
+        // Assert
+        await act.Should().ThrowAsync<ValidationException>();
+    }
+
+    [Fact]
+    public async Task AdminUpdateProfile_WithNullLastName_ThrowsValidationException()
+    {
+        // Arrange
+        var email = Faker.Internet.Email();
+        var userId = await SendAsync(new RegisterUserRequest(email, Faker.Internet.Password(), Faker.Name.FirstName(), Faker.Name.LastName()));
+
+        // Act
+        var act = () => SendAsync(new AdminUpdateUserProfileRequest(userId, Faker.Name.FirstName(), null!));
+
+        // Assert
+        await act.Should().ThrowAsync<ValidationException>();
     }
 }

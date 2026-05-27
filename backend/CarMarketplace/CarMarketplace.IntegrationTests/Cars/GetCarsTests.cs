@@ -1,8 +1,5 @@
-using System.Net;
-using System.Net.Http.Json;
 using CarMarketplace.Application.Cars.Commands.CreateCar;
-using CarMarketplace.Application.Cars.DTOs;
-using CarMarketplace.Application.Common.DTOs;
+using CarMarketplace.Application.Cars.Queries.GetCars;
 using CarMarketplace.Domain.Cars;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
@@ -21,12 +18,10 @@ public class GetCarsTests(CarMarketplaceApiFactory factory) : IntegrationTestBas
         await SendAsync(new CreateCarRequest("Honda", "Civic", 2021, 80000m, "PLN", 20000, FuelType.Petrol, null));
 
         // Act
-        var response = await Client.GetAsync("/api/car/get-details-list?pageNumber=1&pageSize=10");
+        var result = await SendAsync(new GetCarsRequest(1, 10));
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var result = await response.Content.ReadFromJsonAsync<ListResponse<CarResponse>>();
         result.Should().NotBeNull();
-        result!.Items.Should().HaveCountGreaterThanOrEqualTo(2);
+        result.Items.Should().HaveCountGreaterThanOrEqualTo(2);
     }
 }

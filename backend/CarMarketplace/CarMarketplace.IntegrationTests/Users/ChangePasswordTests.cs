@@ -1,5 +1,5 @@
-using System.Net;
-using System.Net.Http.Json;
+using CarMarketplace.Application.Authorization.Queries.LoginUser;
+using CarMarketplace.Application.Users.Commands.ChangePassword;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
@@ -10,15 +10,13 @@ namespace CarMarketplace.IntegrationTests.Users;
 public class ChangePasswordTests(CarMarketplaceApiFactory factory) : IntegrationTestBaseWithUserLogin(factory)
 {
     [Fact]
-    public async Task ChangePassword_WithValidOldPassword_ReturnsNoContent()
+    public async Task ChangePassword_WithValidOldPassword_AllowsLoginWithNewPassword()
     {
-        // Arrange
-        var body = new { OldPassword = "TestPassword123!", NewPassword = "NewStrongPassword456!" };
-
         // Act
-        var response = await Client.PutAsJsonAsync("/api/user/change-password", body);
+        await SendAsync(new ChangePasswordRequest("TestPassword123!", "NewStrongPassword456!"));
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        // Assert — can login with new password
+        var result = await SendAsync(new LoginUserQuery("user@test.com", "NewStrongPassword456!"));
+        result.AccessToken.Should().NotBeNullOrEmpty();
     }
 }

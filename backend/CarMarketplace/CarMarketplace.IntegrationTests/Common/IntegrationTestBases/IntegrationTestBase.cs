@@ -1,5 +1,4 @@
-using System.Net.Http.Headers;
-using CarMarketplace.Domain.Users;
+using Bogus;
 using CarMarketplace.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +12,7 @@ public abstract class IntegrationTestBase(CarMarketplaceApiFactory factory) : IC
 {
     private Respawner _respawner = null!;
 
-    protected HttpClient Client { get; } = factory.CreateClient();
+    protected Faker Faker { get; } = new();
 
     protected CarMarketplaceDbContext TestData
     {
@@ -29,12 +28,6 @@ public abstract class IntegrationTestBase(CarMarketplaceApiFactory factory) : IC
         using var scope = factory.Services.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<ISender>();
         return await mediator.Send(request);
-    }
-
-    protected void Authenticate(Guid userId, string email, UserRole role = UserRole.User)
-    {
-        var token = JwtTokenGenerator.Generate(userId, email, role.ToString());
-        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 
     public async Task InitializeAsync()

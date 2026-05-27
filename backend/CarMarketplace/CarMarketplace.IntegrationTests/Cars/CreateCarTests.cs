@@ -1,5 +1,4 @@
-using System.Net;
-using System.Net.Http.Json;
+using CarMarketplace.Application.Cars.Commands.CreateCar;
 using CarMarketplace.Domain.Cars;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
@@ -12,27 +11,15 @@ namespace CarMarketplace.IntegrationTests.Cars;
 public class CreateCarTests(CarMarketplaceApiFactory factory) : IntegrationTestBaseWithUserLogin(factory)
 {
     [Fact]
-    public async Task CreateCar_WithValidData_ReturnsCreated()
+    public async Task CreateCar_WithValidData_PersistsCarInDb()
     {
-        // Arrange
-        var body = new
-        {
-            Brand = "Toyota",
-            Model = "Corolla",
-            Year = 2022,
-            PriceAmount = 85000m,
-            PriceCurrency = "PLN",
-            Mileage = 15000,
-            FuelType = FuelType.Petrol,
-            Description = "Well maintained"
-        };
-
         // Act
-        var response = await Client.PostAsJsonAsync("/api/car/create", body);
+        var carId = await SendAsync(new CreateCarRequest("Toyota", "Corolla", 2022, 85000m, "PLN", 15000, FuelType.Petrol, "Well maintained"));
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
-        var car = await TestData.Cars.FirstOrDefaultAsync(c => c.Brand == "Toyota");
+        carId.Should().NotBeEmpty();
+        var car = await TestData.Cars.FirstOrDefaultAsync(c => c.Id == carId);
         car.Should().NotBeNull();
+        car!.Brand.Should().Be("Toyota");
     }
 }

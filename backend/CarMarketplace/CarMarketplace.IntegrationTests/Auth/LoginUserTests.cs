@@ -14,10 +14,9 @@ public class LoginUserTests(CarMarketplaceApiFactory factory) : IntegrationTestB
     {
         // Arrange
         await SendAsync(new RegisterUserRequest("login@example.com", "Password123!", "Jane", "Doe"));
-        var query = new LoginUserQuery("login@example.com", "Password123!");
 
         // Act
-        var result = await SendAsync(query);
+        var result = await SendAsync(new LoginUserQuery("login@example.com", "Password123!"));
 
         // Assert
         result.Should().NotBeNull();

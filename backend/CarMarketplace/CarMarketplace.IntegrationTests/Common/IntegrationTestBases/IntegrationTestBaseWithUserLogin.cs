@@ -5,15 +5,13 @@ namespace CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 public abstract class IntegrationTestBaseWithUserLogin(CarMarketplaceApiFactory factory)
     : IntegrationTestBase(factory)
 {
-    private Guid UserId { get; set; }
-    private static string UserEmail => "user@test.com";
+    protected Guid UserId { get; private set; }
 
     public new async Task InitializeAsync()
     {
         await base.InitializeAsync();
 
-        var command = new RegisterUserRequest(UserEmail, "TestPassword123!", "Test", "User");
+        var command = new RegisterUserRequest("user@test.com", "TestPassword123!", "Test", "User");
         UserId = await SendAsync(command);
-        Authenticate(UserId, UserEmail);
     }
 }

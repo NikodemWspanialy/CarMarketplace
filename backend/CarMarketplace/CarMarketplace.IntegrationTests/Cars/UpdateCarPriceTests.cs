@@ -1,7 +1,5 @@
-using System.Net;
-using System.Net.Http.Json;
 using CarMarketplace.Application.Cars.Commands.CreateCar;
-using CarMarketplace.Application.Cars.DTOs;
+using CarMarketplace.Application.Cars.Commands.UpdateCarPrice;
 using CarMarketplace.Domain.Cars;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
@@ -17,14 +15,11 @@ public class UpdateCarPriceTests(CarMarketplaceApiFactory factory) : Integration
     {
         // Arrange
         var carId = await SendAsync(new CreateCarRequest("BMW", "M3", 2021, 200000m, "PLN", 30000, FuelType.Petrol, null));
-        var body = new { Id = carId, PriceAmount = 180000m, PriceCurrency = "PLN" };
 
         // Act
-        var response = await Client.PutAsJsonAsync($"/api/car/update-price/{carId}", body);
+        var result = await SendAsync(new UpdateCarPriceRequest(carId, 180000m, "PLN"));
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var result = await response.Content.ReadFromJsonAsync<CarDetailsResponse>();
         result.Should().NotBeNull();
     }
 }

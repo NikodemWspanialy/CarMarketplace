@@ -1,9 +1,9 @@
-using System.Net;
-using System.Net.Http.Json;
+using CarMarketplace.Application.Authorization.Commands.ForgotPassword;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace CarMarketplace.IntegrationTests.Auth;
@@ -11,16 +11,17 @@ namespace CarMarketplace.IntegrationTests.Auth;
 public class ForgotPasswordTests(CarMarketplaceApiFactory factory) : IntegrationTestBase(factory)
 {
     [Fact]
-    public async Task ForgotPassword_WithExistingEmail_ReturnsOk()
+    public async Task ForgotPassword_WithExistingEmail_CreatesResetToken()
     {
         // Arrange
         await SendAsync(new RegisterUserRequest("forgot@example.com", "Password123!", "John", "Doe"));
-        var body = new { Email = "forgot@example.com" };
 
         // Act
-        var response = await Client.PostAsJsonAsync("/api/auth/forgot-password", body);
+        await SendAsync(new ForgotPasswordRequest("forgot@example.com"));
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var token = await TestData.PasswordResetTokens.FirstOrDefaultAsync();
+        token.Should().NotBeNull();
+        token!.IsUsed.Should().BeFalse();
     }
 }

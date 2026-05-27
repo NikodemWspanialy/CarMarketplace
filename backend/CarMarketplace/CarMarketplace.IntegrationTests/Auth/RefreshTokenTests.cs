@@ -1,6 +1,4 @@
-using System.Net;
-using System.Net.Http.Json;
-using CarMarketplace.Application.Authorization.DTOs;
+using CarMarketplace.Application.Authorization.Commands.RefreshToken;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
@@ -14,12 +12,10 @@ public class RefreshTokenTests(CarMarketplaceApiFactory factory) : IntegrationTe
     public async Task RefreshToken_WhenAuthenticated_ReturnsNewToken()
     {
         // Act
-        var response = await Client.PostAsync("/api/auth/refresh-token", null);
+        var result = await SendAsync(new RefreshTokenRequest());
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var result = await response.Content.ReadFromJsonAsync<AuthResponse>();
         result.Should().NotBeNull();
-        result!.AccessToken.Should().NotBeNullOrEmpty();
+        result.AccessToken.Should().NotBeNullOrEmpty();
     }
 }

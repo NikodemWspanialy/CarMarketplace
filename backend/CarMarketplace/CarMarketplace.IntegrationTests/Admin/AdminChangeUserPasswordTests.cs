@@ -1,6 +1,7 @@
-using System.Net;
-using System.Net.Http.Json;
+using CarMarketplace.Application.Admin.Commands.AdminChangeUserPassword;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Application.Authorization.Queries.LoginUser;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
@@ -11,16 +12,36 @@ namespace CarMarketplace.IntegrationTests.Admin;
 public class AdminChangeUserPasswordTests(CarMarketplaceApiFactory factory) : IntegrationTestBaseWithAdminLogin(factory)
 {
     [Fact]
-    public async Task AdminChangePassword_WithValidData_ReturnsNoContent()
+    public async Task AdminChangePassword_WithValidData_AllowsLoginWithNewPassword()
     {
         // Arrange
-        var userId = await SendAsync(new RegisterUserRequest("user@example.com", "Password123!", "John", "Doe"));
-        var body = new { UserId = userId, NewPassword = "AdminChanged456!" };
+        var email = Faker.Internet.Email();
+        var oldPassword = Faker.Internet.Password();
+        var newPassword = Faker.Internet.Password();
+
+        var userId = await SendAsync(new RegisterUserRequest(email, oldPassword, Faker.Name.FirstName(), Faker.Name.LastName()));
 
         // Act
-        var response = await Client.PutAsJsonAsync($"/api/admin/change-user-password/{userId}", body);
+        await SendAsync(new AdminChangeUserPasswordRequest(userId, newPassword));
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        var result = await SendAsync(new LoginUserQuery(email, newPassword));
+        result.AccessToken.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task AdminChangePassword_WithSamePassword_ThrowsDomainException()
+    {
+        // Arrange
+        var email = Faker.Internet.Email();
+        var password = Faker.Internet.Password();
+
+        var userId = await SendAsync(new RegisterUserRequest(email, password, Faker.Name.FirstName(), Faker.Name.LastName()));
+
+        // Act
+        var act = () => SendAsync(new AdminChangeUserPasswordRequest(userId, password));
+
+        // Assert
+        await act.Should().ThrowAsync<DomainException>();
     }
 }

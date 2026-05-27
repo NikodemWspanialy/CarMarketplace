@@ -61,15 +61,17 @@ inclusion: always
 
 ### Integration Tests (`CarMarketplace.IntegrationTests`)
 - Real PostgreSQL via Testcontainers — no in-memory fakes
-- `WebApplicationFactory<Program>` hosts full API pipeline in-process
+- `WebApplicationFactory<Program>` hosts app for DI container access
 - Respawn resets DB between tests (DELETE, not DROP — fast)
+- Tests use `SendAsync` (MediatR dispatch) — no HTTP calls, no auth layer
 - Base classes in `Common/IntegrationTestBases/`:
-  - `IntegrationTestBase` — Respawn, `Client`, `TestData` (DbContext), `SendAsync<T>()`, `Authenticate()`
-  - `IntegrationTestBaseWithUserLogin` — registers + authenticates as User
-  - `IntegrationTestBaseWithAdminLogin` — registers + promotes + authenticates as Admin
-- `JwtTokenGenerator` — standalone token generation for tests (independent of `IJwtProvider`)
+  - `IntegrationTestBase` — Respawn, `TestData` (DbContext), `SendAsync<T>()`, `Faker`
+  - `IntegrationTestBaseWithUserLogin` — registers user, exposes `UserId`
+  - `IntegrationTestBaseWithAdminLogin` — registers + promotes admin, exposes `AdminId`
+- `TestData` — `CarMarketplaceDbContext` property for read-only DB assertions
 - Test files grouped by feature: `{Feature}/{Feature}Tests.cs`
-- Conventions: Arrange/Act/Assert, primary constructors, `Client` for HTTP, `SendAsync` for MediatR dispatch, `TestData` for DB assertions
+- Conventions: Arrange/Act/Assert, primary constructors, one test class per command/query
+- API-level tests (HTTP, auth, routing) will be a separate project
 - Requires Docker running locally
 
 See `naming-conventions.md` for all naming patterns (commands, queries, handlers, repositories, etc.).
