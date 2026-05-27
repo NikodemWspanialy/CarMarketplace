@@ -7,19 +7,23 @@ public abstract class IntegrationTestBaseWithUserLogin(CarMarketplaceApiFactory 
     : IntegrationTestBase(factory)
 {
     protected Guid UserId { get; private set; }
-    protected string UserEmail => Faker.Internet.Email();
-    protected string UserPassword => Faker.Internet.Password();
-    protected string UserFirstName => Faker.Name.FirstName();
-    protected string UserLastName => Faker.Name.LastName();
+    protected string UserEmail { get; private set; } = null!;
+    protected string UserPassword { get; private set; } = null!;
+    protected string UserFirstName { get; private set; } = null!;
+    protected string UserLastName { get; private set; } = null!;
 
     public new async Task InitializeAsync()
     {
         await base.InitializeAsync();
 
+        UserEmail = Faker.Internet.Email();
+        UserPassword = Faker.Internet.Password();
+        UserFirstName = Faker.Name.FirstName();
+        UserLastName = Faker.Name.LastName();
+
         var registerCommand = new RegisterUserRequest(UserEmail, UserPassword, UserFirstName, UserLastName);
         UserId = await SendAsync(registerCommand);
-        
-        var loginCommand = new LoginUserQuery(UserEmail, UserPassword);
-        await SendAsync(loginCommand);
+
+        await SendAsync(new LoginUserQuery(UserEmail, UserPassword));
     }
 }
