@@ -49,7 +49,11 @@ public abstract class IntegrationTestBase(CarMarketplaceApiFactory factory) : IC
         });
 
         await _respawner.ResetAsync(connection);
+
+        await SeedAsync();
     }
+    
+    protected virtual Task SeedAsync() => Task.CompletedTask;
 
     public Task DisposeAsync() => Task.CompletedTask;
 }

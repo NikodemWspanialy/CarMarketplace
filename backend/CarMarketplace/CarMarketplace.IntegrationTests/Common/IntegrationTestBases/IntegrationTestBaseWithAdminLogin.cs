@@ -13,10 +13,8 @@ public abstract class IntegrationTestBaseWithAdminLogin(CarMarketplaceApiFactory
     protected string AdminFirstName { get; private set; } = null!;
     protected string AdminLastName { get; private set; } = null!;
 
-    public new async Task InitializeAsync()
+    protected override async Task SeedAsync()
     {
-        await base.InitializeAsync();
-
         AdminEmail = Faker.Internet.Email();
         AdminPassword = Faker.Internet.Password();
         AdminFirstName = Faker.Name.FirstName();
