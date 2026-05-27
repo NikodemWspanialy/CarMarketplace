@@ -1,3 +1,4 @@
+using CarMarketplace.API.Common;
 using CarMarketplace.Application.Admin.Commands.AdminChangeUserPassword;
 using CarMarketplace.Application.Admin.Commands.AdminUpdateUserProfile;
 using CarMarketplace.Application.Admin.Commands.BanUser;
@@ -16,7 +17,7 @@ namespace CarMarketplace.API.Controllers;
 
 [ApiController]
 [Route("api/admin")]
-[Authorize(Policy = "AdminOnly")]
+[Authorize(Policy = AuthPolicy.AdminOnly)]
 public class AdminController(IMediator mediator) : ControllerBase
 {
     [HttpPut("upgrade-to-admin/{id:guid}")]
