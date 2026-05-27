@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using CarMarketplace.Application.Cars.Commands.CreateCar;
 using CarMarketplace.Application.Cars.DTOs;
+using CarMarketplace.Application.Common.DTOs;
 using CarMarketplace.Domain.Cars;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
@@ -24,8 +25,8 @@ public class GetCarsTests(CarMarketplaceApiFactory factory) : IntegrationTestBas
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-       // var result = await response.Content.ReadFromJsonAsync<CarListResponse>();
-       // result.Should().NotBeNull();
-       // result!.Items.Should().HaveCountGreaterThanOrEqualTo(2);
+        var result = await response.Content.ReadFromJsonAsync<ListResponse<CarResponse>>();
+        result.Should().NotBeNull();
+        result!.Items.Should().HaveCountGreaterThanOrEqualTo(2);
     }
 }
