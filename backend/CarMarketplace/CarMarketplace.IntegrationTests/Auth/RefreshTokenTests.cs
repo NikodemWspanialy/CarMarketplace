@@ -9,7 +9,7 @@ namespace CarMarketplace.IntegrationTests.Auth;
 public class RefreshTokenTests(CarMarketplaceApiFactory factory) : IntegrationTestBaseWithUserLogin(factory)
 {
     [Fact]
-    public async Task RefreshToken_WhenAuthenticated_ReturnsNewToken()
+    public async Task RefreshToken_WhenAuthenticated_ReturnsNewAccessToken()
     {
         // Act
         var result = await SendAsync(new RefreshTokenRequest());
