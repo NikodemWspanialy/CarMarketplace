@@ -1,6 +1,6 @@
 using CarMarketplace.Application.Admin.Commands.UpgradeToAdmin;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
-using CarMarketplace.Application.Authorization.Queries.LoginUser;
+using CarMarketplace.Domain.Users;
 
 namespace CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 
@@ -26,6 +26,7 @@ public abstract class IntegrationTestBaseWithAdminLogin(CarMarketplaceApiFactory
         AdminId = await SendAsync(command);
 
         await SendAsync(new UpgradeToAdminRequest(AdminId));
-        await SendAsync(new LoginUserQuery(AdminEmail, AdminPassword));
+
+        SetCurrentUser(AdminId, UserRole.Admin);
     }
 }

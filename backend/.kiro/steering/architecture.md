@@ -65,9 +65,10 @@ inclusion: always
 - Respawn resets DB between tests (DELETE, not DROP — fast)
 - Tests use `SendAsync` (MediatR dispatch) — no HTTP calls, no auth layer
 - Base classes in `Common/IntegrationTestBases/`:
-  - `IntegrationTestBase` — Respawn, `TestData` (DbContext), `SendAsync<T>()`, `Faker`
-  - `IntegrationTestBaseWithUserLogin` — registers user, exposes `UserId`
-  - `IntegrationTestBaseWithAdminLogin` — registers + promotes admin, exposes `AdminId`
+  - `IntegrationTestBase` — Respawn, `TestData` (DbContext), `SendAsync<T>()`, `Faker`, `SetCurrentUser()`
+  - `IntegrationTestBaseWithUserLogin` — registers user, sets current user context, exposes `UserId`
+  - `IntegrationTestBaseWithAdminLogin` — registers + promotes admin, sets current user context, exposes `AdminId`
+- `FakeCurrentUserProvider` — replaces `ICurrentUserProvider` in DI, set via `SetCurrentUser(userId, role)`
 - `TestData` — `CarMarketplaceDbContext` property for read-only DB assertions
 - Test files grouped by feature: `{Feature}/{Feature}Tests.cs`
 - Conventions: Arrange/Act/Assert, primary constructors, one test class per command/query

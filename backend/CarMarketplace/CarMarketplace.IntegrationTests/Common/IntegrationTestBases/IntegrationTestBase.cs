@@ -1,4 +1,5 @@
 using Bogus;
+using CarMarketplace.Domain.Users;
 using CarMarketplace.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,12 @@ public abstract class IntegrationTestBase(CarMarketplaceApiFactory factory) : IC
         using var scope = factory.Services.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<ISender>();
         return await mediator.Send(request);
+    }
+
+    protected void SetCurrentUser(Guid userId, UserRole role = UserRole.User)
+    {
+        factory.FakeCurrentUserProvider.UserId = userId;
+        factory.FakeCurrentUserProvider.Role = role;
     }
 
     public async Task InitializeAsync()

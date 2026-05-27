@@ -1,3 +1,4 @@
+using CarMarketplace.Application.Common.Interfaces;
 using CarMarketplace.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -18,6 +19,8 @@ public class CarMarketplaceApiFactory : WebApplicationFactory<Program>, IAsyncLi
         .WithPassword("postgres")
         .Build();
 
+    public FakeCurrentUserProvider FakeCurrentUserProvider { get; } = new();
+
     public string ConnectionString => _dbContainer.GetConnectionString();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -34,6 +37,15 @@ public class CarMarketplaceApiFactory : WebApplicationFactory<Program>, IAsyncLi
             // Register DbContext with Testcontainers connection string
             services.AddDbContext<CarMarketplaceDbContext>(opt =>
                 opt.UseNpgsql(_dbContainer.GetConnectionString()));
+
+            // Replace ICurrentUserProvider with fake
+            var currentUserDescriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(ICurrentUserProvider));
+
+            if (currentUserDescriptor is not null)
+                services.Remove(currentUserDescriptor);
+
+            services.AddSingleton<ICurrentUserProvider>(FakeCurrentUserProvider);
         });
     }
 
