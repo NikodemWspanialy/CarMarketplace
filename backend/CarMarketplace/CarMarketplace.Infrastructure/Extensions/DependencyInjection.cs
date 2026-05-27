@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Authorization.Helpers;
+using CarMarketplace.Application.Authorization.Repositories;
 using CarMarketplace.Application.Cars.Repositories;
 using CarMarketplace.Application.Common.Interfaces;
 using CarMarketplace.Application.Users.Repositories;
@@ -28,6 +29,7 @@ public static class DependencyInjection
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>();
 
         // Unit of work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -36,5 +38,6 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
         services.AddScoped<IJwtProvider, BeaverJwtProvider>();
         services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+        services.AddScoped<IEmailSender, ConsoleEmailSender>();
     }
 }

@@ -1,6 +1,10 @@
+using CarMarketplace.Application.Authorization.Commands.ForgotPassword;
+using CarMarketplace.Application.Authorization.Commands.RefreshToken;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Application.Authorization.Commands.ResetPassword;
 using CarMarketplace.Application.Authorization.Queries.LoginUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarMarketplace.API.Controllers;
@@ -23,5 +27,39 @@ public class AuthController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(query, token);
 
         return Ok(result);
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest command, CancellationToken token = default)
+    {
+        await mediator.Send(command, token);
+
+        return Ok();
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest command, CancellationToken token = default)
+    {
+        await mediator.Send(command, token);
+
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> Refresh(CancellationToken token = default)
+    {
+        var result = await mediator.Send(new RefreshTokenRequest(), token);
+
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        // Placeholder
+        // Stateless JWT — actual token removal handled by client
+        return NoContent();
     }
 }

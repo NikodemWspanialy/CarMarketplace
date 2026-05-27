@@ -1,10 +1,12 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Application.Authorization.Helpers;
 using CarMarketplace.Application.Authorization.Validators;
 using CarMarketplace.Application.Cars.Factories;
 using CarMarketplace.Application.Cars.Helpers;
 using CarMarketplace.Application.Cars.Searchers;
 using CarMarketplace.Application.Common.Behaviors;
 using CarMarketplace.Application.Users.Factories;
+using CarMarketplace.Application.Users.Helpers;
 using CarMarketplace.Application.Users.Searchers;
 using FluentValidation;
 using MediatR;
@@ -37,5 +39,7 @@ public static class DependencyInjection
         services.AddScoped<ICarSearcher, CarSearcher>();
         services.AddScoped<ICarSellerGuard, CarSellerGuard>();
         services.AddScoped<IUserSearcher, UserSearcher>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPasswordResetTokenGenerator, PasswordResetTokenGenerator>();
     }
 }

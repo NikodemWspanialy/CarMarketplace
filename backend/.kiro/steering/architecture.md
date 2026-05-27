@@ -47,6 +47,7 @@ inclusion: always
 - Fluent API configurations in `Persistence/Configurations/`
 - `OwnsOne` for Value Objects
 - Only Aggregate Roots get a `DbSet` in DbContext — child entities are accessed through the root's navigation properties
+- Standalone entities (not aggregates, not children) may also get a `DbSet` when they need to be queried independently (e.g., `PasswordResetToken`)
 - A configuration class must be defined for every entity persisted to its own table (regardless of DbSet)
 - Child entity relationships defined via `HasMany` with strongly-typed navigation in the Aggregate Root's configuration
 - Repositories implement interfaces from Application
