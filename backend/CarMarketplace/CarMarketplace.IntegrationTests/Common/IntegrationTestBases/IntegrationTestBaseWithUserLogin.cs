@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Application.Authorization.Queries.LoginUser;
 
 namespace CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 
@@ -15,7 +16,10 @@ public abstract class IntegrationTestBaseWithUserLogin(CarMarketplaceApiFactory 
     {
         await base.InitializeAsync();
 
-        var command = new RegisterUserRequest(UserEmail, UserPassword, UserFirstName, UserLastName);
-        UserId = await SendAsync(command);
+        var registerCommand = new RegisterUserRequest(UserEmail, UserPassword, UserFirstName, UserLastName);
+        UserId = await SendAsync(registerCommand);
+        
+        var loginCommand = new LoginUserQuery(UserEmail, UserPassword);
+        await SendAsync(loginCommand);
     }
 }
