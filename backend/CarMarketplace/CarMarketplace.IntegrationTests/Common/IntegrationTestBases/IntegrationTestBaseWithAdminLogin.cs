@@ -7,12 +7,16 @@ public abstract class IntegrationTestBaseWithAdminLogin(CarMarketplaceApiFactory
     : IntegrationTestBase(factory)
 {
     private Guid AdminId { get; set; }
+    private string AdminEmail => Faker.Internet.Email();
+    private string AdminPassword => Faker.Internet.Password();
+    private string AdminFirstName => Faker.Name.FirstName();
+    private string AdminLastName => Faker.Name.LastName();
 
     public new async Task InitializeAsync()
     {
         await base.InitializeAsync();
 
-        var command = new RegisterUserRequest("admin@test.com", "TestPassword123!", "Admin", "User");
+        var command = new RegisterUserRequest(AdminEmail, AdminPassword, AdminFirstName, AdminLastName);
         AdminId = await SendAsync(command);
 
         await SendAsync(new UpgradeToAdminRequest(AdminId));
