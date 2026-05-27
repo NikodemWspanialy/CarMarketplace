@@ -47,4 +47,5 @@ inclusion: always
 - Infrastructure → Application, Domain
 - API → Application, Infrastructure
 - API.tests → API, Infrastructure
-- IntegrationTests → API, Infrastructure
+- IntegrationTests → API, Infrastructure, Tests.Shared
+- Tests.Shared → Application

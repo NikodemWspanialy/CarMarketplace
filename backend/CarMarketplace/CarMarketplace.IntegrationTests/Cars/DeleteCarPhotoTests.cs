@@ -1,10 +1,9 @@
 using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
-using CarMarketplace.Application.Cars.Commands.CreateCar;
 using CarMarketplace.Application.Cars.Commands.DeleteCarPhoto;
 using CarMarketplace.Application.Cars.Queries.GetCar;
-using CarMarketplace.Domain.Cars;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
+using CarMarketplace.Tests.Shared.Builders.Car;
 using FluentAssertions;
 using Xunit;
 
@@ -13,11 +12,11 @@ namespace CarMarketplace.IntegrationTests.Cars;
 public class DeleteCarPhotoTests(CarMarketplaceApiFactory factory) : IntegrationTestBaseWithUserLogin(factory)
 {
     [Fact]
-    public async Task DeletePhoto_WhenExists_RemovesPhoto()
+    public async Task DeletePhoto_WhenExists_RemovesFromCar()
     {
         // Arrange
-        var carId = await SendAsync(new CreateCarRequest("Mazda", "CX-5", 2022, 140000m, "PLN", 15000, FuelType.Petrol, null));
-        var photo = await SendAsync(new AddCarPhotoRequest(carId, "https://example.com/photo.jpg", 1, true));
+        var carId = await SendAsync(new CreateCarRequestBuilder().Build());
+        var photo = await SendAsync(new AddCarPhotoRequest(carId, Faker.Internet.Url(), 1, true));
 
         // Act
         await SendAsync(new DeleteCarPhotoRequest(carId, photo.Id));
@@ -25,5 +24,18 @@ public class DeleteCarPhotoTests(CarMarketplaceApiFactory factory) : Integration
         // Assert
         var car = await SendAsync(new GetCarRequest(carId));
         car.Photos.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task DeletePhoto_WithNonExistingPhotoId_ThrowsException()
+    {
+        // Arrange
+        var carId = await SendAsync(new CreateCarRequestBuilder().Build());
+
+        // Act
+        var act = () => SendAsync(new DeleteCarPhotoRequest(carId, Guid.NewGuid()));
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
     }
 }

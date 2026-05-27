@@ -22,6 +22,7 @@
     <ItemGroup>
         <ProjectReference Include="..\CarMarketplace.API\CarMarketplace.API.csproj" />
         <ProjectReference Include="..\CarMarketplace.Infrastructure\CarMarketplace.Infrastructure.csproj" />
+        <ProjectReference Include="..\CarMarketplace.Tests.Shared\CarMarketplace.Tests.Shared.csproj" />
     </ItemGroup>
 
 </Project>

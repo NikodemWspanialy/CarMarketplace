@@ -74,4 +74,9 @@ inclusion: always
 - API-level tests (HTTP, auth, routing) will be a separate project
 - Requires Docker running locally
 
+### Tests.Shared (`CarMarketplace.Tests.Shared`)
+- Shared test utilities referenced by all test projects
+- `Builders/Builder.cs` — abstract `Builder<T>` base class with `Faker` and abstract `Build()`
+- `Builders/{Entity}/Create{Entity}RequestBuilder` — fluent builders inheriting `Builder<T>` with Bogus defaults
+
 See `naming-conventions.md` for all naming patterns (commands, queries, handlers, repositories, etc.).

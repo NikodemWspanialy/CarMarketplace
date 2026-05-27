@@ -1,8 +1,7 @@
-using CarMarketplace.Application.Cars.Commands.CreateCar;
 using CarMarketplace.Application.Cars.Queries.GetCar;
-using CarMarketplace.Domain.Cars;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
+using CarMarketplace.Tests.Shared.Builders.Car;
 using FluentAssertions;
 using Xunit;
 
@@ -11,16 +10,30 @@ namespace CarMarketplace.IntegrationTests.Cars;
 public class GetCarTests(CarMarketplaceApiFactory factory) : IntegrationTestBaseWithUserLogin(factory)
 {
     [Fact]
-    public async Task GetCar_WithExistingId_ReturnsCarDetails()
+    public async Task GetCar_WithExistingId_ReturnsFullDetails()
     {
         // Arrange
-        var carId = await SendAsync(new CreateCarRequest("Mercedes", "C200", 2021, 150000m, "PLN", 25000, FuelType.Petrol, "Nice car"));
+        var command = new CreateCarRequestBuilder().Build();
+        var carId = await SendAsync(command);
 
         // Act
         var result = await SendAsync(new GetCarRequest(carId));
 
         // Assert
         result.Should().NotBeNull();
-        result.Brand.Should().Be("Mercedes");
+        result.Id.Should().Be(carId);
+        result.Brand.Should().Be(command.Brand);
+        result.Model.Should().Be(command.Model);
+        result.SellerId.Should().Be(UserId);
+    }
+
+    [Fact]
+    public async Task GetCar_WithNonExistingId_ThrowsException()
+    {
+        // Act
+        var act = () => SendAsync(new GetCarRequest(Guid.NewGuid()));
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
     }
 }
