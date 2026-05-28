@@ -1,0 +1,133 @@
+tests (95 tests) Failed: 36 tests failed
+  CarMarketplace.IntegrationTests (95 tests) Failed: 36 tests failed
+    CarMarketplace.IntegrationTests (95 tests) Failed: 36 tests failed
+      Admin (27 tests) Failed: 9 tests failed
+        AdminChangeUserPasswordTests (2 tests) Failed: One or more child tests failed: 1 test failed
+          AdminChangePassword_WithSamePassword_ThrowsDomainException Failed: Expected a <CarMarketplace.Domain.Exceptions.DomainException> to be thrown, but no exception was thrown.
+          AdminChangePassword_WithValidData_AllowsLoginWithNewPassword Success
+        AdminUpdateUserProfileTests (5 tests) Failed: One or more child tests failed: 4 tests failed
+          AdminUpdateProfile_WithEmptyFirstName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          AdminUpdateProfile_WithEmptyLastName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          AdminUpdateProfile_WithNullFirstName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but found <Microsoft.EntityFrameworkCore.DbUpdateException>:
+          AdminUpdateProfile_WithNullLastName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but found <Microsoft.EntityFrameworkCore.DbUpdateException>:
+          AdminUpdateProfile_WithValidData_ReturnsUpdatedUser Success
+        BanUserTests (5 tests) Failed: One or more child tests failed: 2 tests failed
+          BanUser_WhenAlreadyBanned_ThrowsDomainException Success
+          BanUser_WithEmptyReason_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          BanUser_WithExpiresAt_BansUserWithExpiration Success
+          BanUser_WithPastExpiresAt_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          BanUser_WithValidData_BansUser Success
+        DeleteUserTests (2 tests) Failed: One or more child tests failed: 1 test failed
+          DeleteUser_WhenAlreadyDeleted_ThrowsDomainException Success
+          DeleteUser_WithExistingUser_SoftDeletesUser Failed: Expected user not to be <null>.
+        DowngradeToUserTests (2 tests) Success
+          DowngradeToUser_WhenAlreadyUser_ThrowsDomainException Success
+          DowngradeToUser_WithAdminUser_ChangesRoleToUser Success
+        GetBanHistoryTests (3 tests) Failed: One or more child tests failed: 1 test failed
+          GetBanHistory_WithBannedUser_ReturnsBanRecords Success
+          GetBanHistory_WithMultipleBans_ReturnsAllRecords Failed: Expected result[0].UnbannedAt to have a value, but found <null>.
+          GetBanHistory_WithNoBans_ReturnsEmptyList Success
+        GetUserByIdTests (2 tests) Success
+          GetUserById_WithExistingUser_ReturnsUserResponse Success
+          GetUserById_WithNonExistingUser_ThrowsException Success
+        GetUsersTests (2 tests) Success
+          GetUsers_WithExistingUsers_ReturnsPagedList Success
+          GetUsers_WithPagination_RespectsPageSize Success
+        UnbanUserTests (2 tests) Success
+          UnbanUser_WhenBanned_UnbansUser Success
+          UnbanUser_WhenNotBanned_ThrowsDomainException Success
+        UpgradeToAdminTests (2 tests) Success
+          UpgradeToAdmin_WhenAlreadyAdmin_ThrowsDomainException Success
+          UpgradeToAdmin_WithExistingUser_ChangesRoleToAdmin Success
+      Auth (20 tests) Failed: 7 tests failed
+        ForgotPasswordTests (3 tests) Success
+          ForgotPassword_CalledTwice_CreatesTwoTokens Success
+          ForgotPassword_WithExistingEmail_CreatesResetToken Success
+          ForgotPassword_WithNonExistingEmail_DoesNotThrow Success
+        LoginUserTests (5 tests) Failed: One or more child tests failed: 2 tests failed
+          Login_WithEmptyEmail_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but found <CarMarketplace.Application.Authorization.Exceptions.InvalidCredentials>:
+          Login_WithEmptyPassword_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but found <CarMarketplace.Application.Authorization.Exceptions.InvalidCredentials>:
+          Login_WithNonExistingEmail_ThrowsException Success
+          Login_WithValidCredentials_ReturnsAccessToken Success
+          Login_WithWrongPassword_ThrowsException Success
+        RefreshTokenTests (1 test) Success
+          RefreshToken_WhenAuthenticated_ReturnsNewAccessToken Success
+        RegisterUserTests (7 tests) Failed: One or more child tests failed: 5 tests failed
+          Register_WithDuplicateEmail_ThrowsException Success
+          Register_WithEmptyEmail_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          Register_WithEmptyFirstName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          Register_WithEmptyLastName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          Register_WithEmptyPassword_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          Register_WithInvalidEmail_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          Register_WithValidData_CreatesUserInDb Success
+        ResetPasswordTests (4 tests) Success
+          ResetPassword_WithInvalidToken_ThrowsException Success
+          ResetPassword_WithUsedToken_ThrowsException Success
+          ResetPassword_WithValidToken_AllowsLoginWithNewPassword Success
+          ResetPassword_WithValidToken_MarksTokenAsUsed Success
+      Cars (32 tests) Failed: 11 tests failed
+        AddCarPhotosTests (3 tests) Failed: One or more child tests failed: 1 test failed
+          AddPhotos_WithEmptyList_ReturnsEmptyResult Success
+          AddPhotos_WithMultiplePrimary_ThrowsException Failed: Expected a <System.Exception> to be thrown, but no exception was thrown.
+          AddPhotos_WithValidBatch_PersistsAllPhotos Success
+        AddCarPhotoTests (4 tests) Failed: One or more child tests failed: 2 tests failed
+          AddPhoto_WithEmptyUrl_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          AddPhoto_WithInvalidUrl_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          AddPhoto_WithNonExistingCar_ThrowsException Success
+          AddPhoto_WithValidData_PersistsPhotoOnCar Success
+        CreateCarTests (5 tests) Failed: One or more child tests failed: 4 tests failed
+          CreateCar_WithEmptyBrand_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          CreateCar_WithInvalidYear_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          CreateCar_WithNegativeMileage_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          CreateCar_WithValidData_PersistsCarInDb Success
+          CreateCar_WithZeroPrice_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+        DeleteCarPhotoTests (2 tests) Success
+          DeletePhoto_WhenExists_RemovesFromCar Success
+          DeletePhoto_WithNonExistingPhotoId_ThrowsException Success
+        DeleteCarTests (3 tests) Failed: One or more child tests failed: 1 test failed
+          DeleteCar_WhenAlreadyDeleted_ThrowsDomainException Success
+          DeleteCar_WhenOwner_SoftDeletesCar Failed: Expected car not to be <null>.
+          DeleteCar_WithNonExistingId_ThrowsException Success
+        GetCarsTests (3 tests) Success
+          GetCars_WhenEmpty_ReturnsEmptyList Success
+          GetCars_WithExistingCars_ReturnsPagedList Success
+          GetCars_WithPagination_RespectsPageSize Success
+        GetCarTests (2 tests) Success
+          GetCar_WithExistingId_ReturnsFullDetails Success
+          GetCar_WithNonExistingId_ThrowsException Success
+        SetPrimaryCarPhotoTests (2 tests) Success
+          SetPrimary_WithExistingPhoto_MakesItPrimary Success
+          SetPrimary_WithNonExistingPhotoId_ThrowsException Success
+        UpdateCarPriceTests (3 tests) Failed: One or more child tests failed: 2 tests failed
+          UpdateCarPrice_WithNegativeAmount_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but found <CarMarketplace.Domain.Cars.Exceptions.InvalidCarPrice>:
+          UpdateCarPrice_WithValidData_UpdatesPrice Success
+          UpdateCarPrice_WithZeroAmount_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+        UpdateCarTests (2 tests) Success
+          UpdateCar_WithNonExistingId_ThrowsException Success
+          UpdateCar_WithValidData_UpdatesInDb Success
+        UpdatePhotosOrderTests (3 tests) Failed: One or more child tests failed: 1 test failed
+          UpdateOrder_WithDuplicateOrder_ThrowsException Failed: Expected a <System.Exception> to be thrown, but no exception was thrown.
+          UpdateOrder_WithNonExistingCar_ThrowsException Success
+          UpdateOrder_WithValidData_ReordersPhotos Success
+      Users (16 tests) Failed: 9 tests failed
+        ChangeEmailTests (5 tests) Failed: One or more child tests failed: 2 tests failed
+          ChangeEmail_WithEmailTakenByAnotherUser_ThrowsException Success
+          ChangeEmail_WithEmptyEmail_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          ChangeEmail_WithInvalidFormat_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          ChangeEmail_WithSameEmail_ThrowsDomainException Success
+          ChangeEmail_WithValidEmail_UpdatesInDb Success
+        ChangePasswordTests (5 tests) Failed: One or more child tests failed: 4 tests failed
+          ChangePassword_WithEmptyOldPassword_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but found <System.ArgumentException>:
+          ChangePassword_WithSamePassword_ThrowsDomainException Failed: Expected a <CarMarketplace.Domain.Exceptions.DomainException> to be thrown, but found <BCrypt.Net.SaltParseException>:
+          ChangePassword_WithTooShortNewPassword_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but found <BCrypt.Net.SaltParseException>:
+          ChangePassword_WithValidOldPassword_AllowsLoginWithNewPassword Failed: BCrypt.Net.SaltParseException: Invalid salt version
+          ChangePassword_WithWrongOldPassword_ThrowsException Success
+        DeleteAccountTests (2 tests) Failed: One or more child tests failed: 1 test failed
+          DeleteAccount_WhenAlreadyDeleted_ThrowsDomainException Success
+          DeleteAccount_WhenCalled_SoftDeletesUser Failed: Expected user not to be <null>.
+        GetUserProfileTests (1 test) Success
+          GetProfile_WhenUserExists_ReturnsCorrectData Success
+        UpdateUserProfileTests (3 tests) Failed: One or more child tests failed: 2 tests failed
+          UpdateProfile_WithEmptyFirstName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          UpdateProfile_WithEmptyLastName_ThrowsValidationException Failed: Expected a <FluentValidation.ValidationException> to be thrown, but no exception was thrown.
+          UpdateProfile_WithValidData_UpdatesInDb Success

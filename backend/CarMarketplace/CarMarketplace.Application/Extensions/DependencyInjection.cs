@@ -23,6 +23,7 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining(typeof(RegisterUserCommandValidator));
 
         // Pipeline
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggerBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
 

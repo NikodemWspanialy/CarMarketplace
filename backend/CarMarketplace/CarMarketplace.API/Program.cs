@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using CarMarketplace.API.Common;
 using CarMarketplace.API.Middleware;
 using CarMarketplace.Application.Extensions;
 using CarMarketplace.Infrastructure.Extensions;
@@ -65,7 +66,7 @@ builder.Services
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy =>
+    options.AddPolicy(AuthPolicy.AdminOnly, policy =>
         policy.RequireRole("Admin"));
 });
 

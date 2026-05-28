@@ -25,7 +25,7 @@ inclusion: always
 - NEVER return Domain entities from handlers — always map to a `{EntityName}Response` DTO defined in Application layer
 - Commands and Queries (CQRS) — `ICommand<T>` → write operations, `IQuery<T>` → read operations
 - Exceptions inherit from `DomainException`
-- Pipeline Behaviors: `LoggerBehavior`, `UnitOfWorkBehavior`
+- Pipeline Behaviors: `ValidationBehavior`, `LoggerBehavior`, `UnitOfWorkBehavior`
 - File structure: `Application/{EntityNamePlural}/`
   - `Commands/` — write operations (create, update, delete)
   - `Queries/` — read operations
@@ -58,5 +58,26 @@ inclusion: always
 ### API
 - Controllers in `Controllers/` folder
 - `GlobalExceptionMiddleware` catches `DomainException` and `InfrastructureException`
+
+### Integration Tests (`CarMarketplace.IntegrationTests`)
+- Real PostgreSQL via Testcontainers — no in-memory fakes
+- `WebApplicationFactory<Program>` hosts app for DI container access
+- Respawn resets DB between tests (DELETE, not DROP — fast)
+- Tests use `SendAsync` (MediatR dispatch) — no HTTP calls, no auth layer
+- Base classes in `Common/IntegrationTestBases/`:
+  - `IntegrationTestBase` — Respawn, `TestData` (DbContext), `SendAsync<T>()`, `Faker`, `SetCurrentUser()`, virtual `SeedAsync()` hook
+  - `IntegrationTestBaseWithUserLogin` — overrides `SeedAsync` to register user and set current user context
+  - `IntegrationTestBaseWithAdminLogin` — overrides `SeedAsync` to register + promote admin and set current user context
+- `FakeCurrentUserProvider` — replaces `ICurrentUserProvider` in DI, set via `SetCurrentUser(userId, role)`
+- `TestData` — `CarMarketplaceDbContext` property for read-only DB assertions
+- Test files grouped by feature: `{Feature}/{Feature}Tests.cs`
+- Conventions: Arrange/Act/Assert, primary constructors, one test class per command/query
+- API-level tests (HTTP, auth, routing) will be a separate project
+- Requires Docker running locally
+
+### Tests.Shared (`CarMarketplace.Tests.Shared`)
+- Shared test utilities referenced by all test projects
+- `Builders/Builder.cs` — abstract `Builder<T>` base class with `Faker` and abstract `Build()`
+- `Builders/{Entity}/Create{Entity}RequestBuilder` — fluent builders inheriting `Builder<T>` with Bogus defaults
 
 See `naming-conventions.md` for all naming patterns (commands, queries, handlers, repositories, etc.).
