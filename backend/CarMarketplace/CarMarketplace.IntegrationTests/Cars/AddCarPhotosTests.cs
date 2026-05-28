@@ -1,9 +1,11 @@
 using CarMarketplace.Application.Cars.Commands.AddCarPhotos;
 using CarMarketplace.Application.Cars.Queries.GetCar;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
 using FluentAssertions;
+using FluentValidation;
 using Xunit;
 
 namespace CarMarketplace.IntegrationTests.Cars;
@@ -33,16 +35,16 @@ public class AddCarPhotosTests(CarMarketplaceApiFactory factory) : IntegrationTe
     }
 
     [Fact]
-    public async Task AddPhotos_WithEmptyList_ReturnsEmptyResult()
+    public async Task AddPhotos_WithEmptyList_ThrowsException()
     {
         // Arrange
         var carId = await SendAsync(new CreateCarRequestBuilder().Build());
 
         // Act
-        var result = await SendAsync(new AddCarPhotosRequest(carId, []));
+        var act = () => SendAsync(new AddCarPhotosRequest(carId, []));
 
         // Assert
-        result.Should().BeEmpty();
+        await act.Should().ThrowAsync<ValidationException>();
     }
 
     [Fact]
@@ -60,6 +62,6 @@ public class AddCarPhotosTests(CarMarketplaceApiFactory factory) : IntegrationTe
         var act = () => SendAsync(new AddCarPhotosRequest(carId, photos));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }
