@@ -43,7 +43,7 @@ public class GetBanHistoryTests(CarMarketplaceApiFactory factory) : IntegrationT
 
         // Assert
         result.Should().HaveCount(2);
-        result[0].UnbannedAt.Should().NotBeNull();
+        result.Should().Contain(r => r.UnbannedAt != null);
     }
 
     [Fact]

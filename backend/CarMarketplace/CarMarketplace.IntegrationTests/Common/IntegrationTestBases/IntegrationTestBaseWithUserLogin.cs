@@ -15,7 +15,7 @@ public abstract class IntegrationTestBaseWithUserLogin(CarMarketplaceApiFactory 
     protected override async Task SeedAsync()
     {
         UserEmail = Faker.Internet.Email();
-        UserPassword = Faker.Internet.Password();
+        UserPassword = Faker.Random.AlphaNumeric(8);
         UserFirstName = Faker.Name.FirstName();
         UserLastName = Faker.Name.LastName();
 

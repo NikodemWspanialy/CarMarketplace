@@ -25,7 +25,7 @@ inclusion: always
 - NEVER return Domain entities from handlers — always map to a `{EntityName}Response` DTO defined in Application layer
 - Commands and Queries (CQRS) — `ICommand<T>` → write operations, `IQuery<T>` → read operations
 - Exceptions inherit from `DomainException`
-- Pipeline Behaviors: `LoggerBehavior`, `UnitOfWorkBehavior`
+- Pipeline Behaviors: `ValidationBehavior`, `LoggerBehavior`, `UnitOfWorkBehavior`
 - File structure: `Application/{EntityNamePlural}/`
   - `Commands/` — write operations (create, update, delete)
   - `Queries/` — read operations

@@ -15,7 +15,7 @@ public class ChangePasswordTests(CarMarketplaceApiFactory factory) : Integration
     public async Task ChangePassword_WithValidOldPassword_AllowsLoginWithNewPassword()
     {
         // Arrange
-        var newPassword = Faker.Internet.Password();
+        var newPassword = Faker.Random.AlphaNumeric(8);
 
         // Act
         await SendAsync(new ChangePasswordRequest(UserPassword, newPassword));
@@ -29,7 +29,7 @@ public class ChangePasswordTests(CarMarketplaceApiFactory factory) : Integration
     public async Task ChangePassword_WithWrongOldPassword_ThrowsException()
     {
         // Act
-        var act = () => SendAsync(new ChangePasswordRequest("WrongPassword", Faker.Internet.Password()));
+        var act = () => SendAsync(new ChangePasswordRequest(Faker.Random.AlphaNumeric(8), Faker.Random.AlphaNumeric(8)));
 
         // Assert
         await act.Should().ThrowAsync<Exception>();
@@ -39,7 +39,7 @@ public class ChangePasswordTests(CarMarketplaceApiFactory factory) : Integration
     public async Task ChangePassword_WithEmptyOldPassword_ThrowsValidationException()
     {
         // Act
-        var act = () => SendAsync(new ChangePasswordRequest("", Faker.Internet.Password()));
+        var act = () => SendAsync(new ChangePasswordRequest("", Faker.Random.AlphaNumeric(8)));
 
         // Assert
         await act.Should().ThrowAsync<ValidationException>();
@@ -59,7 +59,7 @@ public class ChangePasswordTests(CarMarketplaceApiFactory factory) : Integration
     public async Task ChangePassword_WithSamePassword_ThrowsDomainException()
     {
         // Act
-        var act = () => SendAsync(new ChangePasswordRequest(UserEmail, UserEmail));
+        var act = () => SendAsync(new ChangePasswordRequest(UserPassword, UserPassword));
 
         // Assert
         await act.Should().ThrowAsync<DomainException>();

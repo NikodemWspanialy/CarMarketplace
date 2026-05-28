@@ -53,6 +53,6 @@ public class UpdateUserProfileTests(CarMarketplaceApiFactory factory) : Integrat
         await act.Should().ThrowAsync<ValidationException>();
 
         var user = await TestData.Users.FirstOrDefaultAsync(u => u.Id == UserId);
-        user!.LastName.Should().Be(UserFirstName);
+        user!.LastName.Should().Be(UserLastName);
     }
 }

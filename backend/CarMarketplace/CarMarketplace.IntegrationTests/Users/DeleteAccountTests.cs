@@ -17,7 +17,7 @@ public class DeleteAccountTests(CarMarketplaceApiFactory factory) : IntegrationT
         await SendAsync(new DeleteAccountRequest());
 
         // Assert
-        var user = await TestData.Users.FirstOrDefaultAsync(u => u.Id == UserId);
+        var user = await TestData.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Id == UserId);
         user.Should().NotBeNull();
         user!.IsDeleted.Should().BeTrue();
     }
