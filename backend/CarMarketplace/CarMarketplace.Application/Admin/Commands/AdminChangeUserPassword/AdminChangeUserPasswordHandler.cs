@@ -1,6 +1,7 @@
 using CarMarketplace.Application.Authorization.Helpers;
 using CarMarketplace.Application.Users.Repositories;
 using CarMarketplace.Application.Users.Searchers;
+using CarMarketplace.Domain.Users.Exceptions;
 using MediatR;
 
 namespace CarMarketplace.Application.Admin.Commands.AdminChangeUserPassword;
@@ -14,8 +15,11 @@ internal class AdminChangeUserPasswordHandler(
     {
         var user = await userSearcher.FindByIdAsync(request.UserId, token);
 
+        if (passwordHasher.VerifyHashedPassword(user.PasswordHash, request.NewPassword))
+            throw new SamePasswordAsPrevious();
+
         var newHash = passwordHasher.HashPassword(request.NewPassword);
-        user.ChangePassword(newHash, user.PasswordHash);
+        user.SetPassword(newHash);
 
         await userRepository.UpdateUserAsync(user, token);
 

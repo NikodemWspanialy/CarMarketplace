@@ -30,7 +30,7 @@ Represents a platform user account with authentication and role management.
 - `ActiveBan` (Reason, BannedAt, ExpiresAt?) — current ban state, null if not banned
 
 ## Actions
-- `ChangePassword` — update password hash (validates not same as previous, not empty)
+- `SetPassword` — update password hash (validates not empty; "same as previous" check is in handler via IPasswordHasher)
 - `ChangeEmail` — update email (validates not same as current)
 - `UpdateProfile` — change firstName, lastName
 - `PromoteToAdmin` — elevate role to Admin
