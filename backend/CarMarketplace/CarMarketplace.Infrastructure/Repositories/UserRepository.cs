@@ -10,10 +10,10 @@ public class UserRepository(CarMarketplaceDbContext dbContext) : IUserRepository
     public async Task<User?> GetUserByIdAsync(Guid userId, CancellationToken token = default) =>
         await dbContext.Users
             .Include(u => u.BanHistory)
-            .FirstOrDefaultAsync(u => u.Id == userId, token);
+            .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted, token);
 
     public async Task<User?> GetUserByEmailAsync(string email, CancellationToken token = default) =>
-        await dbContext.Users.FirstOrDefaultAsync(u => u.Email == email, token);
+        await dbContext.Users.FirstOrDefaultAsync(u => u.Email == email && !u.IsDeleted, token);
 
     public async Task AddUserAsync(User user, CancellationToken token = default) =>
         await dbContext.Users.AddAsync(user, cancellationToken: token);
@@ -27,7 +27,7 @@ public class UserRepository(CarMarketplaceDbContext dbContext) : IUserRepository
 
     public async Task<(IReadOnlyList<User> Users, int TotalCount)> GetPagedAsync(int pageNumber, int pageSize, CancellationToken token = default)
     {
-        var query = dbContext.Users.AsNoTracking();
+        var query = dbContext.Users.AsNoTracking().Where(u => !u.IsDeleted);
         var totalCount = await query.CountAsync(token);
 
         var users = await query

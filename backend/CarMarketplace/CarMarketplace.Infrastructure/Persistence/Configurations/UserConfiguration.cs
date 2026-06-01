@@ -66,9 +66,6 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         // Ignore computed property
         builder.Ignore(x => x.IsBanned);
 
-        // Global filter
-        builder.HasQueryFilter(x => !x.IsDeleted);
-
         // Indexes
         builder.HasIndex(x => x.Email).IsUnique();
     }
