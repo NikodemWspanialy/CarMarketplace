@@ -51,6 +51,7 @@ inclusion: always
 - A configuration class must be defined for every entity persisted to its own table (regardless of DbSet)
 - Child entity relationships defined via `HasMany` with strongly-typed navigation in the Aggregate Root's configuration
 - Repositories implement interfaces from Application
+- Repositories explicitly filter `!IsDeleted` in queries — no global query filters
 - Infrastructure exceptions inherit from `InfrastructureException`
 - UnitOfWork as pipeline behavior
 - Security: `CurrentUserProvider`, `UserRoleMapper`, password hasher, JWT provider in `Security/`
