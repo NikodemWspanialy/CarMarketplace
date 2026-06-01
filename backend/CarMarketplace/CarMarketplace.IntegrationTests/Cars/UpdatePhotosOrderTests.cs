@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
 using CarMarketplace.Application.Cars.Commands.UpdatePhotosOrder;
 using CarMarketplace.Application.Cars.Queries.GetCar;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
@@ -43,7 +44,7 @@ public class UpdatePhotosOrderTests(CarMarketplaceApiFactory factory) : Integrat
         var act = () => SendAsync(new UpdatePhotosOrderRequest(Guid.NewGuid(), [new(Guid.NewGuid(), 1)]));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 
     [Fact]

@@ -1,5 +1,6 @@
 using CarMarketplace.Application.Cars.Commands.UpdateCar;
 using CarMarketplace.Domain.Cars;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
@@ -39,6 +40,6 @@ public class UpdateCarTests(CarMarketplaceApiFactory factory) : IntegrationTestB
         var act = () => SendAsync(new UpdateCarRequest(Guid.NewGuid(), Faker.Vehicle.Manufacturer(), Faker.Vehicle.Model(), 2022, 10000, FuelType.Petrol, null));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }

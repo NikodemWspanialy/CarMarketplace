@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.Domain.Users;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
@@ -44,7 +45,7 @@ public class RegisterUserTests(CarMarketplaceApiFactory factory) : IntegrationTe
         var act = () => SendAsync(new RegisterUserRequest(email, Faker.Internet.Password(), Faker.Name.FirstName(), Faker.Name.LastName()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 
     [Fact]

@@ -2,6 +2,7 @@ using CarMarketplace.Application.Authorization.Commands.ForgotPassword;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.Application.Authorization.Commands.ResetPassword;
 using CarMarketplace.Application.Authorization.Queries.LoginUser;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
@@ -64,7 +65,7 @@ public class ResetPasswordTests(CarMarketplaceApiFactory factory) : IntegrationT
         var act = () => SendAsync(new ResetPasswordRequest(resetToken.Token, Faker.Internet.Password()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 
     [Fact]
@@ -74,6 +75,6 @@ public class ResetPasswordTests(CarMarketplaceApiFactory factory) : IntegrationT
         var act = () => SendAsync(new ResetPasswordRequest("invalid-token", Faker.Internet.Password()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }

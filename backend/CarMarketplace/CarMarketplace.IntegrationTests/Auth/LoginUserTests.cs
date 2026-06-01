@@ -1,5 +1,6 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.Application.Authorization.Queries.LoginUser;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
@@ -37,7 +38,7 @@ public class LoginUserTests(CarMarketplaceApiFactory factory) : IntegrationTestB
         var act = () => SendAsync(new LoginUserQuery(email, "WrongPassword"));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 
     [Fact]
@@ -47,7 +48,7 @@ public class LoginUserTests(CarMarketplaceApiFactory factory) : IntegrationTestB
         var act = () => SendAsync(new LoginUserQuery(Faker.Internet.Email(), Faker.Internet.Password()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 
     [Fact]
