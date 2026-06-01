@@ -47,6 +47,6 @@ public class DeleteCarTests(CarMarketplaceApiFactory factory) : IntegrationTestB
         var act = () => SendAsync(new DeleteCarRequest(Guid.NewGuid()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }

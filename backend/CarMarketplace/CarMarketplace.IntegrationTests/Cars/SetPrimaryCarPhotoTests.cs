@@ -1,6 +1,7 @@
 using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
 using CarMarketplace.Application.Cars.Commands.SetPrimaryCarPhoto;
 using CarMarketplace.Application.Cars.Queries.GetCar;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
@@ -41,6 +42,6 @@ public class SetPrimaryCarPhotoTests(CarMarketplaceApiFactory factory) : Integra
         var act = () => SendAsync(new SetPrimaryCarPhotoRequest(carId, Guid.NewGuid()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }

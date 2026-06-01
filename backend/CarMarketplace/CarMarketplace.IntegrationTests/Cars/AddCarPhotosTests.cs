@@ -1,6 +1,5 @@
 using CarMarketplace.Application.Cars.Commands.AddCarPhotos;
 using CarMarketplace.Application.Cars.Queries.GetCar;
-using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
@@ -62,6 +61,6 @@ public class AddCarPhotosTests(CarMarketplaceApiFactory factory) : IntegrationTe
         var act = () => SendAsync(new AddCarPhotosRequest(carId, photos));
 
         // Assert
-        await act.Should().ThrowAsync<DomainException>();
+        await act.Should().ThrowAsync<ValidationException>();
     }
 }

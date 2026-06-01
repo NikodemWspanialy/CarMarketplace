@@ -1,6 +1,7 @@
 using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
 using CarMarketplace.Application.Cars.Commands.DeleteCarPhoto;
 using CarMarketplace.Application.Cars.Queries.GetCar;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
@@ -36,6 +37,6 @@ public class DeleteCarPhotoTests(CarMarketplaceApiFactory factory) : Integration
         var act = () => SendAsync(new DeleteCarPhotoRequest(carId, Guid.NewGuid()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }
