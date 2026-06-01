@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
 using CarMarketplace.Application.Cars.Commands.UpdatePhotosOrder;
 using CarMarketplace.Application.Cars.Queries.GetCar;
@@ -46,7 +47,7 @@ public class UpdatePhotosOrderTests(CarMarketplaceApiFactory factory) : Integrat
     }
 
     [Fact]
-    public async Task UpdateOrder_WithDuplicateOrder_ThrowsException()
+    public async Task UpdateOrder_WithDuplicateOrder_ThrowsValidationException()
     {
         // Arrange
         var carId = await SendAsync(new CreateCarRequestBuilder().Build());
@@ -63,6 +64,6 @@ public class UpdatePhotosOrderTests(CarMarketplaceApiFactory factory) : Integrat
         var act = () => SendAsync(new UpdatePhotosOrderRequest(carId, photos));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<ValidationException>();
     }
 }
