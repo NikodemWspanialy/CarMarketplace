@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
 using CarMarketplace.Application.Cars.Commands.UpdatePhotosOrder;
 using CarMarketplace.Application.Cars.Queries.GetCar;
@@ -7,6 +6,7 @@ using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
 using FluentAssertions;
+using FluentValidation;
 using Xunit;
 
 namespace CarMarketplace.IntegrationTests.Cars;
