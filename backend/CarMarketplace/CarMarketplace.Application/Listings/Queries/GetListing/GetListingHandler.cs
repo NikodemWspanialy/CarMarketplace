@@ -25,8 +25,7 @@ internal class GetListingHandler(
         var contactDtos = contacts.Select(ContactResponse.FromEntity).ToList();
 
         // Register view with 24h dedup
-        Guid? viewerId = null;
-        try { viewerId = currentUserProvider.GetUserId(); } catch { /* anonymous */ }
+        var viewerId = currentUserProvider.GetUserIdOrNull();
 
         var hasRecentView = await listingViewRepository.ExistsRecentViewAsync(
             listing.Id, viewerId, TimeSpan.FromHours(24), token);

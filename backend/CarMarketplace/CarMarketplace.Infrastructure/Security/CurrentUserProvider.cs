@@ -15,6 +15,13 @@ internal class CurrentUserProvider(IHttpContextAccessor httpContextAccessor) : I
         return Guid.Parse(claim.Value);
     }
 
+    public Guid? GetUserIdOrNull()
+    {
+        var claim = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
+
+        return claim is not null && Guid.TryParse(claim.Value, out var userId) ? userId : null;
+    }
+
     public UserRole GetUserRole()
     {
         var claim = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role)

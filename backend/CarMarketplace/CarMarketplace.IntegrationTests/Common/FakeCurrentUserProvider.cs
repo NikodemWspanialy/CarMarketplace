@@ -9,5 +9,6 @@ public class FakeCurrentUserProvider : ICurrentUserProvider
     public UserRole Role { get; set; } = UserRole.User;
 
     public Guid GetUserId() => UserId;
+    public Guid? GetUserIdOrNull() => UserId == Guid.Empty ? null : UserId;
     public UserRole GetUserRole() => Role;
 }
