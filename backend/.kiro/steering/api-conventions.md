@@ -89,10 +89,13 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 
 ## Error Handling
 - `GlobalExceptionMiddleware` catches all exceptions
+- `FluentValidation.ValidationException` → 400 Bad Request with field-level errors
 - `DomainException` → 400 Bad Request
 - `UnauthorizedAccessException` → 401 Unauthorized
 - Other → 500 Internal Server Error
-- Response format: `ErrorResponse(message, statusCode, details)`
+- Response format: `ErrorResponse(message, statusCode, errors?)`
+- Validation error response includes `errors` dictionary: `{ "fieldName": ["message1", "message2"] }`
+- JSON serialized with `camelCase` property naming
 
 ## Endpoints
 - Auth: `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`, `POST /api/auth/refresh-token`, `POST /api/auth/logout`
