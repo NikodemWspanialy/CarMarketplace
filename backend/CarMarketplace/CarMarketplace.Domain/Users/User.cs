@@ -57,14 +57,6 @@ public class User : IAggregateRoot
         LastName = lastName;
     }
 
-    public void ResetPassword(string newPasswordHash)
-    {
-        if (string.IsNullOrEmpty(newPasswordHash))
-            throw new InvalidPassword();
-
-        PasswordHash = newPasswordHash;
-    }
-
     public void ChangeEmail(string newEmail)
     {
         if (Email == newEmail)
