@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace CarMarketplace.Application.Users.Validators;
+namespace CarMarketplace.Application.Common.Validators;
 
 public static class PasswordValidatorExtensions
 {

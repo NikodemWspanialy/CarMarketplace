@@ -1,5 +1,5 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
-using CarMarketplace.Application.Users.Validators;
+using CarMarketplace.Application.Common.Validators;
 using FluentValidation;
 
 namespace CarMarketplace.Application.Authorization.Validators;

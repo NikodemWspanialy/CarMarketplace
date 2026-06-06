@@ -57,7 +57,5 @@ inclusion: always
 
 ## Shared Validator Extensions
 - Pattern: `{FieldName}ValidatorExtensions` with extension method `Valid{FieldName}<T>()`
-- Entity-specific extensions located in `Application/{OwningEntityPlural}/Validators/`
-- Cross-cutting extensions located in `Application/Common/Validators/`
-- Example: `PasswordValidatorExtensions.ValidPassword()` in `Users/Validators/`
-- Example: `PagingValidatorExtensions.ValidPaging()` in `Common/Validators/`
+- Located in `Application/Common/Validators/`
+- Example: `PasswordValidatorExtensions.ValidPassword()`, `PagingValidatorExtensions.ValidPaging()`

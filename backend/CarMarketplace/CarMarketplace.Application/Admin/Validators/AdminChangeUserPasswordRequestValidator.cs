@@ -1,5 +1,5 @@
 using CarMarketplace.Application.Admin.Commands.AdminChangeUserPassword;
-using CarMarketplace.Application.Users.Validators;
+using CarMarketplace.Application.Common.Validators;
 using FluentValidation;
 
 namespace CarMarketplace.Application.Admin.Validators;
