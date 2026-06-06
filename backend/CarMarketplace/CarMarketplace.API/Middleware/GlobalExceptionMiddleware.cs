@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using CarMarketplace.Domain.Exceptions;
+using CarMarketplace.Infrastructure.Exceptions;
 using FluentValidation;
 
 namespace CarMarketplace.API.Middleware;
@@ -35,6 +36,7 @@ public class GlobalExceptionMiddleware(
             ValidationException ex => HandleValidationException(ex),
             DomainException ex => HandleDomainException(ex),
             UnauthorizedAccessException ex => HandleUnauthorizedException(ex),
+            InfrastructureException ex => HandleInfrastructureException(ex),
             _ => HandleUnknownException(exception)
         };
 
@@ -71,6 +73,13 @@ public class GlobalExceptionMiddleware(
         logger.LogWarning(exception, "Unauthorized access: {Message}", exception.Message);
 
         return new(exception.Message, (int)HttpStatusCode.Unauthorized);
+    }
+
+    private ErrorResponse HandleInfrastructureException(InfrastructureException exception)
+    {
+        logger.LogError(exception, "Infrastructure exception occurred");
+
+        return new("Internal Server Error", (int)HttpStatusCode.InternalServerError);
     }
 
     private ErrorResponse HandleUnknownException(Exception exception)

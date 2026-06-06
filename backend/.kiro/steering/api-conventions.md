@@ -92,6 +92,7 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - `FluentValidation.ValidationException` → 400 Bad Request with field-level errors
 - `DomainException` → 400 Bad Request
 - `UnauthorizedAccessException` → 401 Unauthorized
+- `InfrastructureException` → 500 Internal Server Error with generic message — never expose infrastructure details to client
 - Other → 500 Internal Server Error
 - All exceptions logged via `ILogger` — `LogWarning` for expected (validation, domain, unauthorized), `LogError` for unknown (500)
 - Response format: `ErrorResponse(message, statusCode, errors?)`
