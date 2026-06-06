@@ -54,3 +54,10 @@ inclusion: always
 - Pattern: `I{EntityName}Service` → `{EntityName}Service`
 - One service per aggregate for common operations shared between user and admin handlers
 - Located in `Application/{EntityNamePlural}/Helpers/`
+
+## Shared Validator Extensions
+- Pattern: `{FieldName}ValidatorExtensions` with extension method `Valid{FieldName}<T>()`
+- Entity-specific extensions located in `Application/{OwningEntityPlural}/Validators/`
+- Cross-cutting extensions located in `Application/Common/Validators/`
+- Example: `PasswordValidatorExtensions.ValidPassword()` in `Users/Validators/`
+- Example: `PagingValidatorExtensions.ValidPaging()` in `Common/Validators/`

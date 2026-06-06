@@ -3,6 +3,7 @@ using System.Text;
 using CarMarketplace.API.Common;
 using CarMarketplace.API.Middleware;
 using CarMarketplace.Application.Extensions;
+using CarMarketplace.Domain.Users;
 using CarMarketplace.Infrastructure.Extensions;
 using CarMarketplace.Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,7 +68,7 @@ builder.Services
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(AuthPolicy.AdminOnly, policy =>
-        policy.RequireRole("Admin"));
+        policy.RequireRole(nameof(UserRole.Admin)));
 });
 
 // End Authentication

@@ -15,7 +15,7 @@ internal class AdminChangeUserPasswordHandler(
     {
         var user = await userSearcher.FindByIdAsync(request.UserId, token);
 
-        if (passwordHasher.VerifyHashedPassword(user.PasswordHash, request.NewPassword))
+        if (passwordHasher.VerifyHashedPassword(user.PasswordHash, request.NewPassword)) // This is not a good idea
             throw new SamePasswordAsPrevious();
 
         var newHash = passwordHasher.HashPassword(request.NewPassword);
