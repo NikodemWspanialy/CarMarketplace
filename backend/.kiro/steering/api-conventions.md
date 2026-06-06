@@ -87,6 +87,11 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Policy-based authorization for role-restricted controllers
 - `AdminOnly` policy — requires `Admin` role, applied at controller level with `[Authorize(Policy = "AdminOnly")]`
 
+## CORS
+- Named policy "AllowFrontend" — allowed origins from `appsettings.json` → `Cors:AllowedOrigins`
+- Any headers, any methods allowed
+- `UseCors` placed before `UseAuthentication` in pipeline
+
 ## Error Handling
 - `GlobalExceptionMiddleware` catches all exceptions
 - `FluentValidation.ValidationException` → 400 Bad Request with field-level errors
