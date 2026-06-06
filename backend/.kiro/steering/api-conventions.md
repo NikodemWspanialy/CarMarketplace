@@ -87,10 +87,17 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Policy-based authorization for role-restricted controllers
 - `AdminOnly` policy — requires `Admin` role, applied at controller level with `[Authorize(Policy = "AdminOnly")]`
 
+## Rate Limiting
+- Built-in `AddRateLimiter` with named policies, partitioned per IP
+- Policy `"auth"` — fixed window, 5 requests/min per IP, applied to sensitive auth endpoints (login, forgot-password, reset-password)
+- Apply via `[EnableRateLimiting("policyName")]` on individual actions
+- `app.UseRateLimiter()` placed before `UseAuthentication` in pipeline
+- Rejection returns 429 Too Many Requests
+
 ## CORS
 - Named policy "AllowFrontend" — allowed origins from `appsettings.json` → `Cors:AllowedOrigins`
 - Any headers, any methods allowed
-- `UseCors` placed before `UseAuthentication` in pipeline
+- `UseCors` placed before `UseRateLimiter` in pipeline
 
 ## Error Handling
 - `GlobalExceptionMiddleware` catches all exceptions

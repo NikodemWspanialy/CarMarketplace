@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using System.Threading.RateLimiting;
 using CarMarketplace.API.Common;
 using CarMarketplace.API.Middleware;
 using CarMarketplace.Application.Extensions;
@@ -91,6 +92,24 @@ builder.Services.AddAuthorization(options =>
 
 // End Authentication
 
+// Rate Limiting
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy(RateLimitPolicy.Auth, context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+});
+
+// End Rate Limiting
+
 var app = builder.Build();
 
 // Middlewares
@@ -108,6 +127,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
