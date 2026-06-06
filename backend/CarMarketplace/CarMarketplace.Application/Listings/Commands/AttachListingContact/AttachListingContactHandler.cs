@@ -1,4 +1,5 @@
 using CarMarketplace.Application.Contacts.Searchers;
+using CarMarketplace.Application.Listings.Exceptions;
 using CarMarketplace.Application.Listings.Helpers;
 using CarMarketplace.Application.Listings.Repositories;
 using CarMarketplace.Application.Listings.Searchers;
@@ -18,8 +19,9 @@ internal class AttachListingContactHandler(
         var listing = await listingSearcher.FindByIdAsync(request.ListingId, token);
         listingSellerGuard.EnsureCanMutate(listing.SellerId);
 
-        // Validate contact exists
-        await contactSearcher.FindByIdAsync(request.ContactId, token);
+        var contact = await contactSearcher.FindByIdAsync(request.ContactId, token);
+        if (contact.SellerId != listing.SellerId)
+            throw new ContactsNotOwnedBySeller();
 
         listing.AttachContact(request.ContactId);
         await listingRepository.UpdateAsync(listing, token);

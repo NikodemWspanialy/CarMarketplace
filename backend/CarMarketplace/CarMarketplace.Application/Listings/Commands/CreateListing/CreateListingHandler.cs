@@ -20,8 +20,10 @@ internal class CreateListingHandler(
     {
         var sellerId = currentUserProvider.GetUserId();
 
-        // Validate car exists
-        await carSearcher.FindByIdAsync(request.CarId, token);
+        // Validate car exists and belongs to seller
+        var car = await carSearcher.FindByIdAsync(request.CarId, token);
+        if (car.SellerId != sellerId)
+            throw new CarNotOwnedBySeller();
 
         // Validate no active listing for this car
         var existing = await listingRepository.GetByCarIdActiveAsync(request.CarId, token);
