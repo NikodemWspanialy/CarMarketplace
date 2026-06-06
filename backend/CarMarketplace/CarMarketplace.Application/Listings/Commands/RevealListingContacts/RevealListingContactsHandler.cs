@@ -13,9 +13,9 @@ internal class RevealListingContactsHandler(
     IContactRepository contactRepository,
     IContactRevealRepository contactRevealRepository,
     ICurrentUserProvider currentUserProvider)
-    : IRequestHandler<RevealListingContactsRequest, List<ContactResponse>>
+    : IRequestHandler<RevealListingContactsRequest, IReadOnlyList<ContactResponse>>
 {
-    public async Task<List<ContactResponse>> Handle(RevealListingContactsRequest request, CancellationToken token)
+    public async Task<IReadOnlyList<ContactResponse>> Handle(RevealListingContactsRequest request, CancellationToken token)
     {
         var listing = await listingSearcher.FindByIdAsync(request.ListingId, token);
         var viewerId = currentUserProvider.GetUserId();
