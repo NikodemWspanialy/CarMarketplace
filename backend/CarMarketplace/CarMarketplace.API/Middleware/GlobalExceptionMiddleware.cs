@@ -6,7 +6,7 @@ using FluentValidation;
 namespace CarMarketplace.API.Middleware;
 
 public class GlobalExceptionMiddleware(
-    //ILogger logger,
+    ILogger<GlobalExceptionMiddleware> logger,
     RequestDelegate next)
 {
     private static readonly JsonSerializerOptions serializationOptions = new()
@@ -22,12 +22,11 @@ public class GlobalExceptionMiddleware(
         }
         catch (Exception ex)
         {
-            // logger.LogError(ex, ex.Message); // TODO add new middleware with logging for every call
             await HandleExceptionAsync(context, ex);
         }
     }
     
-    private static Task HandleExceptionAsync(
+    private Task HandleExceptionAsync(
         HttpContext context,
         Exception exception)
     {
@@ -47,7 +46,7 @@ public class GlobalExceptionMiddleware(
         return context.Response.WriteAsync(json);
     }
 
-    private static ErrorResponse HandleValidationException(ValidationException exception)
+    private ErrorResponse HandleValidationException(ValidationException exception)
     {
         var errors = exception.Errors
             .GroupBy(e => e.PropertyName)
@@ -55,15 +54,29 @@ public class GlobalExceptionMiddleware(
                 g => g.Key,
                 g => g.Select(e => e.ErrorMessage).ToArray());
 
+        logger.LogWarning(exception, "Validation failed: {@Errors}", errors);
+
         return new(exception.Message, (int)HttpStatusCode.BadRequest, errors);
     }
 
-    private static ErrorResponse HandleDomainException(DomainException exception) =>
-        new(exception.Message, (int)HttpStatusCode.BadRequest);
+    private ErrorResponse HandleDomainException(DomainException exception)
+    {
+        logger.LogWarning(exception, "Domain exception: {Message}", exception.Message);
 
-    private static ErrorResponse HandleUnauthorizedException(UnauthorizedAccessException exception) =>
-        new(exception.Message, (int)HttpStatusCode.Unauthorized);
+        return new(exception.Message, (int)HttpStatusCode.BadRequest);
+    }
 
-    private static ErrorResponse HandleUnknownException(Exception exception) =>
-        new(exception.Message, (int)HttpStatusCode.InternalServerError);
+    private ErrorResponse HandleUnauthorizedException(UnauthorizedAccessException exception)
+    {
+        logger.LogWarning(exception, "Unauthorized access: {Message}", exception.Message);
+
+        return new(exception.Message, (int)HttpStatusCode.Unauthorized);
+    }
+
+    private ErrorResponse HandleUnknownException(Exception exception)
+    {
+        logger.LogError(exception, "Unhandled exception occurred");
+
+        return new(exception.Message, (int)HttpStatusCode.InternalServerError);
+    }
 }

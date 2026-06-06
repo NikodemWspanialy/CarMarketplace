@@ -93,6 +93,7 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - `DomainException` → 400 Bad Request
 - `UnauthorizedAccessException` → 401 Unauthorized
 - Other → 500 Internal Server Error
+- All exceptions logged via `ILogger` — `LogWarning` for expected (validation, domain, unauthorized), `LogError` for unknown (500)
 - Response format: `ErrorResponse(message, statusCode, errors?)`
 - Validation error response includes `errors` dictionary: `{ "fieldName": ["message1", "message2"] }`
 - JSON serialized with `camelCase` property naming
