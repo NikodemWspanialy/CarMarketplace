@@ -10,6 +10,8 @@ public class GlobalExceptionMiddleware(
     ILogger<GlobalExceptionMiddleware> logger,
     RequestDelegate next)
 {
+    private const string InternalServerError = "Internal Server Error";
+
     private static readonly JsonSerializerOptions serializationOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -79,13 +81,13 @@ public class GlobalExceptionMiddleware(
     {
         logger.LogError(exception, "Infrastructure exception occurred");
 
-        return new("Internal Server Error", (int)HttpStatusCode.InternalServerError);
+        return new(InternalServerError, (int)HttpStatusCode.InternalServerError);
     }
 
     private ErrorResponse HandleUnknownException(Exception exception)
     {
         logger.LogError(exception, "Unhandled exception occurred");
 
-        return new(exception.Message, (int)HttpStatusCode.InternalServerError);
+        return new(InternalServerError, (int)HttpStatusCode.InternalServerError);
     }
 }
