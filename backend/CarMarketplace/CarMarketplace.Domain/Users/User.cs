@@ -43,11 +43,8 @@ public class User : IAggregateRoot
         Id = Guid.NewGuid();
     }
 
-    public void ChangePassword(string newPasswordHash, string oldPasswordHash)
+    public void ChangePassword(string newPasswordHash)
     {
-        if (newPasswordHash == oldPasswordHash)
-            throw new SamePasswordAsPrevious();
-
         if (string.IsNullOrEmpty(newPasswordHash))
             throw new InvalidPassword();
 
@@ -58,14 +55,6 @@ public class User : IAggregateRoot
     {
         FirstName = firstName;
         LastName = lastName;
-    }
-
-    public void ResetPassword(string newPasswordHash)
-    {
-        if (string.IsNullOrEmpty(newPasswordHash))
-            throw new InvalidPassword();
-
-        PasswordHash = newPasswordHash;
     }
 
     public void ChangeEmail(string newEmail)
