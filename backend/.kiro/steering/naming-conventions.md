@@ -61,3 +61,8 @@ inclusion: always
 - Throw domain exceptions on violation
 - NOT FluentValidation — these are separate interfaces for cross-aggregate or DB-dependent rules
 - Located in `Application/{EntityNamePlural}/Validators/`
+
+## Shared FluentValidation Rules
+- When Create and Update validators share identical rules, extract to a static class `{EntityName}ValidationRules`
+- Use an extension method (e.g., `ApplyContactDetailsRules<T>(...)`) accepting property expressions
+- Located in `Application/{EntityNamePlural}/Validators/` alongside the validators
