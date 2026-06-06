@@ -55,6 +55,12 @@ inclusion: always
 - One service per aggregate for common operations shared between user and admin handlers
 - Located in `Application/{EntityNamePlural}/Helpers/`
 
+## Policy Constants
+- Pattern: `{Concern}Policy` — internal static class with `internal const string` members
+- Located in `API/Common/`
+- Examples: `AuthPolicy.AdminOnly`, `RateLimitPolicy.Auth`, `CorsPolicy.AllowFrontend`
+- No magic strings in controllers or Program.cs — always reference policy constants
+
 ## Shared Validator Extensions
 - Pattern: `{FieldName}ValidatorExtensions` with extension method `Valid{FieldName}<T>()`
 - Located in `Application/Common/Validators/`
