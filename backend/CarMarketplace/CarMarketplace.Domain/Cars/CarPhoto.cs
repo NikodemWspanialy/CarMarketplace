@@ -1,6 +1,8 @@
+using CarMarketplace.Domain.Abstractions;
+
 namespace CarMarketplace.Domain.Cars;
 
-public class CarPhoto
+public class CarPhoto : IEntity
 {
     public Guid Id { get; private set; }
 

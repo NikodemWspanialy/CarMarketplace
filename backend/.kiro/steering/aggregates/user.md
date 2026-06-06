@@ -48,8 +48,11 @@ Represents a platform user account with authentication and role management.
 - Cannot demote if already User
 - Cannot ban if already banned (non-expired)
 - Cannot unban if not banned
+- Admin cannot ban themselves
+- Admin cannot demote themselves
 - Ban with null ExpiresAt is permanent
 - `IsBanned` = ActiveBan is not null and not expired
+- Banned users cannot log in (checked after password verification)
 - Email must be unique (enforced at DB level via unique index)
 
 ## Authorization

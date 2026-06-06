@@ -1,13 +1,22 @@
 using System.Net;
 using System.Text.Json;
 using CarMarketplace.Domain.Exceptions;
+using CarMarketplace.Infrastructure.Exceptions;
+using FluentValidation;
 
 namespace CarMarketplace.API.Middleware;
 
 public class GlobalExceptionMiddleware(
-    //ILogger logger,
+    ILogger<GlobalExceptionMiddleware> logger,
     RequestDelegate next)
 {
+    private const string InternalServerError = "Internal Server Error";
+
+    private static readonly JsonSerializerOptions serializationOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
     public async Task Invoke(HttpContext context)
     {
         try
@@ -16,29 +25,69 @@ public class GlobalExceptionMiddleware(
         }
         catch (Exception ex)
         {
-            // logger.LogError(ex, ex.Message); // TODO add new middleware with logging for every call
             await HandleExceptionAsync(context, ex);
         }
     }
     
-    private static Task HandleExceptionAsync(
+    private Task HandleExceptionAsync(
         HttpContext context,
         Exception exception)
     {
-        var statusCode = exception switch
+        var response = exception switch
         {
-            DomainException => HttpStatusCode.BadRequest,
-            UnauthorizedAccessException => HttpStatusCode.Unauthorized,
-            _ => HttpStatusCode.InternalServerError
+            ValidationException ex => HandleValidationException(ex),
+            DomainException ex => HandleDomainException(ex),
+            UnauthorizedAccessException ex => HandleUnauthorizedException(ex),
+            InfrastructureException ex => HandleInfrastructureException(ex),
+            _ => HandleUnknownException(exception)
         };
 
-        var response = new ErrorResponse(exception.Message, (int)statusCode, null);
-
-        var json = JsonSerializer.Serialize(response);
-
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)statusCode;
+        context.Response.StatusCode = response.StatusCode;
+
+        var json = JsonSerializer.Serialize(response, serializationOptions);
 
         return context.Response.WriteAsync(json);
+    }
+
+    private ErrorResponse HandleValidationException(ValidationException exception)
+    {
+        var errors = exception.Errors
+            .GroupBy(e => e.PropertyName)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(e => e.ErrorMessage).ToArray());
+
+        logger.LogWarning(exception, "Validation failed: {@Errors}", errors);
+
+        return new(exception.Message, (int)HttpStatusCode.BadRequest, errors);
+    }
+
+    private ErrorResponse HandleDomainException(DomainException exception)
+    {
+        logger.LogWarning(exception, "Domain exception: {Message}", exception.Message);
+
+        return new(exception.Message, (int)HttpStatusCode.BadRequest);
+    }
+
+    private ErrorResponse HandleUnauthorizedException(UnauthorizedAccessException exception)
+    {
+        logger.LogWarning(exception, "Unauthorized access: {Message}", exception.Message);
+
+        return new(exception.Message, (int)HttpStatusCode.Unauthorized);
+    }
+
+    private ErrorResponse HandleInfrastructureException(InfrastructureException exception)
+    {
+        logger.LogError(exception, "Infrastructure exception occurred");
+
+        return new(InternalServerError, (int)HttpStatusCode.InternalServerError);
+    }
+
+    private ErrorResponse HandleUnknownException(Exception exception)
+    {
+        logger.LogError(exception, "Unhandled exception occurred");
+
+        return new(InternalServerError, (int)HttpStatusCode.InternalServerError);
     }
 }

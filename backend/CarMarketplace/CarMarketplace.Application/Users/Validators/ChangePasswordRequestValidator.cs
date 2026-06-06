@@ -1,3 +1,4 @@
+using CarMarketplace.Application.Common.Validators;
 using CarMarketplace.Application.Users.Commands.ChangePassword;
 using FluentValidation;
 
@@ -8,6 +9,6 @@ public class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRe
     public ChangePasswordRequestValidator()
     {
         RuleFor(x => x.OldPassword).NotEmpty();
-        RuleFor(x => x.NewPassword).NotEmpty().MinimumLength(6);
+        RuleFor(x => x.NewPassword).ValidPassword();
     }
 }

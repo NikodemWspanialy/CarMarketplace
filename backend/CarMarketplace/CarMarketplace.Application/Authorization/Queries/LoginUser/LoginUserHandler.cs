@@ -25,6 +25,9 @@ internal class LoginUserHandler(
             throw new InvalidCredentials();
         }
 
+        if (user.IsBanned)
+            throw new UserIsBanned();
+
         var accessToken = jwtProvider.Generate(user);
 
         return new AuthResponse(accessToken);

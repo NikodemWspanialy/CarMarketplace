@@ -22,6 +22,7 @@ fileMatchPattern: "**/Domain/**,**/Application/**/Commands/**,**/Application/**/
 
 - Each aggregate implements `IAggregateRoot`
 - The aggregate is the only entry point for modifying its child entities
+- Child entities implement `IEntity`
 - Aggregates reference other aggregates ONLY by Id (never by object reference)
 - Keep aggregates small — they define consistency boundaries
 - If two things don't need to be consistent in the same transaction, they belong to separate aggregates

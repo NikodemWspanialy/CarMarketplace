@@ -1,3 +1,3 @@
 namespace CarMarketplace.Infrastructure.Exceptions;
 
-public class NullConnectionString() : Exception("Connection string is null.");
+public class NullConnectionString() : InfrastructureException("Connection string is null.");

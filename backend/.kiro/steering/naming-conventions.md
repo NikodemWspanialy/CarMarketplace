@@ -54,3 +54,20 @@ inclusion: always
 - Pattern: `I{EntityName}Service` → `{EntityName}Service`
 - One service per aggregate for common operations shared between user and admin handlers
 - Located in `Application/{EntityNamePlural}/Helpers/`
+
+## Policy Constants
+- Pattern: `{Concern}Policy` — internal static class with `internal const string` members
+- Located in `API/Common/`
+- Examples: `AuthPolicy.AdminOnly`, `RateLimitPolicy.Auth`, `CorsPolicy.AllowFrontend`
+- No magic strings in controllers or Program.cs — always reference policy constants
+
+## Shared Validator Extensions
+- Pattern: `{FieldName}ValidatorExtensions` with extension method `Valid{FieldName}<T>()`
+- Located in `Application/Common/Validators/`
+- Example: `PasswordValidatorExtensions.ValidPassword()`, `PagingValidatorExtensions.ValidPaging()`
+
+## Command Validators (business rule interfaces)
+- Pattern: `I{Operation}{EntityName}Validator` → `{Operation}{EntityName}Validator`
+- For application-level business rule checks that require async/repository access (e.g., email uniqueness)
+- Located in `Application/{Feature}/Validators/`
+- Examples: `IRegisterUserValidator`, `IChangeEmailValidator`

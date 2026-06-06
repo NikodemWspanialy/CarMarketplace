@@ -41,6 +41,7 @@ inclusion: always
   - `Abstractions/` — `ICommand`, `IQuery` interfaces
   - `Behaviors/` — `LoggerBehavior`, `UnitOfWorkBehavior`
   - `Interfaces/` — `IUnitOfWork`, `ICurrentUserProvider`
+  - `Validators/` — shared validation extensions (e.g., paging rules)
 - Admin operations in `Application/Admin/` — commands restricted to admin role
 
 ### Infrastructure
