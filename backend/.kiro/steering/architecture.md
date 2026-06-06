@@ -20,6 +20,7 @@ inclusion: always
 - Soft delete via `IsDeleted` flag
 - File structure: `Domain/{EntityNamePlural}/{EntityName}.cs`
   - Example: `Domain/Cars/Car.cs`, `Domain/Users/User.cs`
+  - Standalone entities also get their own folder: `Domain/{EntityNamePlural}/{EntityName}.cs`
 
 ### Application
 - NEVER return Domain entities from handlers — always map to a `{EntityName}Response` DTO defined in Application layer
