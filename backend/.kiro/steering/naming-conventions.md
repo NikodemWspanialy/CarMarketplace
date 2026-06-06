@@ -54,3 +54,10 @@ inclusion: always
 - Pattern: `I{EntityName}Service` → `{EntityName}Service`
 - One service per aggregate for common operations shared between user and admin handlers
 - Located in `Application/{EntityNamePlural}/Helpers/`
+
+## Domain Validators (Application layer)
+- Pattern: `I{Operation}{EntityName}Validator` → `{Operation}{EntityName}Validator`
+- Async business rule checks that require DB access (e.g., uniqueness, limits) — called from handlers
+- Throw domain exceptions on violation
+- NOT FluentValidation — these are separate interfaces for cross-aggregate or DB-dependent rules
+- Located in `Application/{EntityNamePlural}/Validators/`
