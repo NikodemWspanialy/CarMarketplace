@@ -65,3 +65,9 @@ inclusion: always
 - Pattern: `{FieldName}ValidatorExtensions` with extension method `Valid{FieldName}<T>()`
 - Located in `Application/Common/Validators/`
 - Example: `PasswordValidatorExtensions.ValidPassword()`, `PagingValidatorExtensions.ValidPaging()`
+
+## Command Validators (business rule interfaces)
+- Pattern: `I{Operation}{EntityName}Validator` → `{Operation}{EntityName}Validator`
+- For application-level business rule checks that require async/repository access (e.g., email uniqueness)
+- Located in `Application/{Feature}/Validators/`
+- Examples: `IRegisterUserValidator`, `IChangeEmailValidator`
