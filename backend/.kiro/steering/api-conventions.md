@@ -10,6 +10,7 @@ fileMatchPattern: "**/Controllers/**"
 - Route: `[Route("api/resource")]`
 - DI via primary constructor: `public class XController(IMediator mediator)`
 - Controller contains NO logic — only `mediator.Send(request)`
+- When a GET endpoint has a side effect (e.g., registering a view), dispatch a query first, then a separate command for the side effect — keeps queries pure and side effects transactional via `UnitOfWorkBehavior`
 - Debug/internal controllers or endpoints: hide from Swagger with `[ApiExplorerSettings(IgnoreApi = true)]`
 
 ## CancellationToken

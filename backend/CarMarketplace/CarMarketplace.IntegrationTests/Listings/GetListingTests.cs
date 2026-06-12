@@ -4,7 +4,6 @@ using CarMarketplace.Domain.Listings;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Listings.Base;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace CarMarketplace.IntegrationTests.Listings;
@@ -39,36 +38,5 @@ public class GetListingTests(CarMarketplaceApiFactory factory) : ListingTestBase
 
         // Assert
         await act.Should().ThrowAsync<ListingNotFound>();
-    }
-
-    [Fact]
-    public async Task GetListing_RegistersViewInDb()
-    {
-        // Arrange
-        var listingId = await CreateActiveListingAsync();
-
-        // Act
-        await SendAsync(new GetListingRequest(listingId));
-
-        // Assert
-        var views = await TestData.ListingViews.Where(v => v.ListingId == listingId).ToListAsync();
-        views.Should().HaveCount(1);
-        views[0].ViewerId.Should().Be(UserId);
-        views[0].IpAddress.Should().Be("127.0.0.1");
-    }
-
-    [Fact]
-    public async Task GetListing_SecondViewWithin24h_DoesNotDuplicateView()
-    {
-        // Arrange
-        var listingId = await CreateActiveListingAsync();
-        await SendAsync(new GetListingRequest(listingId));
-
-        // Act
-        await SendAsync(new GetListingRequest(listingId));
-
-        // Assert
-        var views = await TestData.ListingViews.Where(v => v.ListingId == listingId).ToListAsync();
-        views.Should().HaveCount(1);
     }
 }

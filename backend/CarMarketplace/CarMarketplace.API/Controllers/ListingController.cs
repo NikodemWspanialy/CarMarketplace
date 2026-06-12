@@ -6,6 +6,7 @@ using CarMarketplace.Application.Listings.Commands.DeleteListing;
 using CarMarketplace.Application.Listings.Commands.DetachListingContact;
 using CarMarketplace.Application.Listings.Commands.MarkListingAsSold;
 using CarMarketplace.Application.Listings.Commands.ReactivateListing;
+using CarMarketplace.Application.Listings.Commands.RegisterListingView;
 using CarMarketplace.Application.Listings.Commands.RevealListingContacts;
 using CarMarketplace.Application.Listings.Commands.UpdateListingTitle;
 using CarMarketplace.Application.Listings.Queries.GetListing;
@@ -34,6 +35,7 @@ public class ListingController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> GetById(Guid id, CancellationToken token = default)
     {
         var result = await mediator.Send(new GetListingRequest(id), token);
+        await mediator.Send(new RegisterListingViewRequest(id), token);
 
         return Ok(result);
     }

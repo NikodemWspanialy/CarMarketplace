@@ -1,6 +1,6 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
+using CarMarketplace.Application.Listings.Commands.RegisterListingView;
 using CarMarketplace.Application.Listings.Commands.RevealListingContacts;
-using CarMarketplace.Application.Listings.Queries.GetListing;
 using CarMarketplace.Application.Listings.Queries.GetListingStats;
 using CarMarketplace.Domain.Users;
 using CarMarketplace.IntegrationTests.Common;
@@ -36,7 +36,7 @@ public class GetListingStatsTests(CarMarketplaceApiFactory factory) : ListingTes
         var buyerId = await SendAsync(new RegisterUserRequest(
             Faker.Internet.Email(), Faker.Internet.Password(), Faker.Name.FirstName(), Faker.Name.LastName()));
         SetCurrentUser(buyerId, UserRole.User);
-        await SendAsync(new GetListingRequest(listingId));
+        await SendAsync(new RegisterListingViewRequest(listingId));
         await SendAsync(new RevealListingContactsRequest(listingId));
 
         // Switch back to seller
