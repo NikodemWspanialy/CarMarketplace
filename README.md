@@ -8,6 +8,7 @@
 ![DDD](https://img.shields.io/badge/DDD-Domain_Driven_Design-orange)
 ![CQRS](https://img.shields.io/badge/CQRS-MediatR-red)
 ![Docker](https://img.shields.io/badge/Docker-Testcontainers-2496ED?logo=docker&logoColor=white)
+![Kiro](https://img.shields.io/badge/AI-Kiro-7C3AED)
 
 ## About the Project
 
@@ -137,8 +138,10 @@ Aggregates encapsulate business rules and consistency boundaries. Child entities
 
 Testcontainers spins up PostgreSQL containers and Respawn resets data between tests. No in-memory database providers.
 
-### 🤖 Agent Hooks & Steering Files
+### 🤖 AI & Agent Hooks & Steering Files
 
+This project was developed using **Kiro AI** as an engineering assistant.
+Kiro was primarily used for code generation, convention enforcement, and documentation synchronization through steering files and automated hooks, helping maintain consistency across the codebase.
 Conventions and architectural documentation stored in `.kiro/steering/` remain synchronized with the codebase and act as living documentation.
 
 ## 📋 Prerequisites
