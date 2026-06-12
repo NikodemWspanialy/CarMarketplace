@@ -9,6 +9,9 @@ public class AddCarPhotosRequestValidator : AbstractValidator<AddCarPhotosReques
     {
         RuleFor(x => x.CarId).NotEmpty();
         RuleFor(x => x.Photos).NotEmpty().WithMessage("At least one photo is required.");
+        RuleFor(x => x.Photos)
+            .Must(photos => photos.Count(p => p.IsPrimary) <= 1)
+            .WithMessage("Only one photo can be marked as primary.");
         RuleForEach(x => x.Photos).ChildRules(photo =>
         {
             photo.RuleFor(p => p.Url)

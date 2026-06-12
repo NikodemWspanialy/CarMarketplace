@@ -21,7 +21,7 @@ public class DeleteCarTests(CarMarketplaceApiFactory factory) : IntegrationTestB
         await SendAsync(new DeleteCarRequest(carId));
 
         // Assert
-        var car = await TestData.Cars.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Id == carId);
+        var car = await TestData.Cars.FirstOrDefaultAsync(c => c.Id == carId);
         car.Should().NotBeNull();
         car!.IsDeleted.Should().BeTrue();
     }
@@ -47,6 +47,6 @@ public class DeleteCarTests(CarMarketplaceApiFactory factory) : IntegrationTestB
         var act = () => SendAsync(new DeleteCarRequest(Guid.NewGuid()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }

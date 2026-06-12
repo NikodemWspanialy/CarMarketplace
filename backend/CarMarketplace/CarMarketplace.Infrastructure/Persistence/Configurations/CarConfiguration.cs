@@ -68,9 +68,6 @@ internal class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasForeignKey(x => x.CarId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Global filter
-        builder.HasQueryFilter(x => !x.IsDeleted);
-
         // Indexes
         builder.HasIndex(x => x.SellerId);
         builder.HasIndex(x => x.Brand);

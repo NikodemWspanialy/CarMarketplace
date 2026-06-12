@@ -1,8 +1,10 @@
 using System.Security.Claims;
 using System.Text;
+using System.Threading.RateLimiting;
 using CarMarketplace.API.Common;
 using CarMarketplace.API.Middleware;
 using CarMarketplace.Application.Extensions;
+using CarMarketplace.Domain.Users;
 using CarMarketplace.Infrastructure.Extensions;
 using CarMarketplace.Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,7 +13,11 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
@@ -41,6 +47,20 @@ builder.Services.AddApplication();
 
 // End Lib DI
 
+// CORS
+
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(CorsPolicy.AllowFrontend, policy =>
+        policy.WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
+// End CORS
+
 // Authentication
 
 var jwtSection = builder.Configuration.GetSection("Jwt");
@@ -67,10 +87,28 @@ builder.Services
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(AuthPolicy.AdminOnly, policy =>
-        policy.RequireRole("Admin"));
+        policy.RequireRole(nameof(UserRole.Admin)));
 });
 
 // End Authentication
+
+// Rate Limiting
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy(RateLimitPolicy.Auth, context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+});
+
+// End Rate Limiting
 
 var app = builder.Build();
 
@@ -87,6 +125,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(CorsPolicy.AllowFrontend);
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

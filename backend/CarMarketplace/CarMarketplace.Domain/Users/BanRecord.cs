@@ -1,6 +1,8 @@
+using CarMarketplace.Domain.Abstractions;
+
 namespace CarMarketplace.Domain.Users;
 
-public class BanRecord
+public class BanRecord : IEntity
 {
     public Guid Id { get; private set; }
 

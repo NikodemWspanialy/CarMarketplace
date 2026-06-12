@@ -1,5 +1,6 @@
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.Application.Users.Queries.GetUserById;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using FluentAssertions;
@@ -35,6 +36,6 @@ public class GetUserByIdTests(CarMarketplaceApiFactory factory) : IntegrationTes
         var act = () => SendAsync(new GetUserByIdRequest(Guid.NewGuid()));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 }

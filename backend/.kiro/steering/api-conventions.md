@@ -96,12 +96,29 @@ public async Task<IActionResult> GetPaged([FromQuery] int pageNumber = 1, [FromQ
 - Policy-based authorization for role-restricted controllers
 - `AdminOnly` policy — requires `Admin` role, applied at controller level with `[Authorize(Policy = "AdminOnly")]`
 
+## Rate Limiting
+- Built-in `AddRateLimiter` with named policies, partitioned per IP
+- Policy `"auth"` — fixed window, 5 requests/min per IP, applied to sensitive auth endpoints (login, forgot-password, reset-password)
+- Apply via `[EnableRateLimiting("policyName")]` on individual actions
+- `app.UseRateLimiter()` placed before `UseAuthentication` in pipeline
+- Rejection returns 429 Too Many Requests
+
+## CORS
+- Named policy "AllowFrontend" — allowed origins from `appsettings.json` → `Cors:AllowedOrigins`
+- Any headers, any methods allowed
+- `UseCors` placed before `UseRateLimiter` in pipeline
+
 ## Error Handling
 - `GlobalExceptionMiddleware` catches all exceptions
+- `FluentValidation.ValidationException` → 400 Bad Request with field-level errors
 - `DomainException` → 400 Bad Request
 - `UnauthorizedAccessException` → 401 Unauthorized
-- Other → 500 Internal Server Error
-- Response format: `ErrorResponse(message, statusCode, details)`
+- `InfrastructureException` → 500 Internal Server Error with generic message — never expose infrastructure details to client
+- Other → 500 Internal Server Error with generic message — never expose exception details to client
+- All exceptions logged via `ILogger` — `LogWarning` for expected (validation, domain, unauthorized), `LogError` for unknown (500)
+- Response format: `ErrorResponse(message, statusCode, errors?)`
+- Validation error response includes `errors` dictionary: `{ "fieldName": ["message1", "message2"] }`
+- JSON serialized with `camelCase` property naming
 
 ## Endpoints
 - Auth: `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`, `POST /api/auth/refresh-token`, `POST /api/auth/logout`

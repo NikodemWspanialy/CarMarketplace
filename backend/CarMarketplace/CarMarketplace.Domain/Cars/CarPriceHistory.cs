@@ -1,8 +1,9 @@
+using CarMarketplace.Domain.Abstractions;
 using CarMarketplace.Domain.Common;
 
 namespace CarMarketplace.Domain.Cars;
 
-public class CarPriceHistory
+public class CarPriceHistory : IEntity
 {
     public Guid Id { get; private set; }
 

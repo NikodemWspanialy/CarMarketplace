@@ -32,7 +32,7 @@ public class ChangePasswordTests(CarMarketplaceApiFactory factory) : Integration
         var act = () => SendAsync(new ChangePasswordRequest(Faker.Random.AlphaNumeric(8), Faker.Random.AlphaNumeric(8)));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 
     [Fact]

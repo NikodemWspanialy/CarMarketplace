@@ -3,9 +3,11 @@ using CarMarketplace.Application.Authorization.Commands.RefreshToken;
 using CarMarketplace.Application.Authorization.Commands.RegisterUser;
 using CarMarketplace.Application.Authorization.Commands.ResetPassword;
 using CarMarketplace.Application.Authorization.Queries.LoginUser;
+using CarMarketplace.API.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace CarMarketplace.API.Controllers;
 
@@ -21,6 +23,7 @@ public class AuthController(IMediator mediator) : ControllerBase
         return Ok(id);
     }
 
+    [EnableRateLimiting(RateLimitPolicy.Auth)]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginUserQuery query, CancellationToken token = default)
     {
@@ -29,6 +32,7 @@ public class AuthController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    [EnableRateLimiting(RateLimitPolicy.Auth)]
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest command, CancellationToken token = default)
     {
@@ -37,6 +41,7 @@ public class AuthController(IMediator mediator) : ControllerBase
         return Ok();
     }
 
+    [EnableRateLimiting(RateLimitPolicy.Auth)]
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest command, CancellationToken token = default)
     {

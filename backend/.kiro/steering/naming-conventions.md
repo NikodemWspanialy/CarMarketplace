@@ -55,14 +55,20 @@ inclusion: always
 - One service per aggregate for common operations shared between user and admin handlers
 - Located in `Application/{EntityNamePlural}/Helpers/`
 
+## Policy Constants
+- Pattern: `{Concern}Policy` — internal static class with `internal const string` members
+- Located in `API/Common/`
+- Examples: `AuthPolicy.AdminOnly`, `RateLimitPolicy.Auth`, `CorsPolicy.AllowFrontend`
+- No magic strings in controllers or Program.cs — always reference policy constants
+
+## Shared Validator Extensions
+- Pattern: `{FieldName}ValidatorExtensions` with extension method `Valid{FieldName}<T>()`
+- Located in `Application/Common/Validators/`
+- Example: `PasswordValidatorExtensions.ValidPassword()`, `PagingValidatorExtensions.ValidPaging()`
+
 ## Domain Validators (Application layer)
 - Pattern: `I{Operation}{EntityName}Validator` → `{Operation}{EntityName}Validator`
 - Async business rule checks that require DB access (e.g., uniqueness, limits) — called from handlers
 - Throw domain exceptions on violation
 - NOT FluentValidation — these are separate interfaces for cross-aggregate or DB-dependent rules
 - Located in `Application/{EntityNamePlural}/Validators/`
-
-## Shared FluentValidation Rules
-- When Create and Update validators share identical rules, extract to a static class `{EntityName}ValidationRules`
-- Use an extension method (e.g., `ApplyContactDetailsRules<T>(...)`) accepting property expressions
-- Located in `Application/{EntityNamePlural}/Validators/` alongside the validators

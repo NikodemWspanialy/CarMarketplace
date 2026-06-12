@@ -1,10 +1,12 @@
 using CarMarketplace.Application.Cars.Commands.AddCarPhoto;
 using CarMarketplace.Application.Cars.Commands.UpdatePhotosOrder;
 using CarMarketplace.Application.Cars.Queries.GetCar;
+using CarMarketplace.Domain.Exceptions;
 using CarMarketplace.IntegrationTests.Common;
 using CarMarketplace.IntegrationTests.Common.IntegrationTestBases;
 using CarMarketplace.Tests.Shared.Builders.Car;
 using FluentAssertions;
+using FluentValidation;
 using Xunit;
 
 namespace CarMarketplace.IntegrationTests.Cars;
@@ -42,11 +44,11 @@ public class UpdatePhotosOrderTests(CarMarketplaceApiFactory factory) : Integrat
         var act = () => SendAsync(new UpdatePhotosOrderRequest(Guid.NewGuid(), [new(Guid.NewGuid(), 1)]));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<DomainException>();
     }
 
     [Fact]
-    public async Task UpdateOrder_WithDuplicateOrder_ThrowsException()
+    public async Task UpdateOrder_WithDuplicateOrder_ThrowsValidationException()
     {
         // Arrange
         var carId = await SendAsync(new CreateCarRequestBuilder().Build());
@@ -63,6 +65,6 @@ public class UpdatePhotosOrderTests(CarMarketplaceApiFactory factory) : Integrat
         var act = () => SendAsync(new UpdatePhotosOrderRequest(carId, photos));
 
         // Assert
-        await act.Should().ThrowAsync<Exception>();
+        await act.Should().ThrowAsync<ValidationException>();
     }
 }

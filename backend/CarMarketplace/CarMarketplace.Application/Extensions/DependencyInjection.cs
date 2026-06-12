@@ -15,6 +15,7 @@ using CarMarketplace.Application.Listings.Searchers;
 using CarMarketplace.Application.Users.Factories;
 using CarMarketplace.Application.Users.Helpers;
 using CarMarketplace.Application.Users.Searchers;
+using CarMarketplace.Application.Users.Validators;
 using FluentValidation;
 using MediatR;
 
@@ -36,6 +37,7 @@ public static class DependencyInjection
 
         // Validators
         services.AddScoped<IRegisterUserValidator, RegisterUserValidator>();
+        services.AddScoped<IChangeEmailValidator, ChangeEmailValidator>();
 
         // Factories
         services.AddScoped<IUserFactory, UserFactory>();

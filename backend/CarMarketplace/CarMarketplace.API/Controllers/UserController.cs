@@ -53,18 +53,4 @@ public class UserController(IMediator mediator) : ControllerBase
 
         return NoContent();
     }
-
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [HttpGet("who-am-i")]
-    public IActionResult WhoAmI()
-    {
-        var userId = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-        var email = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
-
-        return Ok(new
-        {
-            UserId = userId,
-            Email = email
-        });
-    }
 }
