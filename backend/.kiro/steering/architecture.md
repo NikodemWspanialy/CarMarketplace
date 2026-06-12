@@ -41,7 +41,7 @@ inclusion: always
 - Shared code in `Application/Common/`:
   - `Abstractions/` — `ICommand`, `IQuery` interfaces
   - `Behaviors/` — `LoggerBehavior`, `UnitOfWorkBehavior`
-  - `Interfaces/` — `IUnitOfWork`, `ICurrentUserProvider`
+  - `Interfaces/` — `IUnitOfWork`, `ICurrentUserProvider`, `IClientInfoProvider`
   - `Validators/` — shared validation extensions (e.g., paging rules)
 - Admin operations in `Application/Admin/` — commands restricted to admin role
 
@@ -56,7 +56,7 @@ inclusion: always
 - Repositories explicitly filter `!IsDeleted` in queries — no global query filters
 - Infrastructure exceptions inherit from `InfrastructureException`
 - UnitOfWork as pipeline behavior
-- Security: `CurrentUserProvider`, `UserRoleMapper`, password hasher, JWT provider in `Security/`
+- Security: `CurrentUserProvider`, `ClientInfoProvider`, `UserRoleMapper`, password hasher, JWT provider in `Security/`
 
 ### API
 - Controllers in `Controllers/` folder

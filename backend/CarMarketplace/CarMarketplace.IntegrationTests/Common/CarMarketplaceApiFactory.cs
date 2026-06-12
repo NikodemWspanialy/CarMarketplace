@@ -21,6 +21,8 @@ public class CarMarketplaceApiFactory : WebApplicationFactory<Program>, IAsyncLi
 
     public FakeCurrentUserProvider FakeCurrentUserProvider { get; } = new();
 
+    public FakeClientInfoProvider FakeClientInfoProvider { get; } = new();
+
     public string ConnectionString => _dbContainer.GetConnectionString();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -46,6 +48,7 @@ public class CarMarketplaceApiFactory : WebApplicationFactory<Program>, IAsyncLi
                 services.Remove(currentUserDescriptor);
 
             services.AddSingleton<ICurrentUserProvider>(FakeCurrentUserProvider);
+            services.AddSingleton<IClientInfoProvider>(FakeClientInfoProvider);
         });
     }
 

@@ -13,7 +13,8 @@ internal class GetListingHandler(
     IListingSearcher listingSearcher,
     IContactRepository contactRepository,
     IListingViewRepository listingViewRepository,
-    ICurrentUserProvider currentUserProvider)
+    ICurrentUserProvider currentUserProvider,
+    IClientInfoProvider clientInfoProvider)
     : IRequestHandler<GetListingRequest, ListingDetailsResponse>
 {
     public async Task<ListingDetailsResponse> Handle(GetListingRequest request, CancellationToken token)
@@ -32,7 +33,8 @@ internal class GetListingHandler(
 
         if (!hasRecentView)
         {
-            var view = new ListingView(listing.Id, viewerId, null);
+            var ipAddress = clientInfoProvider.GetIpAddress();
+            var view = new ListingView(listing.Id, viewerId, ipAddress);
             await listingViewRepository.AddAsync(view, token);
         }
 
