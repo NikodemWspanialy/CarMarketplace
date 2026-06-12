@@ -79,6 +79,14 @@ inclusion: always
 - API-level tests (HTTP, auth, routing) will be a separate project
 - Requires Docker running locally
 
+### API Tests (`CarMarketplace.API.tests`)
+- HTTP-level tests via `HttpClient` from `WebApplicationFactory`
+- Real PostgreSQL via Testcontainers (same as IntegrationTests)
+- `ApiTestFactory` — `WebApplicationFactory<Program>` with Testcontainers DB
+- `AuthHelper` — registers user + logs in via HTTP, returns JWT token
+- Tests cover: rate limiting (429), authorization (401), admin policy (403)
+- No MediatR dispatch — tests go through full HTTP pipeline (middleware, auth, routing, rate limiting)
+
 ### Tests.Shared (`CarMarketplace.Tests.Shared`)
 - Shared test utilities referenced by all test projects
 - `Builders/Builder.cs` — abstract `Builder<T>` base class with `Faker` and abstract `Build()`
