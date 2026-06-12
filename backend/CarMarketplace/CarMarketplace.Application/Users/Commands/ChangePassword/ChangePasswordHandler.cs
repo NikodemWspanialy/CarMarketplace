@@ -19,6 +19,9 @@ internal class ChangePasswordHandler(
         var userId = currentUserProvider.GetUserId();
         var user = await userSearcher.FindByIdAsync(userId, token);
 
+        if (!passwordHasher.VerifyHashedPassword(user.PasswordHash, request.OldPassword))
+            throw new InvalidCredentials();
+
         if (passwordHasher.VerifyHashedPassword(user.PasswordHash, request.NewPassword))
             throw new SamePasswordAsPrevious();
 
