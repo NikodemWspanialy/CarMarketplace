@@ -73,6 +73,7 @@ inclusion: always
   - `IntegrationTestBaseWithAdminLogin` — overrides `SeedAsync` to register + promote admin and set current user context
 - `FakeCurrentUserProvider` — replaces `ICurrentUserProvider` in DI, set via `SetCurrentUser(userId, role)`
 - `TestData` — `CarMarketplaceDbContext` property for read-only DB assertions
+- Feature-specific test bases: `{Feature}/Base/{Feature}TestBase.cs` — inherits from `IntegrationTestBaseWithUserLogin` (or Admin variant), provides shared helper methods (e.g., `CreateActiveListingAsync()`) for all tests in that feature folder
 - Test files grouped by feature: `{Feature}/{Feature}Tests.cs`
 - Conventions: Arrange/Act/Assert, primary constructors, one test class per command/query
 - API-level tests (HTTP, auth, routing) will be a separate project
