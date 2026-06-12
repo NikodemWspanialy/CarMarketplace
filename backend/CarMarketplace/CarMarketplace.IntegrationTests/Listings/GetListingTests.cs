@@ -54,6 +54,7 @@ public class GetListingTests(CarMarketplaceApiFactory factory) : ListingTestBase
         var views = await TestData.ListingViews.Where(v => v.ListingId == listingId).ToListAsync();
         views.Should().HaveCount(1);
         views[0].ViewerId.Should().Be(UserId);
+        views[0].IpAddress.Should().Be("127.0.0.1");
     }
 
     [Fact]
