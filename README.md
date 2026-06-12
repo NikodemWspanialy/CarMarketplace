@@ -4,7 +4,6 @@
 ![C#](https://img.shields.io/badge/C%23-13-239120?logo=csharp&logoColor=white)
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-Web_API-5C2D91?logo=dotnet&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
-![EF Core](https://img.shields.io/badge/EF_Core-10-512BD4?logo=dotnet&logoColor=white)
 ![DDD](https://img.shields.io/badge/DDD-Domain_Driven_Design-orange)
 ![CQRS](https://img.shields.io/badge/CQRS-MediatR-red)
 ![Docker](https://img.shields.io/badge/Docker-Testcontainers-2496ED?logo=docker&logoColor=white)
@@ -12,18 +11,20 @@
 
 ## About the Project
 
-A car marketplace built with .NET 10, Clean Architecture, DDD, and CQRS.
+A portfolio backend project showcasing modern .NET development practices - Clean Architecture, DDD, and CQRS applied to a car marketplace domain.
 
 Sellers can publish car offers with photos, pricing history, and contact details. Buyers browse listings, reveal seller contacts, and view listing statistics. Admins moderate users, manage bans, and feature premium listings.
 
-### ✨ Highlights
+### ✨ Key Features
 
-- Custom JWT authentication (without ASP.NET Identity)
-- Clean Architecture + DDD + CQRS
-- Real PostgreSQL integration tests using Testcontainers
-- Full listing lifecycle management
-- Contact reveal tracking and listing analytics
-- User moderation with ban history audit trail
+- Custom authentication (JWT, BCrypt) without ASP.NET Identity, with roles (User/Admin), password reset, and account management
+- Creating and editing car sale listings with photos, price history, and featuring mechanism
+- Browsing, filtering, and pagination of active offers with full lifecycle (active/sold/deactivated/archived)
+- Seller contact management as a separate domain (CRUD, attachment to listings)
+- Contact reveal system - interested buyers can reveal seller's contact details
+- Tracking who viewed a listing and who revealed seller's contact information
+- Banning and unbanning users with reason, duration, and full ban history audit trail
+- Admin panel for user moderation (deletion, role changes, profile editing) and listing featuring
 
 ## 🛠 Tech Stack
 
@@ -107,9 +108,26 @@ CarMarketplace.API
 └── Swagger
 
 CarMarketplace.IntegrationTests
-CarMarketplace.API.Tests
+CarMarketplace.API.tests
 CarMarketplace.Tests.Shared
 ```
+
+### Project References
+
+```text
+Domain (no dependencies)
+  ↑
+Application → Domain
+  ↑
+Infrastructure → Application, Domain
+  ↑
+API → Application, Infrastructure
+```
+
+Test projects reference only what they need:
+- `IntegrationTests` → API, Infrastructure, Tests.Shared
+- `API.tests` → API, Infrastructure
+- `Tests.Shared` → Application
 
 ## 🎯 Design Decisions
 
@@ -140,8 +158,7 @@ Testcontainers spins up PostgreSQL containers and Respawn resets data between te
 
 ### 🤖 AI & Agent Hooks & Steering Files
 
-This project was developed using **Kiro AI** as an engineering assistant.
-Kiro was primarily used for code generation, convention enforcement, and documentation synchronization through steering files and automated hooks, helping maintain consistency across the codebase.
+Kiro AI assisted with maintaining conventions, documentation sync, and code scaffolding through steering files and automated hooks — helping maintain consistency across the codebase while the architecture and business logic were designed and implemented manually.
 Conventions and architectural documentation stored in `.kiro/steering/` remain synchronized with the codebase and act as living documentation.
 
 ## 📋 Prerequisites
@@ -158,6 +175,9 @@ docker run -d --name car-postgres \
   -e POSTGRES_PASSWORD=postgres \
   -e POSTGRES_DB=car \
   -p 5432:5432 postgres:16-alpine
+
+# Restore dependencies
+dotnet restore
 
 # Apply migrations
 cd CarMarketplace.API
@@ -179,7 +199,18 @@ dotnet test
 dotnet test CarMarketplace.IntegrationTests
 
 # API tests only
-dotnet test CarMarketplace.API.Tests
+dotnet test CarMarketplace.API.tests
 ```
 
 ## 📡 API Overview
+
+| Area | Endpoints | Auth |
+|------|-----------|------|
+| Auth | register, login, forgot/reset password, refresh, logout | Public (rate-limited) |
+| Cars | CRUD + photos (batch upload, ordering, primary) + price update | Owner or Admin |
+| Listings | Create, status transitions, contact attach/detach, reveal, stats | Owner or Admin |
+| Contacts | CRUD, attachment to listings | Owner |
+| User | Profile, password, email, delete account | Authenticated |
+| Admin | User management, ban/unban, promote/demote, feature listings | Admin only |
+
+Full endpoint list available in Swagger at `/swagger`.
