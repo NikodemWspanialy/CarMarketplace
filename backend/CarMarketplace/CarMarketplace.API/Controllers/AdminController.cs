@@ -4,6 +4,8 @@ using CarMarketplace.Application.Admin.Commands.AdminUpdateUserProfile;
 using CarMarketplace.Application.Admin.Commands.BanUser;
 using CarMarketplace.Application.Admin.Commands.DeleteUser;
 using CarMarketplace.Application.Admin.Commands.DowngradeToUser;
+using CarMarketplace.Application.Admin.Commands.FeatureListing;
+using CarMarketplace.Application.Admin.Commands.RemoveListingFeature;
 using CarMarketplace.Application.Admin.Commands.UnbanUser;
 using CarMarketplace.Application.Admin.Commands.UpgradeToAdmin;
 using CarMarketplace.Application.Admin.Queries.GetBanHistory;
@@ -102,5 +104,22 @@ public class AdminController(IMediator mediator) : ControllerBase
         var result = await mediator.Send(new GetBanHistoryRequest(id), token);
 
         return Ok(result);
+    }
+
+    [HttpPatch("listings/{id:guid}/feature")]
+    public async Task<IActionResult> FeatureListing(Guid id, [FromBody] FeatureListingRequest body, CancellationToken token = default)
+    {
+        if (id != body.ListingId) return BadRequest("Id mismatch");
+        await mediator.Send(body, token);
+
+        return NoContent();
+    }
+
+    [HttpPatch("listings/{id:guid}/remove-feature")]
+    public async Task<IActionResult> RemoveListingFeature(Guid id, CancellationToken token = default)
+    {
+        await mediator.Send(new RemoveListingFeatureRequest(id), token);
+
+        return NoContent();
     }
 }

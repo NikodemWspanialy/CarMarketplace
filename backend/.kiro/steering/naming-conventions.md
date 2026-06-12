@@ -66,8 +66,9 @@ inclusion: always
 - Located in `Application/Common/Validators/`
 - Example: `PasswordValidatorExtensions.ValidPassword()`, `PagingValidatorExtensions.ValidPaging()`
 
-## Command Validators (business rule interfaces)
+## Domain Validators (Application layer)
 - Pattern: `I{Operation}{EntityName}Validator` → `{Operation}{EntityName}Validator`
-- For application-level business rule checks that require async/repository access (e.g., email uniqueness)
-- Located in `Application/{Feature}/Validators/`
-- Examples: `IRegisterUserValidator`, `IChangeEmailValidator`
+- Async business rule checks that require DB access (e.g., uniqueness, limits) — called from handlers
+- Throw domain exceptions on violation
+- NOT FluentValidation — these are separate interfaces for cross-aggregate or DB-dependent rules
+- Located in `Application/{EntityNamePlural}/Validators/`

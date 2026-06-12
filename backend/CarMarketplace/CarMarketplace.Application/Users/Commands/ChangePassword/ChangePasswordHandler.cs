@@ -26,7 +26,7 @@ internal class ChangePasswordHandler(
             throw new SamePasswordAsPrevious();
 
         var newHash = passwordHasher.HashPassword(request.NewPassword);
-        user.SetPassword(newHash);
+        user.ChangePassword(newHash);
 
         await userRepository.UpdateUserAsync(user, token);
 

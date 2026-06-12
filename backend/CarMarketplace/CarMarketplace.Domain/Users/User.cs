@@ -43,7 +43,7 @@ public class User : IAggregateRoot
         Id = Guid.NewGuid();
     }
 
-    public void SetPassword(string newPasswordHash)
+    public void ChangePassword(string newPasswordHash)
     {
         if (string.IsNullOrEmpty(newPasswordHash))
             throw new InvalidPassword();

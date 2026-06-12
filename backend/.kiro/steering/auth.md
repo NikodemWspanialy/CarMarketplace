@@ -24,9 +24,10 @@ inclusion: always
 
 ## Current User Access
 - `ICurrentUserProvider` — extracts userId and role from HttpContext claims
-- `GetUserId()` — returns Guid from `sub` claim
-- `GetUserRole()` — returns `UserRole` enum from `role` claim
-- Throws `UnauthorizedAccessException` if user is not authenticated
+- `GetUserId()` — returns Guid from `sub` claim; throws `UnauthorizedAccessException` if not authenticated
+- `GetUserIdOrNull()` — returns `Guid?`; returns `null` for anonymous users (no exception)
+- `GetUserRole()` — returns `UserRole` enum from `role` claim; throws if not authenticated
+- Use `GetUserIdOrNull()` in handlers serving public endpoints where anonymous access is allowed
 
 ## Roles
 - `UserRole.User` — default role on registration

@@ -5,6 +5,13 @@ using CarMarketplace.Application.Cars.Factories;
 using CarMarketplace.Application.Cars.Helpers;
 using CarMarketplace.Application.Cars.Searchers;
 using CarMarketplace.Application.Common.Behaviors;
+using CarMarketplace.Application.Contacts.Factories;
+using CarMarketplace.Application.Contacts.Helpers;
+using CarMarketplace.Application.Contacts.Searchers;
+using CarMarketplace.Application.Contacts.Validators;
+using CarMarketplace.Application.Listings.Factories;
+using CarMarketplace.Application.Listings.Helpers;
+using CarMarketplace.Application.Listings.Searchers;
 using CarMarketplace.Application.Users.Factories;
 using CarMarketplace.Application.Users.Helpers;
 using CarMarketplace.Application.Users.Searchers;
@@ -36,6 +43,8 @@ public static class DependencyInjection
         services.AddScoped<IUserFactory, UserFactory>();
         services.AddScoped<ICarFactory, CarFactory>();
         services.AddScoped<ICarPhotoFactory, CarPhotoFactory>();
+        services.AddScoped<IContactFactory, ContactFactory>();
+        services.AddScoped<IListingFactory, ListingFactory>();
 
         // Helpers
         services.AddScoped<IMoneyFactory, MoneyFactory>();
@@ -44,5 +53,10 @@ public static class DependencyInjection
         services.AddScoped<IUserSearcher, UserSearcher>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPasswordResetTokenGenerator, PasswordResetTokenGenerator>();
+        services.AddScoped<IContactSearcher, ContactSearcher>();
+        services.AddScoped<IContactSellerGuard, ContactSellerGuard>();
+        services.AddScoped<ICreateContactValidator, CreateContactValidator>();
+        services.AddScoped<IListingSearcher, ListingSearcher>();
+        services.AddScoped<IListingSellerGuard, ListingSellerGuard>();
     }
 }

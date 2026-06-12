@@ -20,6 +20,7 @@ inclusion: always
 - Soft delete via `IsDeleted` flag
 - File structure: `Domain/{EntityNamePlural}/{EntityName}.cs`
   - Example: `Domain/Cars/Car.cs`, `Domain/Users/User.cs`
+  - Standalone entities also get their own folder: `Domain/{EntityNamePlural}/{EntityName}.cs`
 
 ### Application
 - NEVER return Domain entities from handlers — always map to a `{EntityName}Response` DTO defined in Application layer
@@ -40,7 +41,7 @@ inclusion: always
 - Shared code in `Application/Common/`:
   - `Abstractions/` — `ICommand`, `IQuery` interfaces
   - `Behaviors/` — `LoggerBehavior`, `UnitOfWorkBehavior`
-  - `Interfaces/` — `IUnitOfWork`, `ICurrentUserProvider`
+  - `Interfaces/` — `IUnitOfWork`, `ICurrentUserProvider`, `IClientInfoProvider`
   - `Validators/` — shared validation extensions (e.g., paging rules)
 - Admin operations in `Application/Admin/` — commands restricted to admin role
 
@@ -55,7 +56,7 @@ inclusion: always
 - Repositories explicitly filter `!IsDeleted` in queries — no global query filters
 - Infrastructure exceptions inherit from `InfrastructureException`
 - UnitOfWork as pipeline behavior
-- Security: `CurrentUserProvider`, `UserRoleMapper`, password hasher, JWT provider in `Security/`
+- Security: `CurrentUserProvider`, `ClientInfoProvider`, `UserRoleMapper`, password hasher, JWT provider in `Security/`
 
 ### API
 - Controllers in `Controllers/` folder
@@ -72,6 +73,7 @@ inclusion: always
   - `IntegrationTestBaseWithAdminLogin` — overrides `SeedAsync` to register + promote admin and set current user context
 - `FakeCurrentUserProvider` — replaces `ICurrentUserProvider` in DI, set via `SetCurrentUser(userId, role)`
 - `TestData` — `CarMarketplaceDbContext` property for read-only DB assertions
+- Feature-specific test bases: `{Feature}/Base/{Feature}TestBase.cs` — inherits from `IntegrationTestBaseWithUserLogin` (or Admin variant), provides shared helper methods (e.g., `CreateActiveListingAsync()`) for all tests in that feature folder
 - Test files grouped by feature: `{Feature}/{Feature}Tests.cs`
 - Conventions: Arrange/Act/Assert, primary constructors, one test class per command/query
 - API-level tests (HTTP, auth, routing) will be a separate project

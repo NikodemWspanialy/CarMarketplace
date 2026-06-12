@@ -24,7 +24,7 @@ internal class ResetPasswordHandler(
         var user = await userSearcher.FindByIdAsync(resetToken.UserId, token);
 
         var newHash = passwordHasher.HashPassword(request.NewPassword);
-        user.SetPassword(newHash);
+        user.ChangePassword(newHash);
 
         resetToken.MarkAsUsed();
 

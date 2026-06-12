@@ -30,7 +30,7 @@ Represents a platform user account with authentication and role management.
 - `ActiveBan` (Reason, BannedAt, ExpiresAt?) — current ban state, null if not banned
 
 ## Actions
-- `SetPassword` — update password hash (validates not empty; "same as previous" check is in handler via IPasswordHasher)
+- `ChangePassword` — update password hash (validates not empty)
 - `ChangeEmail` — update email (validates not same as current)
 - `UpdateProfile` — change firstName, lastName
 - `PromoteToAdmin` — elevate role to Admin
@@ -43,7 +43,7 @@ Represents a platform user account with authentication and role management.
 - New users default to `UserRole.User`
 - Soft delete via `IsDeleted` flag (global query filter excludes deleted users)
 - Cannot delete if already deleted
-- Cannot change password to the same hash
+- "Same password as previous" check lives in Application layer (requires password hasher — domain must not know about hashing)
 - Cannot promote if already Admin
 - Cannot demote if already User
 - Cannot ban if already banned (non-expired)
