@@ -185,16 +185,6 @@ docker compose down
 docker compose down -v
 ```
 
-API available at `http://localhost:8080`, Swagger at `http://localhost:8080/swagger`.
-
-```bash
-# Stop services
-docker compose down
-
-# Stop and remove database volume (clean start)
-docker compose down -v
-```
-
 ## 🧪 Running Tests
 
 Docker must be running (Testcontainers spins up PostgreSQL automatically).
