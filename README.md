@@ -169,22 +169,30 @@ Conventions and architectural documentation stored in `.kiro/steering/` remain s
 ## 🚀 Getting Started
 
 ```bash
-# Start PostgreSQL
-docker run -d --name car-postgres \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=car \
-  -p 5432:5432 postgres:16-alpine
+# Start all services (API + PostgreSQL)
+docker compose up --build -d
+```
 
-# Restore dependencies
-dotnet restore
+Migrations run automatically on startup (Development environment).
 
-# Apply migrations
-cd CarMarketplace.API
-dotnet ef database update
+API available at `http://localhost:8080`, Swagger at `http://localhost:8080/swagger`.
 
-# Run the API
-dotnet run
+```bash
+# Stop services
+docker compose down
+
+# Stop and remove database volume (clean start)
+docker compose down -v
+```
+
+API available at `http://localhost:8080`, Swagger at `http://localhost:8080/swagger`.
+
+```bash
+# Stop services
+docker compose down
+
+# Stop and remove database volume (clean start)
+docker compose down -v
 ```
 
 ## 🧪 Running Tests
